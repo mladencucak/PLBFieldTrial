@@ -149,7 +149,7 @@ dis_obs %>%
    coord_equal(1/4)
   
 egg::ggarrange(p1,p2, ncol=2)
-ggsave(p1 +filename= here::here("results", "dis", "no of cultivars&assesssments.png"), width = 4, height = 4, dpi = 620)
+ggsave(p1 ,filename= here::here("results", "dis", "no of cultivars&assesssments.png"), width = 4, height = 4, dpi = 620)
  ggsave(p2, filename= here::here("results", "dis", "Duration of the epidemics in years.png"))
 
  

@@ -23,7 +23,7 @@ navbar:
     icon: fa fa-home
     href: index.html
   - text: Disease
-    icon: fa fa-table
+    icon: fa fa-file-code-o
     href: disdata.html
   - text: Trt
     icon: fa fa-file-code-o
@@ -32,7 +32,7 @@ navbar:
     icon: fa fa-file-code-o
     href: yield.html
   - text: Population
-    icon: fa fa-file-text-o
+    icon: fa fa-file-code-o
     href: pop.html
   right:
   - text: source

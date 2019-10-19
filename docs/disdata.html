@@ -400,7 +400,7 @@ div.tocify {
 </li>
 <li>
   <a href="disdata.html">
-    <span class="fa fa fa fa-table"></span>
+    <span class="fa fa fa fa-file-code-o"></span>
      
     Disease
   </a>
@@ -421,7 +421,7 @@ div.tocify {
 </li>
 <li>
   <a href="pop.html">
-    <span class="fa fa fa fa-file-text-o"></span>
+    <span class="fa fa fa fa-file-code-o"></span>
      
     Population
   </a>
@@ -525,10 +525,11 @@ dis_obs &lt;-
 <pre class="r"><code>dis_obs %&gt;% 
   rename(Year = year) %&gt;% 
   group_by(Year) %&gt;% 
-  summarise(`Initial Disease Outbreak` = min(date))</code></pre>
+  summarise(`Initial Disease Outbreak` = min(date),
+            `Final disease assesment` = max(date))</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Year"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Initial Disease Outbreak"],"name":[2],"type":["date"],"align":["right"]}],"data":[{"1":"2016","2":"2016-07-25"},{"1":"2017","2":"2017-07-03"},{"1":"2018","2":"2018-08-20"},{"1":"2019","2":"2019-07-26"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Year"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Initial Disease Outbreak"],"name":[2],"type":["date"],"align":["right"]},{"label":["Final disease assesment"],"name":[3],"type":["date"],"align":["right"]}],"data":[{"1":"2016","2":"2016-07-25","3":"2016-09-16"},{"1":"2017","2":"2017-07-03","3":"2017-09-18"},{"1":"2018","2":"2018-08-20","3":"2018-09-25"},{"1":"2019","2":"2019-07-26","3":"2019-09-13"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <pre class="r"><code> p1 &lt;-  
@@ -589,10 +590,8 @@ dis_obs &lt;-
   
 egg::ggarrange(p1,p2, ncol=2)</code></pre>
 <p><img src="disdata_files/figure-html/init_summary-1.png" width="672" /></p>
-<pre class="r"><code>p1+ ggsave(filename= here::here(&quot;results&quot;, &quot;dis&quot;, &quot;no of cultivars&amp;assesssments.png&quot;), width = 4, height = 4, dpi = 620)</code></pre>
-<p><img src="disdata_files/figure-html/init_summary-2.png" width="672" /></p>
-<pre class="r"><code>p2+ ggsave(filename= here::here(&quot;results&quot;, &quot;dis&quot;, &quot;Duration of the epidemics in years.png&quot;))</code></pre>
-<p><img src="disdata_files/figure-html/init_summary-3.png" width="672" /></p>
+<pre class="r"><code>ggsave(p1 ,filename= here::here(&quot;results&quot;, &quot;dis&quot;, &quot;no of cultivars&amp;assesssments.png&quot;), width = 4, height = 4, dpi = 620)
+ ggsave(p2, filename= here::here(&quot;results&quot;, &quot;dis&quot;, &quot;Duration of the epidemics in years.png&quot;))</code></pre>
 <p>Calculate the relative area under the disease progress curve (rAUDPC).</p>
 <pre class="r"><code>dis_obs &lt;- 
 dis_obs[!rowSums(is.na(dis_obs))&gt;0,]
@@ -708,7 +707,7 @@ dis_obs %&gt;%
   theme(legend.position = &quot;top&quot;)+
   ggsave(filename= here::here(&quot;results&quot;, &quot;dis&quot;, &quot;dpc.png&quot;),width = 7, height = 5, dpi = 820
   )</code></pre>
-<p><img src="disdata_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="disdata_files/figure-html/dpc-1.png" width="100%" /></p>
 </div>
 <div id="model-fitting-procedure" class="section level2">
 <h2>Model fitting procedure</h2>
@@ -762,7 +761,7 @@ shapiro.test(aov_residuals)</code></pre>
 ## W = 0.70909, p-value = 7.138e-10</code></pre>
 <pre class="r"><code>plot(fitted(fit_2016_a), residuals(fit_2016_a), xlab = &quot;Fitted Values&quot;, ylab = &quot;Residuals&quot;)
 abline(h = 0, lty = 2)</code></pre>
-<p><img src="disdata_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="disdata_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <pre class="r"><code>t &lt;- broom.mixed::tidy(fit_2016_a, conf.int = TRUE)
 t &lt;-  
   filter(t, effect != &quot;ran_pars&quot;) %&gt;% 
@@ -803,7 +802,7 @@ shapiro.test(aov_residuals)</code></pre>
 ## W = 0.47922, p-value &lt; 2.2e-16</code></pre>
 <pre class="r"><code>plot(fitted(fit_rest_2), residuals(fit_rest_2), xlab = &quot;Fitted Values&quot;, ylab = &quot;Residuals&quot;)
 abline(h = 0, lty = 2)</code></pre>
-<p><img src="disdata_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="disdata_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <pre class="r"><code>t1 &lt;- broom.mixed::tidy(fit_rest_2, conf.int = TRUE)
 t1 &lt;-  
   filter(t1, effect != &quot;ran_pars&quot;) %&gt;% 
