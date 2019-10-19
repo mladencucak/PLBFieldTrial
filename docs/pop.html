@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>pop.utf8.md</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">research-compendium-website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa fa fa-home"></span>
+     
+    About
+  </a>
+</li>
+<li>
+  <a href="disdata.html">
+    <span class="fa fa fa fa-table"></span>
+     
+    Disease
+  </a>
+</li>
+<li>
+  <a href="Trt.html">
+    <span class="fa fa fa fa-file-code-o"></span>
+     
+    Trt
+  </a>
+</li>
+<li>
+  <a href="yield.html">
+    <span class="fa fa fa fa-file-code-o"></span>
+     
+    Yield
+  </a>
+</li>
+<li>
+  <a href="pop.html">
+    <span class="fa fa fa fa-file-text-o"></span>
+     
+    Population
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/emdelponte/research-compendium-website">
+    <span class="fa fa-github-square"></span>
+     
+    source
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Code</h1>
+
+</div>
+
+
+<div id="popoulation-analysis" class="section level2">
+<h2>Popoulation analysis</h2>
+</div>
+<div id="load-packages" class="section level2">
+<h2>Load packages</h2>
+<pre class="r"><code>list.of.packages &lt;-
+  c(
+    &quot;tidyverse&quot;,
+    &quot;data.table&quot;,
+    &quot;ggplot2&quot;,
+    &quot;knitr&quot;,
+    &quot;zoo&quot;,
+    &quot;RCurl&quot;,
+    &quot;imputeTS&quot;,
+    &quot;scales&quot;,
+    &quot;padr&quot;,
+    &quot;devtools&quot;,
+    &quot;readxl&quot;,
+    &quot;agricolae&quot;,
+    &quot;egg&quot;,
+    &quot;hrbrthemes&quot;,
+    &quot;glmmTMB&quot;,
+    &quot;sjPlot&quot;,
+    &quot;effects&quot;,
+    &quot;lsmeans&quot;,
+    &quot;multcomp&quot;,
+    &quot;tableHTML&quot;
+  )
+
+new.packages &lt;-
+  list.of.packages[!(list.of.packages %in% installed.packages()[, &quot;Package&quot;])]
+
+#Download packages that are not already present in the library
+if (length(new.packages))
+  install.packages(new.packages)
+
+packages_load &lt;-
+  lapply(list.of.packages, require, character.only = TRUE)
+
+#Print warning if there is a problem with installing/loading some of packages
+if (any(as.numeric(packages_load) == 0)) {
+  warning(paste(&quot;Package/s: &quot;, paste(list.of.packages[packages_load != TRUE], sep = &quot;, &quot;), &quot;not loaded!&quot;))
+} else {
+  print(&quot;All packages were successfully loaded.&quot;)
+}</code></pre>
+<pre><code>## [1] &quot;All packages were successfully loaded.&quot;</code></pre>
+<pre class="r"><code>rm(list.of.packages, new.packages, packages_load)
+
+#if instal is not working try 
+#install.packages(&quot;package_name&quot;, repos = c(CRAN=&quot;https://cran.r-project.org/&quot;))</code></pre>
+</div>
+<div id="data-import" class="section level2">
+<h2>Data import</h2>
+<pre class="r"><code>samples &lt;-  readRDS(file = here::here(&quot;data&quot;, &quot;gen data&quot;, &quot;final&quot;, &quot;gendata.rds&quot;) )
+
+s_tab &lt;- 
+ samples %&gt;% 
+   group_by(year,variety, treatment) %&gt;% 
+   summarise(count = n()) %&gt;% 
+   spread(variety, count) %&gt;% 
+  rename(Year = year,
+         Prog. = treatment) %&gt;% 
+  replace(is.na(.), 0) %&gt;% 
+  ungroup()
+
+write_csv(s_tab, here::here(&quot;results&quot;, &quot;gen&quot;, &quot;Summary of isolates.csv&quot;))
+# s_tab %&gt;% 
+# kable(format = &quot;html&quot;) %&gt;% 
+#   kableExtra::kable_styling(latex_options = &quot;striped&quot;) 
+
+
+years &lt;- 
+s_tab %&gt;% 
+group_by(Year) %&gt;% 
+  summarise(counts =n()) %&gt;% 
+  dplyr::select(counts) %&gt;% 
+  unlist
+year_names &lt;-  unique(s_tab$Year)
+
+tab &lt;- 
+dplyr::select(s_tab, -c(Year)) %&gt;% 
+tableHTML::tableHTML(., 
+                     rownames = FALSE,
+                     row_groups = list(c(years), c(year_names)),
+                     # widths = c(50, 60, 70, rep(40, 6))
+                     ) %&gt;% 
+  # add_css_header(css = list(&#39;background-color&#39;, &#39;lightgray&#39;), headers = c(1:ncol(tab)+1)) %&gt;% 
+  add_css_row(css = list(&#39;background-color&#39;, &#39;lightgray&#39;), 
+              rows = c(which(s_tab$Year %in% c(2017, 2019))+1)) %&gt;% 
+  add_theme(&#39;scientific&#39;)%&gt;% 
+  tableHTML_to_image(.,file =here::here(&quot;results&quot;, &quot;gen&quot;, &quot;Summary of isolates.png&quot;),
+                     type = &quot;png&quot;)</code></pre>
+<p><img src="pop_files/figure-html/summary_table-1.png" width="672" /></p>
+<pre class="r"><code>rm(years, s_tab)</code></pre>
+<div class="figure">
+<img src="results/gen/Summary%20of%20isolates.png" alt="Table of samples" />
+<p class="caption">Table of samples</p>
+</div>
+<pre class="r"><code># plot successful fin
+samples$plotID &lt;- 1
+line_size &lt;- 0.13
+
+
+cbbPalette &lt;- c (&quot;#3399ff&quot;, &quot;#ff33cc&quot;,  &quot;#FDFD8D&quot;,&quot;#ffff33&quot;)
+
+dis_obs &lt;- readRDS(file = here::here(&quot;data&quot;, &quot;disease&quot;, &quot;dis_obs.rds&quot;) )
+
+p_dis &lt;- 
+filter(dis_obs, treatment == &quot;Control&quot;) %&gt;%
+  mutate(treatment = &quot;Control plots&quot;) %&gt;% 
+  group_by(treatment, variety, year, julian_day) %&gt;%
+  summarise(rating = mean(obs)) %&gt;% 
+  ggplot(aes(x = julian_day,
+             y = rating,
+             colour = variety,
+             group = variety)) +
+  geom_line(aes(y = rating),
+            size = 0.2,
+            linetype = &quot;dotted&quot;) +
+  # scale_x_continuous(labels = c())+
+  scale_y_continuous(limits = c(0, 100))+
+  geom_line(size = 0.3) +
+  ylab(&quot;Disease rating (%)&quot;) +
+  xlab(&quot;Julian day of year&quot;) +
+  labs(colour = &quot;Variety&quot;)+
+  facet_wrap(~year, ncol = 1)+
+  theme_article()+
+  theme(legend.position = &quot;bottom&quot;)+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE))
+
+
+# remove tuber samples
+p_gen &lt;- 
+filter(samples, julian_day &lt; 300) %&gt;% 
+ggplot(.,aes(julian_day, fill = Genotype))+
+  # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = &quot;black&quot;, size = 0.1)+
+  geom_bar(stat = &quot;count&quot;, position = &quot;stack&quot;, width = 6,colour = &quot;black&quot;, size = line_size)+
+  
+  facet_wrap(~year, ncol = 1)+
+  xlab(&quot;Date&quot;)+
+  ylab(&quot;No. of samples&quot;)+
+  # ggtitle(&quot;&quot;)+
+  scale_fill_manual(values=cbbPalette)+
+  theme_article()+
+  theme(legend.position = &quot;bottom&quot;)+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
+  ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Genotype per sampling vertical.png&quot;), 
+         width = 4, height =6, dpi = 620)
+
+
+p_var &lt;- 
+filter(samples, julian_day &lt; 300) %&gt;% 
+ggplot(aes(julian_day, fill = variety))+
+  geom_bar(stat = &quot;count&quot;, position = &quot;stack&quot;, width = 6,colour = &quot;black&quot;, size = line_size)+
+  facet_wrap(~year, ncol = 1)+
+  xlab(&quot;Date&quot;)+
+  # ylab(&quot;No. of samples&quot;)+
+  ylab(&quot;&quot;)+
+  # ggtitle(&quot;&quot;)+
+  theme_article()+
+  # labs(fill = &quot;Variety&quot;)+
+  scale_fill_brewer(&quot;Variety:&quot;, palette = &quot;Dark2&quot;) +
+  
+  theme(legend.position = &quot;bottom&quot;,
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank())+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
+  # scale_x_discrete(labels = unique(samples$julian_day))+
+  # theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+  #       panel.background = element_blank(), axis.line = element_line(colour = &quot;black&quot;))+
+  ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Samples per date and variety.png&quot;), 
+         width = 3, height = 6, dpi = 620)
+
+
+
+
+#plot samples per treatment
+ p_trt &lt;- 
+  filter(samples, julian_day &lt; 300) %&gt;% 
+  ggplot(.,aes(julian_day, fill = trt))+
+  # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = &quot;black&quot;, size = 0.1)+
+  geom_bar(stat = &quot;count&quot;, position = &quot;stack&quot;, width = 6,colour = &quot;black&quot;, size = line_size)+
+  
+  facet_wrap(~year, ncol = 1)+
+  xlab(&quot;Date&quot;)+
+   # ylab(&quot;No. of samples&quot;)+
+   ylab(&quot;&quot;)+
+   scale_fill_brewer(&quot;Dose:&quot;, palette = &quot;Dark2&quot;) +
+  
+  # ggtitle(&quot;&quot;)+
+  # scale_fill_manual(values=cbbPalette)+
+  theme_article()+
+  theme(legend.position = &quot;bottom&quot;,
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank())+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
+  ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Trt dose per sampling vertical.png&quot;), 
+         width = 4, height =6, dpi = 620)
+
+
+
+#plot samples per treatment/fixed reduced dose
+p_prog &lt;- 
+  filter(samples, julian_day &lt; 300) %&gt;% 
+  ggplot(.,aes(julian_day, fill = treatment))+
+  # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = &quot;black&quot;, size = 0.1)+
+  geom_bar(stat = &quot;count&quot;, position = &quot;stack&quot;, width = 6,colour = &quot;black&quot;, size = line_size)+
+  
+  facet_wrap(~year, ncol = 1)+
+  xlab(&quot;Date&quot;)+
+  # ylab(&quot;No. of samples&quot;)+
+  ylab(&quot;&quot;)+
+  scale_fill_brewer(&quot;Prog.:&quot;, palette = &quot;Dark2&quot;) +
+  
+  # ggtitle(&quot;&quot;)+
+  # scale_fill_manual(values=cbbPalette)+
+  theme_article()+
+  theme(legend.position = &quot;bottom&quot;,
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank())+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
+
+  ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Treatment dose per sampling vertical.png&quot;), 
+         width = 4, height =6, dpi = 620)
+
+plot_list &lt;- list(p_dis,p_gen, p_var, p_trt, p_prog)
+
+ggpubr::ggarrange(plotlist = plot_list, 
+                   widths = c(1,1,1,1,1),
+                  # labels = c(&quot;r&quot;,&quot;rr&quot;),
+                   ncol = 5)+
+  ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;G and v sampling vertical.png&quot;),
+         width = 9.8, height =7, dpi = 600)</code></pre>
+<p><img src="pop_files/figure-html/plot_all-1.png" width="100%" /></p>
+</div>
+
+
+
+Copyright 2018 Adam H Sparks
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

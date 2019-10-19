@@ -1,0 +1,108 @@
+% Code
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Disease analysis
+Impact of the dose reduction on the potato late blight development on potato varieties differing in their resistance level.  
+
+## Load packages
+```{r libs, warning = FALSE, message= FALSE}
+list.of.packages <-
+  c(
+    "tidyverse",
+    "data.table",
+    "ggplot2",
+    "knitr",
+    "zoo",
+    "RCurl",
+    "imputeTS",
+    "scales",
+    "padr",
+    "devtools",
+    "readxl",
+    "agricolae",
+    "egg",
+    "hrbrthemes",
+    "glmmTMB",
+    "sjPlot",
+    "effects",
+    "lsmeans",
+    "multcomp"
+  )
+
+new.packages <-
+  list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
+
+#Download packages that are not already present in the library
+if (length(new.packages))
+  install.packages(new.packages)
+
+packages_load <-
+  lapply(list.of.packages, require, character.only = TRUE)
+
+#Print warning if there is a problem with installing/loading some of packages
+if (any(as.numeric(packages_load) == 0)) {
+  warning(paste("Package/s: ", paste(list.of.packages[packages_load != TRUE], sep = ", "), "not loaded!"))
+} else {
+  print("All packages were successfully loaded.")
+}
+rm(list.of.packages, new.packages, packages_load)
+
+#if instal is not working try 
+#install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/"))
+```
+
+## Data import
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+

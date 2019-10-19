@@ -1,0 +1,40 @@
+name: 'teste'
+output_dir: docs
+output:
+  html_document:
+    css: style.css
+    theme: flatly
+    df_print: paged
+    lib_dir: site_libs
+    self_contained: no
+    highlight: default
+    include:
+      after_body: footer.md
+    toc: true
+    toc_float:
+     collapsed: false
+     smooth_scroll: false
+bibliography: crossref.bib
+csl: chicago-author-date.csl
+navbar:
+  title: research-compendium-website
+  left:
+  - text: About
+    icon: fa fa-home
+    href: index.html
+  - text: Disease
+    icon: fa fa-table
+    href: disdata.html
+  - text: Trt
+    icon: fa fa-file-code-o
+    href: Trt.html
+  - text: Yield
+    icon: fa fa-file-code-o
+    href: yield.html
+  - text: Population
+    icon: fa fa-file-text-o
+    href: pop.html
+  right:
+  - text: source
+    icon: fa-github-square
+    href: https://github.com/emdelponte/research-compendium-website

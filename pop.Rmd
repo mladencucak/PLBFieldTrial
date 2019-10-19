@@ -1,0 +1,290 @@
+% Code
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Popoulation analysis 
+
+## Load packages
+```{r libs, warning = FALSE, message= FALSE}
+list.of.packages <-
+  c(
+    "tidyverse",
+    "data.table",
+    "ggplot2",
+    "knitr",
+    "zoo",
+    "RCurl",
+    "imputeTS",
+    "scales",
+    "padr",
+    "devtools",
+    "readxl",
+    "agricolae",
+    "egg",
+    "hrbrthemes",
+    "glmmTMB",
+    "sjPlot",
+    "effects",
+    "lsmeans",
+    "multcomp",
+    "tableHTML"
+  )
+
+new.packages <-
+  list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
+
+#Download packages that are not already present in the library
+if (length(new.packages))
+  install.packages(new.packages)
+
+packages_load <-
+  lapply(list.of.packages, require, character.only = TRUE)
+
+#Print warning if there is a problem with installing/loading some of packages
+if (any(as.numeric(packages_load) == 0)) {
+  warning(paste("Package/s: ", paste(list.of.packages[packages_load != TRUE], sep = ", "), "not loaded!"))
+} else {
+  print("All packages were successfully loaded.")
+}
+rm(list.of.packages, new.packages, packages_load)
+
+#if instal is not working try 
+#install.packages("package_name", repos = c(CRAN="https://cran.r-project.org/"))
+```
+
+## Data import
+
+```{r summary_table}
+samples <-  readRDS(file = here::here("data", "gen data", "final", "gendata.rds") )
+
+s_tab <- 
+ samples %>% 
+   group_by(year,variety, treatment) %>% 
+   summarise(count = n()) %>% 
+   spread(variety, count) %>% 
+  rename(Year = year,
+         Prog. = treatment) %>% 
+  replace(is.na(.), 0) %>% 
+  ungroup()
+
+write_csv(s_tab, here::here("results", "gen", "Summary of isolates.csv"))
+# s_tab %>% 
+# kable(format = "html") %>% 
+#   kableExtra::kable_styling(latex_options = "striped") 
+
+
+years <- 
+s_tab %>% 
+group_by(Year) %>% 
+  summarise(counts =n()) %>% 
+  dplyr::select(counts) %>% 
+  unlist
+year_names <-  unique(s_tab$Year)
+
+tab <- 
+dplyr::select(s_tab, -c(Year)) %>% 
+tableHTML::tableHTML(., 
+                     rownames = FALSE,
+                     row_groups = list(c(years), c(year_names)),
+                     # widths = c(50, 60, 70, rep(40, 6))
+                     ) %>% 
+   # add_css_header(css = list('background-color', 'lightgray'), headers = c(1:ncol(s_tab)+1)) %>% 
+  add_css_row(css = list('background-color', 'lightgray'), 
+              rows = c(which(s_tab$Year %in% c(2017, 2019))+1)) %>% 
+  add_theme('scientific')%>% 
+  tableHTML_to_image(.,file =here::here("results", "gen", "Summary of isolates.png"),
+                     type = "png")
+
+rm(years, s_tab)
+```
+![Table of samples](`r here::here("results", "gen", "Summary of isolates.png")`)
+
+
+```{r plot_all, out.width='100%'}
+
+
+# plot successful fin
+samples$plotID <- 1
+line_size <- 0.13
+
+
+cbbPalette <- c ("#3399ff", "#ff33cc",  "#FDFD8D","#ffff33")
+
+dis_obs <- readRDS(file = here::here("data", "disease", "dis_obs.rds") )
+
+p_dis <- 
+filter(dis_obs, treatment == "Control") %>%
+  mutate(treatment = "Control plots") %>% 
+  group_by(treatment, variety, year, julian_day) %>%
+  summarise(rating = mean(obs)) %>% 
+  ggplot(aes(x = julian_day,
+             y = rating,
+             colour = variety,
+             group = variety)) +
+  geom_line(aes(y = rating),
+            size = 0.2,
+            linetype = "dotted") +
+  # scale_x_continuous(labels = c())+
+  scale_y_continuous(limits = c(0, 100))+
+  geom_line(size = 0.3) +
+  ylab("Disease rating (%)") +
+  xlab("Julian day of year") +
+  labs(colour = "Variety")+
+  facet_wrap(~year, ncol = 1)+
+  theme_article()+
+  theme(legend.position = "bottom")+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE))
+
+
+# remove tuber samples
+p_gen <- 
+filter(samples, julian_day < 300) %>% 
+ggplot(.,aes(julian_day, fill = Genotype))+
+  # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = "black", size = 0.1)+
+  geom_bar(stat = "count", position = "stack", width = 6,colour = "black", size = line_size)+
+  
+  facet_wrap(~year, ncol = 1)+
+  xlab("Date")+
+  ylab("No. of samples")+
+  # ggtitle("")+
+  scale_fill_manual(values=cbbPalette)+
+  theme_article()+
+  theme(legend.position = "bottom")+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
+  ggsave(filename= here::here("results", "gen", "freq", "Genotype per sampling vertical.png"), 
+         width = 4, height =6, dpi = 620)
+
+
+p_var <- 
+filter(samples, julian_day < 300) %>% 
+ggplot(aes(julian_day, fill = variety))+
+  geom_bar(stat = "count", position = "stack", width = 6,colour = "black", size = line_size)+
+  facet_wrap(~year, ncol = 1)+
+  xlab("Date")+
+  # ylab("No. of samples")+
+  ylab("")+
+  # ggtitle("")+
+  theme_article()+
+  # labs(fill = "Variety")+
+  scale_fill_brewer("Variety:", palette = "Dark2") +
+  
+  theme(legend.position = "bottom",
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank())+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
+  # scale_x_discrete(labels = unique(samples$julian_day))+
+  # theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+  #       panel.background = element_blank(), axis.line = element_line(colour = "black"))+
+  ggsave(filename= here::here("results", "gen", "freq", "Samples per date and variety.png"), 
+         width = 3, height = 6, dpi = 620)
+
+
+
+
+#plot samples per treatment
+ p_trt <- 
+  filter(samples, julian_day < 300) %>% 
+  ggplot(.,aes(julian_day, fill = trt))+
+  # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = "black", size = 0.1)+
+  geom_bar(stat = "count", position = "stack", width = 6,colour = "black", size = line_size)+
+  
+  facet_wrap(~year, ncol = 1)+
+  xlab("Date")+
+   # ylab("No. of samples")+
+   ylab("")+
+   scale_fill_brewer("Dose:", palette = "Dark2") +
+  
+  # ggtitle("")+
+  # scale_fill_manual(values=cbbPalette)+
+  theme_article()+
+  theme(legend.position = "bottom",
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank())+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
+  ggsave(filename= here::here("results", "gen", "freq", "Trt dose per sampling vertical.png"), 
+         width = 4, height =6, dpi = 620)
+
+
+
+#plot samples per treatment/fixed reduced dose
+p_prog <- 
+  filter(samples, julian_day < 300) %>% 
+  ggplot(.,aes(julian_day, fill = treatment))+
+  # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = "black", size = 0.1)+
+  geom_bar(stat = "count", position = "stack", width = 6,colour = "black", size = line_size)+
+  
+  facet_wrap(~year, ncol = 1)+
+  xlab("Date")+
+  # ylab("No. of samples")+
+  ylab("")+
+  scale_fill_brewer("Prog.:", palette = "Dark2") +
+  
+  # ggtitle("")+
+  # scale_fill_manual(values=cbbPalette)+
+  theme_article()+
+  theme(legend.position = "bottom",
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank())+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
+
+  ggsave(filename= here::here("results", "gen", "freq", "Treatment dose per sampling vertical.png"), 
+         width = 4, height =6, dpi = 620)
+
+plot_list <- list(p_dis,p_gen, p_var, p_trt, p_prog)
+
+ggpubr::ggarrange(plotlist = plot_list, 
+                   widths = c(1,1,1,1,1),
+                  # labels = c("r","rr"),
+                   ncol = 5)+
+  ggsave(filename= here::here("results", "gen", "freq", "G and v sampling vertical.png"),
+         width = 9.8, height =7, dpi = 600)
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
