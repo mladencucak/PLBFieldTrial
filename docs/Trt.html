@@ -11,7 +11,7 @@
 
 
 
-<title>pop.utf8.md</title>
+<title>Trt.utf8.md</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -449,8 +449,9 @@ div.tocify {
 </div>
 
 
-<div id="popoulation-analysis" class="section level2">
-<h2>Popoulation analysis</h2>
+<div id="disease-analysis" class="section level2">
+<h2>Disease analysis</h2>
+<p>Impact of the dose reduction on the potato late blight development on potato varieties differing in their resistance level.</p>
 </div>
 <div id="load-packages" class="section level2">
 <h2>Load packages</h2>
@@ -474,8 +475,7 @@ div.tocify {
     &quot;sjPlot&quot;,
     &quot;effects&quot;,
     &quot;lsmeans&quot;,
-    &quot;multcomp&quot;,
-    &quot;tableHTML&quot;
+    &quot;multcomp&quot;
   )
 
 new.packages &lt;-
@@ -498,191 +498,10 @@ if (any(as.numeric(packages_load) == 0)) {
 <pre class="r"><code>rm(list.of.packages, new.packages, packages_load)
 
 #if instal is not working try 
-#install.packages(&quot;package_name&quot;, repos = c(CRAN=&quot;https://cran.r-project.org/&quot;))</code></pre>
+#install.packages(&quot;ROCR&quot;, repos = c(CRAN=&quot;https://cran.r-project.org/&quot;))</code></pre>
 </div>
 <div id="data-import" class="section level2">
 <h2>Data import</h2>
-<pre class="r"><code>samples &lt;-  readRDS(file = here::here(&quot;data&quot;, &quot;gen data&quot;, &quot;final&quot;, &quot;gendata.rds&quot;) )
-
-s_tab &lt;- 
- samples %&gt;% 
-   group_by(year,variety, treatment) %&gt;% 
-   summarise(count = n()) %&gt;% 
-   spread(variety, count) %&gt;% 
-  rename(Year = year,
-         Prog. = treatment) %&gt;% 
-  replace(is.na(.), 0) %&gt;% 
-  ungroup()
-
-write_csv(s_tab, here::here(&quot;results&quot;, &quot;gen&quot;, &quot;Summary of isolates.csv&quot;))
-# s_tab %&gt;% 
-# kable(format = &quot;html&quot;) %&gt;% 
-#   kableExtra::kable_styling(latex_options = &quot;striped&quot;) 
-
-
-years &lt;- 
-s_tab %&gt;% 
-group_by(Year) %&gt;% 
-  summarise(counts =n()) %&gt;% 
-  dplyr::select(counts) %&gt;% 
-  unlist
-year_names &lt;-  unique(s_tab$Year)
-
-tab &lt;- 
-dplyr::select(s_tab, -c(Year)) %&gt;% 
-tableHTML::tableHTML(., 
-                     rownames = FALSE,
-                     row_groups = list(c(years), c(year_names)),
-                     # widths = c(50, 60, 70, rep(40, 6))
-                     ) %&gt;% 
-   # add_css_header(css = list(&#39;background-color&#39;, &#39;lightgray&#39;), headers = c(1:ncol(s_tab)+1)) %&gt;% 
-  add_css_row(css = list(&#39;background-color&#39;, &#39;lightgray&#39;), 
-              rows = c(which(s_tab$Year %in% c(2017, 2019))+1)) %&gt;% 
-  add_theme(&#39;scientific&#39;)%&gt;% 
-  tableHTML_to_image(.,file =here::here(&quot;results&quot;, &quot;gen&quot;, &quot;Summary of isolates.png&quot;),
-                     type = &quot;png&quot;)</code></pre>
-<p><img src="pop_files/figure-html/summary_table-1.png" width="672" /></p>
-<pre class="r"><code>rm(years, s_tab)</code></pre>
-<div class="figure">
-<img src="results/gen/Summary%20of%20isolates.png" alt="Table of samples" />
-<p class="caption">Table of samples</p>
-</div>
-<pre class="r"><code># plot successful fin
-samples$plotID &lt;- 1
-line_size &lt;- 0.13
-
-
-cbbPalette &lt;- c (&quot;#3399ff&quot;, &quot;#ff33cc&quot;,  &quot;#FDFD8D&quot;,&quot;#ffff33&quot;)
-
-dis_obs &lt;- readRDS(file = here::here(&quot;data&quot;, &quot;disease&quot;, &quot;dis_obs.rds&quot;) )
-
-p_dis &lt;- 
-filter(dis_obs, treatment == &quot;Control&quot;) %&gt;%
-  mutate(treatment = &quot;Control plots&quot;) %&gt;% 
-  group_by(treatment, variety, year, julian_day) %&gt;%
-  summarise(rating = mean(obs)) %&gt;% 
-  ggplot(aes(x = julian_day,
-             y = rating,
-             colour = variety,
-             group = variety)) +
-  geom_line(aes(y = rating),
-            size = 0.2,
-            linetype = &quot;dotted&quot;) +
-  # scale_x_continuous(labels = c())+
-  scale_y_continuous(limits = c(0, 100))+
-  geom_line(size = 0.3) +
-  ylab(&quot;Disease rating (%)&quot;) +
-  xlab(&quot;Julian day of year&quot;) +
-  labs(colour = &quot;Variety&quot;)+
-  facet_wrap(~year, ncol = 1)+
-  theme_article()+
-  theme(legend.position = &quot;bottom&quot;)+
-  guides(fill=guide_legend(nrow=2,byrow=TRUE))
-
-
-# remove tuber samples
-p_gen &lt;- 
-filter(samples, julian_day &lt; 300) %&gt;% 
-ggplot(.,aes(julian_day, fill = Genotype))+
-  # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = &quot;black&quot;, size = 0.1)+
-  geom_bar(stat = &quot;count&quot;, position = &quot;stack&quot;, width = 6,colour = &quot;black&quot;, size = line_size)+
-  
-  facet_wrap(~year, ncol = 1)+
-  xlab(&quot;Date&quot;)+
-  ylab(&quot;No. of samples&quot;)+
-  # ggtitle(&quot;&quot;)+
-  scale_fill_manual(values=cbbPalette)+
-  theme_article()+
-  theme(legend.position = &quot;bottom&quot;)+
-  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
-  ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Genotype per sampling vertical.png&quot;), 
-         width = 4, height =6, dpi = 620)
-
-
-p_var &lt;- 
-filter(samples, julian_day &lt; 300) %&gt;% 
-ggplot(aes(julian_day, fill = variety))+
-  geom_bar(stat = &quot;count&quot;, position = &quot;stack&quot;, width = 6,colour = &quot;black&quot;, size = line_size)+
-  facet_wrap(~year, ncol = 1)+
-  xlab(&quot;Date&quot;)+
-  # ylab(&quot;No. of samples&quot;)+
-  ylab(&quot;&quot;)+
-  # ggtitle(&quot;&quot;)+
-  theme_article()+
-  # labs(fill = &quot;Variety&quot;)+
-  scale_fill_brewer(&quot;Variety:&quot;, palette = &quot;Dark2&quot;) +
-  
-  theme(legend.position = &quot;bottom&quot;,
-        axis.title.y=element_blank(),
-        axis.text.y=element_blank())+
-  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
-  # scale_x_discrete(labels = unique(samples$julian_day))+
-  # theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-  #       panel.background = element_blank(), axis.line = element_line(colour = &quot;black&quot;))+
-  ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Samples per date and variety.png&quot;), 
-         width = 3, height = 6, dpi = 620)
-
-
-
-
-#plot samples per treatment
- p_trt &lt;- 
-  filter(samples, julian_day &lt; 300) %&gt;% 
-  ggplot(.,aes(julian_day, fill = trt))+
-  # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = &quot;black&quot;, size = 0.1)+
-  geom_bar(stat = &quot;count&quot;, position = &quot;stack&quot;, width = 6,colour = &quot;black&quot;, size = line_size)+
-  
-  facet_wrap(~year, ncol = 1)+
-  xlab(&quot;Date&quot;)+
-   # ylab(&quot;No. of samples&quot;)+
-   ylab(&quot;&quot;)+
-   scale_fill_brewer(&quot;Dose:&quot;, palette = &quot;Dark2&quot;) +
-  
-  # ggtitle(&quot;&quot;)+
-  # scale_fill_manual(values=cbbPalette)+
-  theme_article()+
-  theme(legend.position = &quot;bottom&quot;,
-        axis.title.y=element_blank(),
-        axis.text.y=element_blank())+
-  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
-  ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Trt dose per sampling vertical.png&quot;), 
-         width = 4, height =6, dpi = 620)
-
-
-
-#plot samples per treatment/fixed reduced dose
-p_prog &lt;- 
-  filter(samples, julian_day &lt; 300) %&gt;% 
-  ggplot(.,aes(julian_day, fill = treatment))+
-  # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = &quot;black&quot;, size = 0.1)+
-  geom_bar(stat = &quot;count&quot;, position = &quot;stack&quot;, width = 6,colour = &quot;black&quot;, size = line_size)+
-  
-  facet_wrap(~year, ncol = 1)+
-  xlab(&quot;Date&quot;)+
-  # ylab(&quot;No. of samples&quot;)+
-  ylab(&quot;&quot;)+
-  scale_fill_brewer(&quot;Prog.:&quot;, palette = &quot;Dark2&quot;) +
-  
-  # ggtitle(&quot;&quot;)+
-  # scale_fill_manual(values=cbbPalette)+
-  theme_article()+
-  theme(legend.position = &quot;bottom&quot;,
-        axis.title.y=element_blank(),
-        axis.text.y=element_blank())+
-  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
-
-  ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Treatment dose per sampling vertical.png&quot;), 
-         width = 4, height =6, dpi = 620)
-
-plot_list &lt;- list(p_dis,p_gen, p_var, p_trt, p_prog)
-
-ggpubr::ggarrange(plotlist = plot_list, 
-                   widths = c(1,1,1,1,1),
-                  # labels = c(&quot;r&quot;,&quot;rr&quot;),
-                   ncol = 5)+
-  ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;G and v sampling vertical.png&quot;),
-         width = 9.8, height =7, dpi = 600)</code></pre>
-<p><img src="pop_files/figure-html/plot_all-1.png" width="100%" /></p>
 </div>
 
 
