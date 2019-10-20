@@ -1,10 +1,10 @@
 % Code
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-## Disease analysis
+## Treatments analysis
 Impact of the dose reduction on the potato late blight development on potato varieties differing in their resistance level.  
 
 ## Load packages
@@ -12,24 +12,16 @@ Impact of the dose reduction on the potato late blight development on potato var
 list.of.packages <-
   c(
     "tidyverse",
-    "data.table",
-    "ggplot2",
-    "knitr",
-    "zoo",
-    "RCurl",
-    "imputeTS",
-    "scales",
-    "padr",
     "devtools",
-    "readxl",
-    "agricolae",
     "egg",
     "hrbrthemes",
-    "glmmTMB",
     "sjPlot",
     "effects",
     "lsmeans",
-    "multcomp"
+    "multcomp",
+    "multcompView",
+    "ggpubr",
+    "tableHTML"
   )
 
 new.packages <-
@@ -57,49 +49,303 @@ rm(list.of.packages, new.packages, packages_load)
 ## Data import
 
 
+```{r import_data}
+dosedf  <- readRDS(file = here::here("data", "treat", "full_trt.rds") )
+
+```
+  
+
+
+```{r html_tab}
+
+tab <- 
+  read_csv(here::here("data", "treat", "Treatments.csv")) 
+
+# library(tableHTML)
+# mycss <- make_css(list('table', c('text-align', 'font-size'), c('center', '20px')),
+#                   list('th', c('background-color', 'height'), c('lightgreen', '30px')))
+# print(mycss)
+
+ # colnames(tab)[8] <- "Blight\nManagement"
+
+years <- 
+tab %>% 
+group_by(Year) %>% 
+  summarise(counts =n()) %>% 
+  unlist() 
+year_names <-  unique(tab$Year)
+
+tab[, "Year"] <-  NULL
+
+ 
+tableHTML::tableHTML(
+  tab,
+  rownames = FALSE,
+  row_groups = list(c(years), c(year_names)),
+  widths = c(50, 60, 70, rep(40, 6))
+) %>%
+  # add_css_header(css = list('background-color', 'lightgray'), headers = c(1:ncol(tab)+1)) %>%
+  add_css_row(css = list('background-color', 'lightgray'),
+              rows = c(2:9, 22:29)) %>%
+  add_theme('scientific') %>%
+  tableHTML_to_image(
+    .,
+    file = here::here("results", "treat", "Programme theme.png"),
+    type = "png"
+  )
+
+```
+  
+
+
+```{r fig1}
+
+# dosedf <- rename(dosedf, dose = Dose)
+#Get number of treatments per year and the dose reduction
+Summary <- function(x) {
+  data.frame(
+    n = length(x),
+    treatments = sum(as.numeric(x != 0)),
+    dose = round(sum(x) / length(x), 1)
+  )
+}
+
+ p1 <- 
+dosedf %>% 
+group_by(year, treatment) %>%
+  do(Summary(.$dose)) %>%
+  ggplot(aes(
+    x = year,
+    y = dose,
+    fill = treatment,
+    group = treatment
+  )) +
+  geom_hline(yintercept = 50, colour = "gray")+
+  geom_hline(yintercept = 100, colour = "gray")+
+  geom_bar(
+    color = "black",
+    stat = "identity",
+    position = position_dodge(),
+    width = 0.9,
+    size = 0.5
+  ) +
+  geom_text(
+    aes(label = treatments),
+    vjust = -0.3,
+    color = "black",
+    position = position_dodge(0.9),
+    size = 2.9
+  ) +  
+  geom_text(
+    aes(label = dose),
+    vjust = 1.3,
+    color = "white",
+    position = position_dodge(0.9),
+    size = 2.4
+  ) +
+  scale_fill_brewer("Programme:", palette = "Dark2") +
+  scale_y_continuous(limits = c(0, 110), breaks = seq(0, 100, 10)) +
+  theme_article() +
+  facet_grid(~ year, scales = "free") +
+  labs(x = "Year",
+       y = "Dose Reduction") +
+  theme(
+    axis.title = element_text(size = 11),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(size = 9),
+    legend.position = "top",
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  )+
+  theme(text = element_text(size=14))
+ p1
+
+```
+  
+
+
+```{r fig2}
+
+dose_summary <- 
+dosedf %>%
+  group_by(year, treatment) %>%
+  do(Summary(.$dose))
+
+
+  p2 <- 
+  dose_summary %>% 
+  group_by(treatment) %>%
+  filter(year != 2016) %>% 
+  summarise(mean_trt = round(mean(treatments),1),
+            mean = round(mean(dose),1),
+            sd = sd(dose)) %>% 
+  ggplot(., aes(
+    x = treatment,
+    y = mean,
+    fill = treatment,
+    group = treatment
+  )) +
+  geom_hline(yintercept = 50, colour = "gray") +
+  geom_hline(yintercept = 100, colour = "gray") +
+    
+  geom_bar(
+    color = "black",
+    stat = "identity",
+    position = position_dodge(),
+    width = 1,
+    size = 0.5
+  ) +
+  geom_errorbar(aes(ymin = mean - sd,
+                    ymax = mean + sd), 
+                width = 0.2,
+                color = "gray") +
+  scale_fill_brewer("Programme:", palette = "Dark2") +
+  theme_article() +
+  scale_y_continuous(limits = c(0, 110), breaks = seq(0, 100, 20)) +
+  labs(x = "Programme",
+       y = "Dose Reduction\n") +
+  theme(
+    axis.title = element_text(size = 11),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(size = 11),
+    legend.position = "none",
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    legend.text=element_text(size=10)
+  ) 
+
+p2 <- 
+    
+p2 +
+labs(x = "Overall", y= "")+
+theme(axis.text = element_blank(),
+          axis.ticks.y = element_blank())+
+    
+ theme(legend.position = "none")+
+  geom_text(
+      aes(label = mean_trt),
+      vjust = -0.3,
+      hjust =  0.4,
+      color = "black",
+      position = position_dodge(0.9),
+      size = 3
+    ) +
+  geom_text(
+      aes(label = mean),
+      vjust = 1.4,
+      hjust =  0.5,
+      color = "white",
+      position = position_dodge(0.9),
+      size = 2.5
+    ) +
+    # coord_equal(2 / 1)+
+theme(text = element_text(size=14))
+
+
+
+ 
+  p <- 
+ggarrange(p1, p2, ncol = 2, widths = c(4,1))
+
+ p
+ggsave( here::here("results", "treat", "Treatments.png"),
+        plot = p,
+        width = 7.5,
+        height = 4)
+
+```
+  
+
+
 ```{r}
 
 ```
+  
 
 
 ```{r}
 
 ```
+  
 
 
 ```{r}
 
 ```
+  
 
 
 ```{r}
 
 ```
+  
 
 
 ```{r}
 
 ```
+  
 
 
 ```{r}
 
 ```
+  
 
 
 ```{r}
 
 ```
+  
 
 
 ```{r}
 
 ```
+  
 
 
 ```{r}
 
 ```
+  
+
+
+```{r}
+
+```
+  
+
+
+```{r}
+
+```
+  
+
+
+```{r}
+
+```
+  
+
+
+```{r}
+
+```
+  
+
+
+```{r}
+
+```
+  
+
+```{r}
+session_info()
+```
+
 
 
 ```{r}

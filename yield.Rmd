@@ -1,35 +1,24 @@
-% Code
+% Yield analysis
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-## Disease analysis
-Impact of the dose reduction on the potato late blight development on potato varieties differing in their resistance level.  
-
+## Yield analysis
 ## Load packages
 ```{r libs, warning = FALSE, message= FALSE}
 list.of.packages <-
   c(
     "tidyverse",
-    "data.table",
-    "ggplot2",
-    "knitr",
-    "zoo",
-    "RCurl",
-    "imputeTS",
-    "scales",
-    "padr",
     "devtools",
-    "readxl",
-    "agricolae",
     "egg",
     "hrbrthemes",
-    "glmmTMB",
     "sjPlot",
     "effects",
     "lsmeans",
-    "multcomp"
+    "multcomp",
+    "multcompView",
+    "ggpubr"
   )
 
 new.packages <-
@@ -57,52 +46,291 @@ rm(list.of.packages, new.packages, packages_load)
 ## Data import
 
 
-```{r}
+```{r import_data}
+yld <-  read_csv(here::here("data", "yield", "yield.csv"))
+yld <-  yld %>%
+  mutate_each_(funs(factor(.)), c("year", "variety", "treatment"))
 
 ```
 
 
 ```{r}
+ggpubr:: ggboxplot(yld, x = "variety", y = "marketable",facet.by = "year",   color = "treatment",palette =  "Dark2")
 
 ```
 
 
 ```{r}
+# Two-way interaction plot
+interaction.plot(x.factor = yld$treatment, trace.factor = yld$variety, 
+                 response = yld$marketable, fun = mean, 
+                 type = "b", legend = TRUE, 
+                 xlab = "", ylab="Yield",
+                 pch=c(1,19), col =palette(rainbow(6)))
+
+```
+
+
+```{r calc_summaries}
+yldmean <- 
+yld %>% 
+  group_by(year, variety, treatment) %>% 
+  summarise_at(.vars = c("marketable"), .funs = c(mean), na.rm = TRUE) %>% 
+  reshape2::melt(
+    id.vars = c("year", "variety", "treatment"),
+    variable.name = "yld_class",
+    value.name = "mean"
+  ) 
+yldsd <- 
+  yld %>% 
+  group_by(year, variety, treatment) %>% 
+  summarise_at(.vars = c( "marketable"), .funs = c(sd), na.rm = TRUE) %>% 
+  reshape2::melt(
+    id.vars = c("year", "variety", "treatment"),
+    variable.name = "yld_class",
+    value.name = "sd"
+  ) 
+
+
+```
+
+
+```{r barchart_yield, out.width='100%'}
+tit <- "Total yield per variety, programme and year"
+
+left_join(yldmean, yldsd, by = colnames(yldmean)[1:4])  %>% 
+  mutate_each_(funs(factor(.)),c("year","variety", "treatment")) %>% 
+  ggplot(., aes(
+    x = variety,
+    y = mean,
+    fill = variety,
+    group = variety
+  )) +
+  geom_bar(
+    color = "black",
+    stat = "identity",
+    position = position_dodge(.8),
+    width = 0.7
+  ) +
+  geom_errorbar(aes(ymin = mean - sd,
+                    ymax = mean + sd), 
+                position = position_dodge(.8),
+                width = 0.25,
+                color = "gray") +
+  facet_grid(~year,  scales = "free")+
+    scale_fill_brewer("Variety:", palette = "Dark2") +
+  theme_article() +
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 25)) +
+  labs(x = "",
+       y = "Yield (T/ha)",
+       title = tit) +
+  theme(
+    axis.title = element_text(size = 11),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(size = 11),
+    legend.position = "top",
+    # axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  ) + 
+  ggsave(filename= here::here("results", "yield", paste0(tit, ".png")),
+         width = 10, height = 5,
+         dpi = 320)
+
+```
+
+## Model fitting
+```{r}
+
+library (lmerTest)
+fit2016 <- lmer(marketable ~ 
+              block +  treatment * variety + (1 | block:treatment),
+            data=subset(yld, year==2016)
+)
+hnp::hnp(fit2016)
+plot(fit2016)
+car::Anova(fit2016)
 
 ```
 
 
 ```{r}
+fit <- lmer(marketable ~ 
+              block + (year * treatment * variety)^2 +
+              (1 | block:treatment:year),
+            data=subset(yld, year!=2016)
+            )
+
+plot(fit)
+hnp::hnp(fit)
+car::Anova(fit)
 
 ```
 
 
 ```{r}
+posthoc<- 
+  emmeans:: lsmeans(fit2016, pairwise ~ treatment * variety, adjust="tukey",  type = "response")
+
+d2016 <- 
+  cld(posthoc[[1]], 
+      alpha =.05,
+      Letters=letters)
+
+d2016 <- 
+  d2016 %>% 
+  tbl_df() %>% 
+  unite( "pairs", variety, treatment,  sep = ":",remove= FALSE )
+
+d2016$.group <- trimws(d2016$.group)
+
+d2016$pairs <- 
+  factor(d2016$pairs, levels = d2016$pairs[order(d2016$lsmean)])
+
+ggplot(d2016, aes(x=pairs, y = lsmean, colour = treatment))+
+  geom_errorbar(aes(ymin=lower.CL, ymax=upper.CL), width=.2)+
+  geom_point(size = .1)+
+  scale_color_brewer("Programme:", palette = "Dark2") +
+  labs(x=" ", y="CI")+ coord_flip()+
+  geom_text(
+    aes(label = .group),
+    vjust = -0.5,
+    hjust =  0.3,
+    color = "black",
+    position = position_dodge(0.9),
+    size = 2
+  ) +
+  theme_bw()+
+  ggsave(filename= here::here("results", "yield", "pairwise comparisons 2016.png"), 
+         width = 7, height = 2.5, dpi = 620)
+
 
 ```
 
 
 ```{r}
+posthoc<- emmeans:: lsmeans(fit, ~treatment * variety *year, adjust="tukey", type = "response")
+
+drest <-  posthoc
+(drest <- 
+    cld(posthoc, 
+        alpha = .05,
+        Letters=letters))
+
+drest <- 
+  drest %>% 
+  tbl_df() %>% 
+  unite( "pairs", variety, treatment, year, year, sep = ":",remove= FALSE )
+
+drest$pairs <- 
+  factor(drest$pairs, levels = drest$pairs[order(drest$lsmean)])
+
+drest$.group <- trimws(drest$.group)
+
+ggplot(drest, aes(x=pairs, y = lsmean, colour = treatment))+
+  geom_errorbar(aes(ymin=lower.CL, ymax=upper.CL), width=.2)+
+  geom_point(size = .1)+
+  scale_color_brewer("Programme:", palette = "Dark2") +
+  labs(x=" ", y="CI")+ coord_flip()+
+  geom_text(
+    aes(label = .group),
+    vjust = -0.5,
+    hjust =  0.3,
+    color = "black",
+    position = position_dodge(0.9),
+    size = 2
+  ) +
+  theme_bw()+
+  theme(axis.text.y = element_text(size = 8))+
+  ggsave(filename= here::here("results", "yield", "pairwise comparisons.png"), 
+         width = 7, height = 11.5, dpi = 420)
 
 ```
 
 
 ```{r}
+d2016$year <-  "2016"
+d1 <- 
+  dplyr::bind_rows(d2016, drest)
+
+
+d1 <- 
+  d1 %>% 
+  mutate(variety = factor(variety, levels =c("KE","BQ", "RO", "SE", "CL","SM")))  %>% 
+  mutate(year = factor(year, levels =c("2016","2017", "2018", "2019"))) %>% 
+  mutate(treatment = factor(treatment, levels = c("Control", "Full Dose","Half Dose","Irish Rules","Blight Man. (DK)" ,"Modified I. R.")))
 
 ```
 
 
+
+
 ```{r}
+#Set the position dodge
+dodging <-  .8
+
+ p_fin <- 
+  d1 %>%
+  #Add vertical  lines for clarity
+  mutate(
+    line_positions = as.numeric(factor(variety, levels = unique(variety))),
+    line_positions = line_positions + .5,
+    line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "CL", 5.5, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "SE", 3.5, line_positions)
+  ) %>%
+  ggplot(data = ., aes(x = variety, y = lsmean)) +
+  geom_errorbar(
+    aes(
+      ymin = lower.CL,
+      ymax = upper.CL,
+      group = treatment,
+      color = treatment
+    ),
+    position = position_dodge(width = dodging),
+    width = .2
+  ) +
+  geom_point(
+    aes(y = lsmean, group = treatment, color = treatment),
+    size = 1,
+    shape = 2,
+    position = position_dodge(width = dodging)
+  ) +
+  facet_wrap(~ year, nrow = 1) +
+  geom_point(
+    data = yld,
+    aes(y = marketable, color = treatment, group = treatment),
+    size = .2,
+    alpha = .5,
+    position = position_dodge(width = dodging)
+  ) +
+  scale_fill_brewer("Programme:", palette = "Dark2") +
+  theme_article() +
+  theme(legend.position = "top") +
+  geom_vline(aes(xintercept = line_positions),
+             size  = .1,
+             alpha = .3) +
+  labs(colour = "Programme:",
+       x = "Variety",
+       y = "Yield (t per ha)") 
+p_fin
+
+ggsave(
+  p_fin,
+  filename = here::here("results", "yield", "Effects final.png"),
+  width = 7,
+  height = 3.7,
+  dpi = 820
+)
+rm(p_fin)
 
 ```
 
 
-```{r}
-
-```
-
 
 ```{r}
-
+session_info()
 ```
 

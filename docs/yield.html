@@ -400,7 +400,7 @@ div.tocify {
 </li>
 <li>
   <a href="disdata.html">
-    <span class="fa fa fa fa-table"></span>
+    <span class="fa fa fa fa-file-code-o"></span>
      
     Disease
   </a>
@@ -421,7 +421,7 @@ div.tocify {
 </li>
 <li>
   <a href="pop.html">
-    <span class="fa fa fa fa-file-text-o"></span>
+    <span class="fa fa fa fa-file-code-o"></span>
      
     Population
   </a>
@@ -444,38 +444,28 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Code</h1>
+<h1 class="title toc-ignore">Yield analysis</h1>
 
 </div>
 
 
-<div id="disease-analysis" class="section level2">
-<h2>Disease analysis</h2>
-<p>Impact of the dose reduction on the potato late blight development on potato varieties differing in their resistance level.</p>
+<div id="yield-analysis" class="section level2">
+<h2>Yield analysis</h2>
 </div>
 <div id="load-packages" class="section level2">
 <h2>Load packages</h2>
 <pre class="r"><code>list.of.packages &lt;-
   c(
     &quot;tidyverse&quot;,
-    &quot;data.table&quot;,
-    &quot;ggplot2&quot;,
-    &quot;knitr&quot;,
-    &quot;zoo&quot;,
-    &quot;RCurl&quot;,
-    &quot;imputeTS&quot;,
-    &quot;scales&quot;,
-    &quot;padr&quot;,
     &quot;devtools&quot;,
-    &quot;readxl&quot;,
-    &quot;agricolae&quot;,
     &quot;egg&quot;,
     &quot;hrbrthemes&quot;,
-    &quot;glmmTMB&quot;,
     &quot;sjPlot&quot;,
     &quot;effects&quot;,
     &quot;lsmeans&quot;,
-    &quot;multcomp&quot;
+    &quot;multcomp&quot;,
+    &quot;multcompView&quot;,
+    &quot;ggpubr&quot;
   )
 
 new.packages &lt;-
@@ -502,6 +492,532 @@ if (any(as.numeric(packages_load) == 0)) {
 </div>
 <div id="data-import" class="section level2">
 <h2>Data import</h2>
+<pre class="r"><code>yld &lt;-  read_csv(here::here(&quot;data&quot;, &quot;yield&quot;, &quot;yield.csv&quot;))
+yld &lt;-  yld %&gt;%
+  mutate_each_(funs(factor(.)), c(&quot;year&quot;, &quot;variety&quot;, &quot;treatment&quot;))</code></pre>
+<pre class="r"><code>ggpubr:: ggboxplot(yld, x = &quot;variety&quot;, y = &quot;marketable&quot;,facet.by = &quot;year&quot;,   color = &quot;treatment&quot;,palette =  &quot;Dark2&quot;)</code></pre>
+<p><img src="yield_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code># Two-way interaction plot
+interaction.plot(x.factor = yld$treatment, trace.factor = yld$variety, 
+                 response = yld$marketable, fun = mean, 
+                 type = &quot;b&quot;, legend = TRUE, 
+                 xlab = &quot;&quot;, ylab=&quot;Yield&quot;,
+                 pch=c(1,19), col =palette(rainbow(6)))</code></pre>
+<p><img src="yield_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>yldmean &lt;- 
+yld %&gt;% 
+  group_by(year, variety, treatment) %&gt;% 
+  summarise_at(.vars = c(&quot;marketable&quot;), .funs = c(mean), na.rm = TRUE) %&gt;% 
+  reshape2::melt(
+    id.vars = c(&quot;year&quot;, &quot;variety&quot;, &quot;treatment&quot;),
+    variable.name = &quot;yld_class&quot;,
+    value.name = &quot;mean&quot;
+  ) 
+yldsd &lt;- 
+  yld %&gt;% 
+  group_by(year, variety, treatment) %&gt;% 
+  summarise_at(.vars = c( &quot;marketable&quot;), .funs = c(sd), na.rm = TRUE) %&gt;% 
+  reshape2::melt(
+    id.vars = c(&quot;year&quot;, &quot;variety&quot;, &quot;treatment&quot;),
+    variable.name = &quot;yld_class&quot;,
+    value.name = &quot;sd&quot;
+  ) </code></pre>
+<pre class="r"><code>tit &lt;- &quot;Total yield per variety, programme and year&quot;
+
+left_join(yldmean, yldsd, by = colnames(yldmean)[1:4])  %&gt;% 
+  mutate_each_(funs(factor(.)),c(&quot;year&quot;,&quot;variety&quot;, &quot;treatment&quot;)) %&gt;% 
+  ggplot(., aes(
+    x = variety,
+    y = mean,
+    fill = variety,
+    group = variety
+  )) +
+  geom_bar(
+    color = &quot;black&quot;,
+    stat = &quot;identity&quot;,
+    position = position_dodge(.8),
+    width = 0.7
+  ) +
+  geom_errorbar(aes(ymin = mean - sd,
+                    ymax = mean + sd), 
+                position = position_dodge(.8),
+                width = 0.25,
+                color = &quot;gray&quot;) +
+  facet_grid(~year,  scales = &quot;free&quot;)+
+    scale_fill_brewer(&quot;Variety:&quot;, palette = &quot;Dark2&quot;) +
+  theme_article() +
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 25)) +
+  labs(x = &quot;&quot;,
+       y = &quot;Yield (T/ha)&quot;,
+       title = tit) +
+  theme(
+    axis.title = element_text(size = 11),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(size = 11),
+    legend.position = &quot;top&quot;,
+    # axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  ) + 
+  ggsave(filename= here::here(&quot;results&quot;, &quot;yield&quot;, paste0(tit, &quot;.png&quot;)),
+         width = 10, height = 5,
+         dpi = 320)</code></pre>
+<p><img src="yield_files/figure-html/barchart_yield-1.png" width="100%" /></p>
+</div>
+<div id="model-fitting" class="section level2">
+<h2>Model fitting</h2>
+<pre class="r"><code>library (lmerTest)
+fit2016 &lt;- lmer(marketable ~ 
+              block +  treatment * variety + (1 | block:treatment),
+            data=subset(yld, year==2016)
+)
+hnp::hnp(fit2016)</code></pre>
+<pre><code>## Linear mixed-effects model (using lme4)</code></pre>
+<p><img src="yield_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>plot(fit2016)</code></pre>
+<p><img src="yield_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<pre class="r"><code>car::Anova(fit2016)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Chisq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Pr(>Chisq)"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"5.582908","2":"1","3":"1.813659e-02","_rn_":"block"},{"1":"32.436655","2":"3","3":"4.233958e-07","_rn_":"treatment"},{"1":"8.041404","2":"3","3":"4.516372e-02","_rn_":"variety"},{"1":"23.833212","2":"9","3":"4.572935e-03","_rn_":"treatment:variety"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>fit &lt;- lmer(marketable ~ 
+              block + (year * treatment * variety)^2 +
+              (1 | block:treatment:year),
+            data=subset(yld, year!=2016)
+            )
+
+plot(fit)</code></pre>
+<p><img src="yield_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>hnp::hnp(fit)</code></pre>
+<pre><code>## Linear mixed-effects model (using lme4)</code></pre>
+<p><img src="yield_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<pre class="r"><code>car::Anova(fit)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Chisq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Pr(>Chisq)"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"2.994277","2":"1","3":"8.355919e-02","_rn_":"block"},{"1":"1278.013157","2":"1","3":"6.781134e-280","_rn_":"year"},{"1":"67.380193","2":"5","3":"3.592386e-13","_rn_":"treatment"},{"1":"629.139064","2":"5","3":"1.021401e-133","_rn_":"variety"},{"1":"54.898813","2":"5","3":"1.369452e-10","_rn_":"year:treatment"},{"1":"403.461228","2":"5","3":"5.324200e-85","_rn_":"year:variety"},{"1":"146.814852","2":"25","3":"3.251540e-19","_rn_":"treatment:variety"},{"1":"103.848969","2":"25","3":"1.399252e-11","_rn_":"year:treatment:variety"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>posthoc&lt;- 
+  emmeans:: lsmeans(fit2016, pairwise ~ treatment * variety, adjust=&quot;tukey&quot;,  type = &quot;response&quot;)
+
+d2016 &lt;- 
+  cld(posthoc[[1]], 
+      alpha =.05,
+      Letters=letters)
+
+d2016 &lt;- 
+  d2016 %&gt;% 
+  tbl_df() %&gt;% 
+  unite( &quot;pairs&quot;, variety, treatment,  sep = &quot;:&quot;,remove= FALSE )
+
+d2016$.group &lt;- trimws(d2016$.group)
+
+d2016$pairs &lt;- 
+  factor(d2016$pairs, levels = d2016$pairs[order(d2016$lsmean)])
+
+ggplot(d2016, aes(x=pairs, y = lsmean, colour = treatment))+
+  geom_errorbar(aes(ymin=lower.CL, ymax=upper.CL), width=.2)+
+  geom_point(size = .1)+
+  scale_color_brewer(&quot;Programme:&quot;, palette = &quot;Dark2&quot;) +
+  labs(x=&quot; &quot;, y=&quot;CI&quot;)+ coord_flip()+
+  geom_text(
+    aes(label = .group),
+    vjust = -0.5,
+    hjust =  0.3,
+    color = &quot;black&quot;,
+    position = position_dodge(0.9),
+    size = 2
+  ) +
+  theme_bw()+
+  ggsave(filename= here::here(&quot;results&quot;, &quot;yield&quot;, &quot;pairwise comparisons 2016.png&quot;), 
+         width = 7, height = 2.5, dpi = 620)</code></pre>
+<p><img src="yield_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>posthoc&lt;- emmeans:: lsmeans(fit, ~treatment * variety *year, adjust=&quot;tukey&quot;, type = &quot;response&quot;)
+
+drest &lt;-  posthoc
+(drest &lt;- 
+    cld(posthoc, 
+        alpha = .05,
+        Letters=letters))</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["treatment"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["variety"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["year"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["lsmean"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["SE"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["df"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["lower.CL"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["upper.CL"],"name":[8],"type":["dbl"],"align":["right"]},{"label":[".group"],"name":[9],"type":["chr"],"align":["left"]}],"data":[{"1":"Irish Rules","2":"BQ","3":"2018","4":"18.02500","5":"3.026039","6":"188.6557","7":"12.05578","8":"23.99422","9":"a","_rn_":"41"},{"1":"Control","2":"BQ","3":"2018","4":"21.25000","5":"3.026039","6":"188.6557","7":"15.28078","8":"27.21922","9":"ab","_rn_":"38"},{"1":"Blight Man. (DK)","2":"SE","3":"2018","4":"23.17500","5":"3.026039","6":"188.6557","7":"17.20578","8":"29.14422","9":"abc","_rn_":"61"},{"1":"Modified I. R.","2":"BQ","3":"2018","4":"23.30000","5":"3.026039","6":"188.6557","7":"17.33078","8":"29.26922","9":"abc","_rn_":"42"},{"1":"Modified I. R.","2":"KE","3":"2018","4":"23.55000","5":"3.026039","6":"188.6557","7":"17.58078","8":"29.51922","9":"abc","_rn_":"54"},{"1":"Half Dose","2":"BQ","3":"2018","4":"23.57500","5":"3.026039","6":"188.6557","7":"17.60578","8":"29.54422","9":"abc","_rn_":"40"},{"1":"Modified I. R.","2":"SE","3":"2018","4":"24.15000","5":"3.026039","6":"188.6557","7":"18.18078","8":"30.11922","9":"abc","_rn_":"66"},{"1":"Irish Rules","2":"KE","3":"2018","4":"24.25000","5":"3.026039","6":"188.6557","7":"18.28078","8":"30.21922","9":"abc","_rn_":"53"},{"1":"Half Dose","2":"KE","3":"2018","4":"24.35000","5":"3.026039","6":"188.6557","7":"18.38078","8":"30.31922","9":"abc","_rn_":"52"},{"1":"Blight Man. (DK)","2":"BQ","3":"2018","4":"24.50000","5":"3.026039","6":"188.6557","7":"18.53078","8":"30.46922","9":"abc","_rn_":"37"},{"1":"Full Dose","2":"BQ","3":"2018","4":"24.77500","5":"3.026039","6":"188.6557","7":"18.80578","8":"30.74422","9":"abc","_rn_":"39"},{"1":"Control","2":"KE","3":"2018","4":"24.82500","5":"3.026039","6":"188.6557","7":"18.85578","8":"30.79422","9":"abc","_rn_":"50"},{"1":"Half Dose","2":"SE","3":"2018","4":"25.42500","5":"3.026039","6":"188.6557","7":"19.45578","8":"31.39422","9":"abc","_rn_":"64"},{"1":"Control","2":"BQ","3":"2017","4":"25.54025","5":"3.026039","6":"188.6557","7":"19.57103","8":"31.50947","9":"abc","_rn_":"2"},{"1":"Irish Rules","2":"SE","3":"2018","4":"25.70000","5":"3.026039","6":"188.6557","7":"19.73078","8":"31.66922","9":"abc","_rn_":"65"},{"1":"Blight Man. (DK)","2":"KE","3":"2018","4":"25.85000","5":"3.026039","6":"188.6557","7":"19.88078","8":"31.81922","9":"abc","_rn_":"49"},{"1":"Control","2":"RO","3":"2018","4":"25.87500","5":"3.026039","6":"188.6557","7":"19.90578","8":"31.84422","9":"abc","_rn_":"56"},{"1":"Full Dose","2":"KE","3":"2018","4":"25.87500","5":"3.026039","6":"188.6557","7":"19.90578","8":"31.84422","9":"abc","_rn_":"51"},{"1":"Half Dose","2":"SM","3":"2018","4":"26.25000","5":"3.026039","6":"188.6557","7":"20.28078","8":"32.21922","9":"abc","_rn_":"70"},{"1":"Blight Man. (DK)","2":"CL","3":"2018","4":"26.77500","5":"3.026039","6":"188.6557","7":"20.80578","8":"32.74422","9":"abcd","_rn_":"43"},{"1":"Full Dose","2":"SE","3":"2018","4":"27.05000","5":"3.026039","6":"188.6557","7":"21.08078","8":"33.01922","9":"abcd","_rn_":"63"},{"1":"Irish Rules","2":"SM","3":"2018","4":"27.27500","5":"3.026039","6":"188.6557","7":"21.30578","8":"33.24422","9":"abcd","_rn_":"71"},{"1":"Control","2":"SE","3":"2018","4":"27.80000","5":"3.026039","6":"188.6557","7":"21.83078","8":"33.76922","9":"abcde","_rn_":"62"},{"1":"Half Dose","2":"RO","3":"2018","4":"28.02500","5":"3.026039","6":"188.6557","7":"22.05578","8":"33.99422","9":"abcde","_rn_":"58"},{"1":"Control","2":"KE","3":"2017","4":"28.81785","5":"3.026039","6":"188.6557","7":"22.84863","8":"34.78707","9":"abcdefg","_rn_":"14"},{"1":"Irish Rules","2":"BQ","3":"2017","4":"28.98791","5":"3.026039","6":"188.6557","7":"23.01869","8":"34.95713","9":"abcdef","_rn_":"5"},{"1":"Full Dose","2":"SM","3":"2018","4":"29.40000","5":"3.026039","6":"188.6557","7":"23.43078","8":"35.36922","9":"abcdefg","_rn_":"69"},{"1":"Irish Rules","2":"RO","3":"2018","4":"30.25000","5":"3.026039","6":"188.6557","7":"24.28078","8":"36.21922","9":"abcdefgh","_rn_":"59"},{"1":"Irish Rules","2":"CL","3":"2018","4":"30.37500","5":"3.026039","6":"188.6557","7":"24.40578","8":"36.34422","9":"abcdefghi","_rn_":"47"},{"1":"Blight Man. (DK)","2":"SM","3":"2018","4":"31.22500","5":"3.026039","6":"188.6557","7":"25.25578","8":"37.19422","9":"abcdefghij","_rn_":"67"},{"1":"Modified I. R.","2":"CL","3":"2018","4":"31.27500","5":"3.026039","6":"188.6557","7":"25.30578","8":"37.24422","9":"abcdefghij","_rn_":"48"},{"1":"Half Dose","2":"CL","3":"2018","4":"31.27500","5":"3.026039","6":"188.6557","7":"25.30578","8":"37.24422","9":"abcdefghij","_rn_":"46"},{"1":"Blight Man. (DK)","2":"RO","3":"2018","4":"31.35000","5":"3.026039","6":"188.6557","7":"25.38078","8":"37.31922","9":"abcdefghij","_rn_":"55"},{"1":"Modified I. R.","2":"SM","3":"2018","4":"32.10000","5":"3.026039","6":"188.6557","7":"26.13078","8":"38.06922","9":"abcdefghij","_rn_":"72"},{"1":"Modified I. R.","2":"RO","3":"2018","4":"32.47500","5":"3.026039","6":"188.6557","7":"26.50578","8":"38.44422","9":"abcdefghijk","_rn_":"60"},{"1":"Control","2":"CL","3":"2018","4":"32.72500","5":"3.026039","6":"188.6557","7":"26.75578","8":"38.69422","9":"abcdefghijk","_rn_":"44"},{"1":"Full Dose","2":"CL","3":"2018","4":"32.80000","5":"3.026039","6":"188.6557","7":"26.83078","8":"38.76922","9":"abcdefghijk","_rn_":"45"},{"1":"Control","2":"SM","3":"2018","4":"33.52500","5":"3.026039","6":"188.6557","7":"27.55578","8":"39.49422","9":"abcdefghijk","_rn_":"68"},{"1":"Full Dose","2":"RO","3":"2018","4":"33.95000","5":"3.026039","6":"188.6557","7":"27.98078","8":"39.91922","9":"abcdefghijk","_rn_":"57"},{"1":"Irish Rules","2":"KE","3":"2017","4":"36.19001","5":"3.026039","6":"188.6557","7":"30.22079","8":"42.15923","9":"bcdefghijkl","_rn_":"17"},{"1":"Half Dose","2":"SM","3":"2017","4":"39.63268","5":"3.026039","6":"188.6557","7":"33.66345","8":"45.60190","9":"cdefghijklm","_rn_":"34"},{"1":"Modified I. R.","2":"BQ","3":"2017","4":"44.49808","5":"3.026039","6":"188.6557","7":"38.52886","8":"50.46730","9":"defghijklmn","_rn_":"6"},{"1":"Blight Man. (DK)","2":"BQ","3":"2017","4":"45.41953","5":"3.026039","6":"188.6557","7":"39.45031","8":"51.38875","9":"efghijklmn","_rn_":"1"},{"1":"Irish Rules","2":"SM","3":"2017","4":"46.53800","5":"3.026039","6":"188.6557","7":"40.56878","8":"52.50722","9":"ghijklmn","_rn_":"35"},{"1":"Modified I. R.","2":"SM","3":"2017","4":"46.68389","5":"3.026039","6":"188.6557","7":"40.71467","8":"52.65311","9":"fghijklmn","_rn_":"36"},{"1":"Blight Man. (DK)","2":"SM","3":"2017","4":"47.80236","5":"3.026039","6":"188.6557","7":"41.83314","8":"53.77158","9":"hijklmn","_rn_":"31"},{"1":"Full Dose","2":"SM","3":"2017","4":"48.48316","5":"3.026039","6":"188.6557","7":"42.51394","8":"54.45238","9":"ijklmn","_rn_":"33"},{"1":"Control","2":"SM","3":"2017","4":"49.26123","5":"3.026039","6":"188.6557","7":"43.29201","8":"55.23045","9":"jklmn","_rn_":"32"},{"1":"Control","2":"RO","3":"2017","4":"50.23631","5":"3.026039","6":"188.6557","7":"44.26709","8":"56.20553","9":"klmn","_rn_":"20"},{"1":"Half Dose","2":"BQ","3":"2017","4":"50.52808","5":"3.026039","6":"188.6557","7":"44.55886","8":"56.49730","9":"klmn","_rn_":"4"},{"1":"Full Dose","2":"BQ","3":"2017","4":"53.05429","5":"3.026039","6":"188.6557","7":"47.08507","8":"59.02351","9":"lmno","_rn_":"3"},{"1":"Irish Rules","2":"RO","3":"2017","4":"57.29002","5":"3.026039","6":"188.6557","7":"51.32080","8":"63.25924","9":"mnop","_rn_":"23"},{"1":"Control","2":"SE","3":"2017","4":"60.15413","5":"3.026039","6":"188.6557","7":"54.18491","8":"66.12336","9":"nopq","_rn_":"26"},{"1":"Irish Rules","2":"SE","3":"2017","4":"69.00462","5":"3.026039","6":"188.6557","7":"63.03540","8":"74.97384","9":"opqrs","_rn_":"29"},{"1":"Modified I. R.","2":"KE","3":"2017","4":"69.25027","5":"3.026039","6":"188.6557","7":"63.28105","8":"75.21949","9":"opqr","_rn_":"18"},{"1":"Half Dose","2":"SE","3":"2017","4":"70.22035","5":"3.026039","6":"188.6557","7":"64.25113","8":"76.18957","9":"opqrs","_rn_":"28"},{"1":"Blight Man. (DK)","2":"KE","3":"2017","4":"70.22035","5":"3.026039","6":"188.6557","7":"64.25113","8":"76.18957","9":"opqrs","_rn_":"13"},{"1":"Half Dose","2":"RO","3":"2017","4":"71.82511","5":"3.026039","6":"188.6557","7":"65.85589","8":"77.79433","9":"pqrs","_rn_":"22"},{"1":"Full Dose","2":"SE","3":"2017","4":"73.13809","5":"3.026039","6":"188.6557","7":"67.16887","8":"79.10731","9":"pqrs","_rn_":"27"},{"1":"Full Dose","2":"KE","3":"2017","4":"74.11067","5":"3.026039","6":"188.6557","7":"68.14145","8":"80.07989","9":"pqrs","_rn_":"15"},{"1":"Blight Man. (DK)","2":"SE","3":"2017","4":"74.59696","5":"3.026039","6":"188.6557","7":"68.62774","8":"80.56618","9":"pqrs","_rn_":"25"},{"1":"Blight Man. (DK)","2":"RO","3":"2017","4":"75.42366","5":"3.026039","6":"188.6557","7":"69.45444","8":"81.39288","9":"qrs","_rn_":"19"},{"1":"Half Dose","2":"KE","3":"2017","4":"76.54462","5":"3.026039","6":"188.6557","7":"70.57540","8":"82.51385","9":"qrs","_rn_":"16"},{"1":"Modified I. R.","2":"SE","3":"2017","4":"77.02841","5":"3.026039","6":"188.6557","7":"71.05919","8":"82.99764","9":"qrs","_rn_":"30"},{"1":"Full Dose","2":"RO","3":"2017","4":"77.12567","5":"3.026039","6":"188.6557","7":"71.15645","8":"83.09489","9":"qrs","_rn_":"21"},{"1":"Modified I. R.","2":"RO","3":"2017","4":"77.80648","5":"3.026039","6":"188.6557","7":"71.83726","8":"83.77570","9":"qrs","_rn_":"24"},{"1":"Half Dose","2":"CL","3":"2017","4":"81.45366","5":"3.026039","6":"188.6557","7":"75.48444","8":"87.42288","9":"rs","_rn_":"10"},{"1":"Control","2":"CL","3":"2017","4":"81.59955","5":"3.026039","6":"188.6557","7":"75.63032","8":"87.56877","9":"rs","_rn_":"8"},{"1":"Irish Rules","2":"CL","3":"2017","4":"82.32898","5":"3.026039","6":"188.6557","7":"76.35976","8":"88.29820","9":"rs","_rn_":"11"},{"1":"Blight Man. (DK)","2":"CL","3":"2017","4":"84.76043","5":"3.026039","6":"188.6557","7":"78.79121","8":"90.72965","9":"rs","_rn_":"7"},{"1":"Full Dose","2":"CL","3":"2017","4":"85.58713","5":"3.026039","6":"188.6557","7":"79.61791","8":"91.55635","9":"rs","_rn_":"9"},{"1":"Modified I. R.","2":"CL","3":"2017","4":"86.26793","5":"3.026039","6":"188.6557","7":"80.29871","8":"92.23716","9":"s","_rn_":"12"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>drest &lt;- 
+  drest %&gt;% 
+  tbl_df() %&gt;% 
+  unite( &quot;pairs&quot;, variety, treatment, year, year, sep = &quot;:&quot;,remove= FALSE )
+
+drest$pairs &lt;- 
+  factor(drest$pairs, levels = drest$pairs[order(drest$lsmean)])
+
+drest$.group &lt;- trimws(drest$.group)
+
+ggplot(drest, aes(x=pairs, y = lsmean, colour = treatment))+
+  geom_errorbar(aes(ymin=lower.CL, ymax=upper.CL), width=.2)+
+  geom_point(size = .1)+
+  scale_color_brewer(&quot;Programme:&quot;, palette = &quot;Dark2&quot;) +
+  labs(x=&quot; &quot;, y=&quot;CI&quot;)+ coord_flip()+
+  geom_text(
+    aes(label = .group),
+    vjust = -0.5,
+    hjust =  0.3,
+    color = &quot;black&quot;,
+    position = position_dodge(0.9),
+    size = 2
+  ) +
+  theme_bw()+
+  theme(axis.text.y = element_text(size = 8))+
+  ggsave(filename= here::here(&quot;results&quot;, &quot;yield&quot;, &quot;pairwise comparisons.png&quot;), 
+         width = 7, height = 11.5, dpi = 420)</code></pre>
+<p><img src="yield_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>d2016$year &lt;-  &quot;2016&quot;
+d1 &lt;- 
+  dplyr::bind_rows(d2016, drest)
+
+
+d1 &lt;- 
+  d1 %&gt;% 
+  mutate(variety = factor(variety, levels =c(&quot;KE&quot;,&quot;BQ&quot;, &quot;RO&quot;, &quot;SE&quot;, &quot;CL&quot;,&quot;SM&quot;)))  %&gt;% 
+  mutate(year = factor(year, levels =c(&quot;2016&quot;,&quot;2017&quot;, &quot;2018&quot;, &quot;2019&quot;))) %&gt;% 
+  mutate(treatment = factor(treatment, levels = c(&quot;Control&quot;, &quot;Full Dose&quot;,&quot;Half Dose&quot;,&quot;Irish Rules&quot;,&quot;Blight Man. (DK)&quot; ,&quot;Modified I. R.&quot;)))</code></pre>
+<pre class="r"><code>#Set the position dodge
+dodging &lt;-  .8
+
+ p_fin &lt;- 
+  d1 %&gt;%
+  #Add vertical  lines for clarity
+  mutate(
+    line_positions = as.numeric(factor(variety, levels = unique(variety))),
+    line_positions = line_positions + .5,
+    line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
+    line_positions = ifelse(year == 2016 &amp;
+                              variety == &quot;CL&quot;, 5.5, line_positions),
+    line_positions = ifelse(year == 2016 &amp;
+                              variety == &quot;SE&quot;, 3.5, line_positions)
+  ) %&gt;%
+  ggplot(data = ., aes(x = variety, y = lsmean)) +
+  geom_errorbar(
+    aes(
+      ymin = lower.CL,
+      ymax = upper.CL,
+      group = treatment,
+      color = treatment
+    ),
+    position = position_dodge(width = dodging),
+    width = .2
+  ) +
+  geom_point(
+    aes(y = lsmean, group = treatment, color = treatment),
+    size = 1,
+    shape = 2,
+    position = position_dodge(width = dodging)
+  ) +
+  facet_wrap(~ year, nrow = 1) +
+  # geom_point(
+  #   data = subset(audpc_data),
+  #   aes(y = rAUDPC_adj, color = treatment, group = treatment),
+  #   size = .2,
+  #   alpha = .5,
+  #   position = position_dodge(width = dodging)
+  # ) +
+  scale_fill_brewer(&quot;Programme:&quot;, palette = &quot;Dark2&quot;) +
+  theme_article() +
+  theme(legend.position = &quot;top&quot;) +
+  geom_vline(aes(xintercept = line_positions),
+             size  = .1,
+             alpha = .3) +
+  labs(colour = &quot;Programme:&quot;,
+       x = &quot;Variety&quot;,
+       y = &quot;Yield (t per ha)&quot;) 
+p_fin</code></pre>
+<p><img src="yield_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>ggsave(
+  p_fin,
+  filename = here::here(&quot;results&quot;, &quot;yield&quot;, &quot;Effects final.png&quot;),
+  width = 7,
+  height = 3.7,
+  dpi = 820
+)
+rm(p_fin)</code></pre>
+<pre class="r"><code>session_info()</code></pre>
+<pre><code>## - Session info ----------------------------------------------------------
+##  setting  value                       
+##  version  R version 3.6.1 (2019-07-05)
+##  os       Windows 10 x64              
+##  system   x86_64, mingw32             
+##  ui       RTerm                       
+##  language (EN)                        
+##  collate  English_United States.1252  
+##  ctype    English_United States.1252  
+##  tz       Europe/London               
+##  date     2019-10-20                  
+## 
+## - Packages --------------------------------------------------------------
+##  ! package      * version    date       lib
+##    abind          1.4-5      2016-07-21 [1]
+##    assertthat     0.2.1      2019-03-21 [1]
+##    backports      1.1.4      2019-04-10 [1]
+##    bayestestR     0.2.2      2019-06-20 [1]
+##    boot           1.3-22     2019-04-02 [1]
+##    broom          0.5.2      2019-04-07 [1]
+##    callr          3.2.0      2019-03-15 [1]
+##    car            3.0-3      2019-05-27 [1]
+##    carData      * 3.0-2      2018-09-30 [1]
+##    cellranger     1.1.0      2016-07-27 [1]
+##    cli            1.1.0      2019-03-19 [1]
+##    coda           0.19-2     2018-10-08 [1]
+##    codetools      0.2-16     2018-12-24 [1]
+##    colorspace     1.4-1      2019-03-18 [1]
+##    crayon         1.3.4      2017-09-16 [1]
+##    curl           3.3        2019-01-10 [1]
+##    data.table     1.12.2     2019-04-07 [1]
+##    DBI            1.0.0      2018-05-02 [1]
+##    desc           1.2.0      2018-05-01 [1]
+##    devtools     * 2.0.2      2019-04-08 [1]
+##    digest         0.6.19     2019-05-20 [1]
+##    dplyr        * 0.8.1      2019-05-14 [1]
+##    effects      * 4.1-1      2019-05-28 [1]
+##    egg          * 0.4.2      2018-11-03 [1]
+##    emmeans      * 1.3.5      2019-06-10 [1]
+##    estimability   1.3        2018-02-11 [1]
+##    evaluate       0.14       2019-05-28 [1]
+##    extrafont      0.17       2014-12-08 [1]
+##    extrafontdb    1.0        2012-06-11 [1]
+##    forcats      * 0.4.0      2019-02-17 [1]
+##    foreign        0.8-71     2018-07-20 [1]
+##    fs             1.3.1      2019-05-06 [1]
+##    gdtools        0.1.9      2019-06-18 [1]
+##    generics       0.0.2      2018-11-29 [1]
+##    ggeffects      0.10.0     2019-05-13 [1]
+##    ggplot2      * 3.2.0      2019-06-16 [1]
+##    ggpubr       * 0.2        2018-11-15 [1]
+##    glmmTMB        0.2.3      2019-09-13 [1]
+##    glue           1.3.1      2019-03-12 [1]
+##    gridExtra    * 2.3        2017-09-09 [1]
+##    gtable         0.3.0      2019-03-25 [1]
+##    haven          2.1.0      2019-02-19 [1]
+##    here           0.1        2017-05-28 [1]
+##    hms            0.4.2      2018-03-10 [1]
+##    hnp            1.2-6      2018-05-21 [1]
+##    hrbrthemes   * 0.6.0      2019-01-21 [1]
+##    htmltools      0.3.6      2017-04-28 [1]
+##    httr           1.4.0      2018-12-11 [1]
+##    insight        0.3.0      2019-05-11 [1]
+##    jsonlite       1.6        2018-12-07 [1]
+##    knitr          1.23       2019-05-18 [1]
+##    labeling       0.3        2014-08-23 [1]
+##    lattice        0.20-38    2018-11-04 [1]
+##    lazyeval       0.2.2      2019-03-15 [1]
+##    lme4         * 1.1-21     2019-03-05 [1]
+##    lmerTest     * 3.1-0      2019-02-11 [1]
+##    lsmeans      * 2.30-0     2018-11-02 [1]
+##    lubridate      1.7.4      2018-04-11 [1]
+##    magrittr     * 1.5        2014-11-22 [1]
+##    MASS         * 7.3-51.4   2019-03-31 [1]
+##    Matrix       * 1.2-17     2019-03-22 [1]
+##    memoise        1.1.0      2017-04-21 [1]
+##    minqa          1.2.4      2014-10-09 [1]
+##    mitools        2.4        2019-04-26 [1]
+##    mnormt         1.5-5      2016-10-15 [1]
+##    modelr         0.1.4      2019-02-18 [1]
+##    multcomp     * 1.4-10     2019-03-05 [1]
+##    multcompView * 0.1-7      2015-07-31 [1]
+##    munsell        0.5.0      2018-06-12 [1]
+##    mvtnorm      * 1.0-11     2019-06-19 [1]
+##    nlme           3.1-140    2019-05-12 [1]
+##    nloptr         1.2.1      2018-10-03 [1]
+##    nnet           7.3-12     2016-02-02 [1]
+##    numDeriv       2016.8-1.1 2019-06-06 [1]
+##    openxlsx       4.1.0.1    2019-05-28 [1]
+##    pbkrtest       0.4-7      2017-03-15 [1]
+##    performance    0.2.0      2019-06-04 [1]
+##    pillar         1.4.1      2019-05-28 [1]
+##    pkgbuild       1.0.3      2019-03-20 [1]
+##    pkgconfig      2.0.2      2018-08-16 [1]
+##    pkgload        1.0.2      2018-10-29 [1]
+##    plyr           1.8.4      2016-06-08 [1]
+##    prettyunits    1.0.2      2015-07-13 [1]
+##    processx       3.3.1      2019-05-08 [1]
+##    ps             1.3.0      2018-12-21 [1]
+##    psych          1.8.12     2019-01-12 [1]
+##    purrr        * 0.3.2      2019-03-15 [1]
+##    R6             2.4.0      2019-02-14 [1]
+##    RColorBrewer   1.1-2      2014-12-07 [1]
+##    Rcpp           1.0.2      2019-07-25 [1]
+##    readr        * 1.3.1      2018-12-21 [1]
+##    readxl         1.3.1      2019-03-13 [1]
+##    remotes        2.0.4      2019-04-10 [1]
+##    reshape2       1.4.3      2017-12-11 [1]
+##    rio            0.5.16     2018-11-26 [1]
+##    rlang          0.4.0      2019-06-25 [1]
+##    rmarkdown      1.13       2019-05-22 [1]
+##    rprojroot      1.3-2      2018-01-03 [1]
+##    rstudioapi     0.10       2019-03-19 [1]
+##    Rttf2pt1       1.3.7      2018-06-29 [1]
+##    rvest          0.3.4      2019-05-15 [1]
+##    sandwich       2.5-1      2019-04-06 [1]
+##    scales         1.0.0      2018-08-09 [1]
+##    sessioninfo    1.1.1      2018-11-05 [1]
+##    sjlabelled     1.1.0      2019-06-06 [1]
+##    sjmisc         2.8.1      2019-06-17 [1]
+##    sjPlot       * 2.6.3      2019-04-27 [1]
+##    sjstats        0.17.5     2019-06-04 [1]
+##    stringi        1.4.3      2019-03-12 [1]
+##    stringr      * 1.4.0      2019-02-10 [1]
+##    survey         3.36       2019-04-27 [1]
+##    survival     * 2.44-1.1   2019-04-01 [1]
+##    testthat       2.1.1      2019-04-23 [1]
+##    TH.data      * 1.0-10     2019-01-21 [1]
+##    tibble       * 2.1.3      2019-06-06 [1]
+##    tidyr        * 0.8.3      2019-03-01 [1]
+##    tidyselect     0.2.5      2018-10-11 [1]
+##    tidyverse    * 1.2.1      2017-11-14 [1]
+##  D TMB            1.7.15     2018-11-09 [1]
+##    usethis      * 1.5.0      2019-04-07 [1]
+##    withr          2.1.2      2018-03-15 [1]
+##    xfun           0.7        2019-05-14 [1]
+##    xml2           1.2.0      2018-01-24 [1]
+##    xtable         1.8-4      2019-04-21 [1]
+##    yaml           2.2.0      2018-07-25 [1]
+##    zip            2.0.2      2019-05-13 [1]
+##    zoo            1.8-6      2019-05-28 [1]
+##  source                          
+##  CRAN (R 3.5.0)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.0)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.2)                  
+##  Github (glmmTMB/glmmTMB@f84f3e9)
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.6.1)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.0)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.0)                  
+##  CRAN (R 3.6.1)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.5.2)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.5.3)                  
+##  CRAN (R 3.5.1)                  
+##  CRAN (R 3.6.0)                  
+##  CRAN (R 3.6.0)                  
+## 
+## [1] C:/Users/mlade/Documents/R/library
+## [2] C:/Program Files/R/R-3.6.1/library
+## 
+##  D -- DLL MD5 mismatch, broken installation.</code></pre>
 </div>
 
 
