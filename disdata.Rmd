@@ -417,7 +417,7 @@ plot(e,multiline=TRUE,confint=TRUE,ci.style="bars"
   
 ```{r comparisons_2016, out.width='100%', out.height= 3}
 posthoc<- 
-  emmeans:: lsmeans(fit_2016_a, pairwise~treatment + variety, adjust="tukey",  type = "response")
+  emmeans:: lsmeans(fit_2016_a, pairwise~treatment * variety, adjust="tukey",  type = "response")
 
 d2016 <- 
     cld(posthoc[[1]], 

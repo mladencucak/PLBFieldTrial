@@ -96,7 +96,8 @@ tableHTML::tableHTML(
 
 ```
   
-
+![Table1](`r here::here("results", "treat", "Programme theme.png")`)
+![Table2]("results/treat/Programme theme.png")
 
 ```{r fig1}
 

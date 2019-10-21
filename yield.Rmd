@@ -265,7 +265,7 @@ d1 <-
 
 
 
-```{r}
+```{r final_plot, out.width='100%'}
 #Set the position dodge
 dodging <-  .8
 
