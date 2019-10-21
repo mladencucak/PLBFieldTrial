@@ -99,10 +99,9 @@ tableHTML::tableHTML(.,
 
 rm(years, s_tab)
 ```
-![Table of samples](`r here::here("results", "gen", "Summary of isolates.png")`)
 
 
-```{r plot_all, out.width='100%'}
+```{r plot_all,out.width='100%'}
 
 
 # plot successful fin
@@ -239,12 +238,87 @@ ggpubr::ggarrange(plotlist = plot_list,
                   # labels = c("r","rr"),
                    ncol = 5)+
   ggsave(filename= here::here("results", "gen", "freq", "G and v sampling vertical.png"),
-         width = 9.8, height =7, dpi = 600)
+         width = 9.8, height =7, dpi = 620)
 
 ```
 
 
-```{r}
+```{r freq_charts, fig.show="hold", fig.width='50%'}
+
+GenPalette <- c ("#ffff33", "#3399ff","#ff33cc")
+
+gen_prop <- 
+samples %>%
+  mutate(Genotype = ifelse(Genotype == "8A1-1", "8A1", Genotype)) %>%
+  mutate(Genotype = factor(Genotype, levels = c( "8A1","13A2","6A1" ))) %>% 
+  count(Genotype, variety) %>%
+  rename(counts = n) %>%
+  mutate(prop = prop.table(counts))
+
+labels <- 
+samples %>%
+  mutate(Genotype = ifelse(Genotype == "8A1-1", "8A1", Genotype)) %>%
+  count( variety) %>%
+  rename(counts = n) %>%
+  mutate(prop = prop.table(counts)) %>% 
+  dplyr::select(counts) %>% 
+  sapply( .,  function(x) paste0("n=", x )) %>% 
+  as.vector()
+
+  
+ggplot(gen_prop, aes(variety, prop, fill = Genotype)) +
+  geom_bar(stat = "identity",
+           width = 0.6,
+           position = position_fill(reverse = TRUE),
+           color = "black",
+           size = .1) +
+  ylab("Frequency") +
+  xlab("Variety")  +
+  annotate(
+    geom = "text",
+    label = labels,
+    x = unique(gen_prop$variety),
+    y = -0.02
+  )+ 
+  scale_fill_manual(values=GenPalette)+
+  theme_bw()
+
+gen_prop_trt <-
+  samples %>%
+  mutate(Genotype = ifelse(Genotype == "8A1-1", "8A1", Genotype)) %>%
+  mutate(Genotype = factor(Genotype, levels = c( "8A1","13A2","6A1" ))) %>% 
+  count(Genotype, treatment) %>%
+  rename(counts = n) %>%
+  mutate(prop = prop.table(counts))
+
+labels <-
+  samples %>%
+  mutate(Genotype = ifelse(Genotype == "8A1-1", "8A1", Genotype)) %>%
+  count(treatment) %>%
+  rename(counts = n) %>%
+  mutate(prop = prop.table(counts)) %>%
+  dplyr::select(counts) %>%
+  sapply(.,  function(x)
+    paste0("n=", x)) %>%
+  as.vector()
+
+
+ggplot(gen_prop_trt, aes(treatment, prop, fill = Genotype)) +
+  geom_bar(stat = "identity",
+           width = 0.6,
+           position = position_fill(reverse = TRUE),
+           color = "black",
+           size = .1) +
+  ylab("Propoerion") +
+  xlab("Treatment")  +
+  annotate(
+    geom = "text",
+    label = labels,
+    x = unique(gen_prop_trt$treatment),
+    y = -0.02
+  ) +
+  scale_fill_manual(values=GenPalette)+
+  theme_bw()
 
 ```
 
