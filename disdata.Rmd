@@ -492,10 +492,8 @@ d1 %>%
     line_positions = as.numeric(factor(variety, levels = unique(variety))),
     line_positions = line_positions + .5,
     line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
-    line_positions = ifelse(year == 2016 &
-                              variety == "CL", 5.5, line_positions),
-    line_positions = ifelse(year == 2016 &
-                              variety == "SE", 3.5, line_positions)
+    line_positions = ifelse(year == 2016 & variety == "CL", 5.5, line_positions),
+    line_positions = ifelse(year == 2016 &  variety == "SE", 3.5, line_positions)
   ) %>%
   ggplot(data = ., aes(x = variety, y = prop)) +
   geom_errorbar(
