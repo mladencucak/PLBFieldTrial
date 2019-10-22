@@ -292,11 +292,7 @@ dis_obs %>%
 
 ## Model fitting procedure
 
-  See the distribution of the data. 
-```{r hist}
-hist(audpc_data$rAUDPC)
-```
-  
+
   The response (rAUDPC) is a proportion and we have a random component so we will analyse this data with beta general mixed effects models (GLMM). Adding small numeric constant to the 0 values. Anova tables are calculated using Wald chi-square statistics for comparisons. 
   
 ```{r}
@@ -307,89 +303,54 @@ audpc_data$rAUDPC_adj <- audpc_data$rAUDPC
 audpc_data$rAUDPC_adj[audpc_data$rAUDPC == 0] <- 1e-10
 ```
   
-  Since two levels are missing in the year 2016 it is analysed separately.    
+Since two levels are missing in the year 2016 it is analysed separately.    
   
 ```{r}
-fit_2016 <- glmmTMB(rAUDPC_adj ~ block + treatment * variety + (1 | block:treatment),
+fit_2016 <- glmmTMB(rAUDPC_adj ~ block + variety * treatment + (1 | block:treatment),
                     family = beta_family,
                     data = subset(audpc_data, year == "2016"))
 
 car::Anova(fit_2016)
 ```
-  The treatment variety interaction is significant. 
-  Check the levels of treatment:  
-```{r}
-fit_2016_a <- glmmTMB(rAUDPC_adj ~   variety *treatment + (1 | block:treatment),
-                      family = beta_family,
-                      data = subset(audpc_data, year == "2016"))
-car::Anova(fit_2016_a)
 
-```
- 
-  The `anova()` function is used to compare two regression models to test whether the more complex model is significantly better at capturing the data than the simpler model. 
-```{r}
-anova(fit_2016,  #complex
-      fit_2016_a #simpler model
-      )
-```
-  The more complex model requires 3 additional degerees of freedom and the non significant result (*p* = `r round( anova(fit_2016,  fit_2016_a)[[8]][2],2)`).  
 Goodness of fit tests. 
 ```{r}
-aov_residuals<-residuals(object = fit_2016_a)
-shapiro.test(aov_residuals)
-plot(fitted(fit_2016_a), residuals(fit_2016_a), xlab = "Fitted Values", ylab = "Residuals")
+plot(fitted(fit_2016), residuals(fit_2016), xlab = "Fitted Values", ylab = "Residuals")
 abline(h = 0, lty = 2)
-
 ```
 
   
 ```{r}
-t <- broom.mixed::tidy(fit_2016_a, conf.int = TRUE)
+t <- broom.mixed::tidy(fit_2016, conf.int = TRUE)
 t <-  
   filter(t, effect != "ran_pars") %>% 
   dplyr::select(-c(component, group))
 write_csv(t, path = here::here("results", "dis", "2016fit.csv"))
-
+rm(t)
 ```
 
 Second model is fitted to the rest of the data. 
 ```{r}
-
-fit_rest <- glmmTMB(rAUDPC_adj ~  block + year * treatment * variety + (1 | block:treatment:year),
+fit_rest <- glmmTMB(rAUDPC_adj ~ block:year + year * variety * treatment + (1 | block:treatment:year),
                     family = beta_family,
                     data = subset(audpc_data, year != "2016"))
 car::Anova(fit_rest)
 ```
 
-
-```{r}
-fit_rest_2<- glmmTMB(rAUDPC_adj ~   year * treatment * variety + (1 | block:treatment:year),
-                     family = beta_family, 
-                     data = subset(audpc_data, year != "2016"))
-car::Anova(fit_rest_2)
-```
-  
-  
-  
-```{r}
-anova( fit_rest, fit_rest_2)
-```
-  
 Goodness of fit tests. 
 ```{r}
-aov_residuals<-residuals(object = fit_rest_2)
-shapiro.test(aov_residuals)
-plot(fitted(fit_rest_2), residuals(fit_rest_2), xlab = "Fitted Values", ylab = "Residuals")
+plot(fitted(fit_rest), residuals(fit_rest), xlab = "Fitted Values", ylab = "Residuals")
 abline(h = 0, lty = 2)
 
 ```
 
 ```{r}
-t1 <- broom.mixed::tidy(fit_rest_2, conf.int = TRUE)
+t1 <- broom.mixed::tidy(fit_rest, conf.int = TRUE)
 t1 <-  
   filter(t1, effect != "ran_pars") %>% 
   dplyr::select(-c(component, group))
 write_csv(t1, path = here::here("results", "dis", "fit_rest.csv"))
+rm(t1)
 ```
   
 
@@ -397,27 +358,29 @@ write_csv(t1, path = here::here("results", "dis", "fit_rest.csv"))
 
   
 ```{r effects, fig.show= 'hold' }
-ae <- allEffects(fit_2016_a)
+ae <- allEffects(fit_2016)
 
-plot(ae,multiline=TRUE,confint=TRUE,ci.style="bars"
+plot(ae[[2]],multiline=TRUE,confint=TRUE,ci.style="bars"
      ,main="Effect of treatment and variety in 2016"
-     ,xlab="Treatment"
-     ,ylab="Variety"); rm(ae)
+     ,xlab="Variety"
+     ,ylab="Treatment")
 
-e <- allEffects(fit_rest_2)
+e <- allEffects(fit_rest)
 
-plot(e,multiline=TRUE,confint=TRUE,ci.style="bars"
+plot(e[[2]],multiline=TRUE,confint=TRUE,ci.style="bars"
      ,main="Effect of treatment and variety 2017-2019"
-     ,xlab="Treatment"
-     ,ylab="Variety"); rm(e)
+     ,xlab="Variety"
+     ,ylab="Treatment")
+rm(ae,e)
 ```
   
   
-
+For multiple comparisons and post hoc tests, the estimated marginal means, standard errors and confidence intervals were calculated fo both model fits and presented in a single figure (see the last figure in the document).  
+For 2016: 
   
 ```{r comparisons_2016, out.width='100%', out.height= 3}
 posthoc<- 
-  emmeans:: lsmeans(fit_2016_a, pairwise~treatment * variety, adjust="tukey",  type = "response")
+  emmeans:: lsmeans(fit_2016, pairwise~treatment * variety, adjust="tukey",  type = "response")
 
 d2016 <- 
     cld(posthoc[[1]], 
@@ -451,13 +414,13 @@ ggplot(d2016, aes(x=pairs, y = prop, colour = treatment))+
   ggsave(filename= here::here("results", "dis", "pairwise comparisons 2016.png"), 
          width = 7, height = 2.5, dpi = 620)
 ```
-
-
+  
+For the remaining years. 
 
   
 ```{r comparisions_rest, out.width='100%', out.height= 15}
 
-posthoc<- emmeans:: lsmeans(fit_rest_2, ~treatment * variety *year, adjust="tukey", type = "response")
+posthoc<- emmeans:: lsmeans(fit_rest, ~treatment * variety *year, adjust="tukey", type = "response")
 
 drest <-  posthoc
 (drest <- 
@@ -496,10 +459,12 @@ ggplot(drest, aes(x=pairs, y = prop, colour = treatment))+
 ```
 
 
- The model fits are combined in a single data set and presented in a single Figure. 
+Combining the estimates from both models in a single data set. 
 
 
 ```{r}
+d2016$year <-  "2016"
+
 d1 <- 
   dplyr::bind_rows(d2016, drest)
 
@@ -512,6 +477,7 @@ d1 <-
 
 ```
   
+  The final plot. 
  
 ```{r final_plot, out.width='100%', fig.height= 3.7}
 
