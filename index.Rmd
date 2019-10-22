@@ -1,39 +1,52 @@
 % About
 
-The goal of this research is to examine 
+This repository is part of results of my PhD project.  
+Here I present the results of the field trial, set up to evaluate the opportunities for the IPM of potato late blight under Irish conditions.  
+Here we looked into potential for using the environmental disease risk prediction, varietal resistance and monitoring the pathogen population for the reduction of the pesticide usage.
 
+ 
+**The open-access publication of the manuscript the preciding work on the evaluation of the IR, potato late blight risk model used in Ireland, can be found** [here](https://www.mdpi.com/2073-4395/9/9/515).
+The accompanying compeduim with open access to the code is [here.](https://mladencucak.github.io/AnalysisPLBIreland/)
+
+  
+  The repository is built on the example research compendium provided by Emerson Del Ponte [here](https://github.com/emdelponte/research-compendium-website).
+
+The funding for this project comes from [DAFM (Department of Agriculture, Food and Marine)](https://www.agriculture.gov.ie). 
+
+## Notes 
+
+Some code chunks are folded and they can be accessed by clicking on the arrow (The code).  
+Try not to have other R sessions running because it could produce problems installing libraries.  
+If there are any problems reproducing the analysis, please raise an issue on GitHub.  
 
 ## Project team
 
-Project PI:
+Maynooth University:
+- [Rowan Fealy](https://www.maynoothuniversity.ie/people/rowan-fealy)
 
-- Adam Sparks
-- University of Southern Queensland
+Teagasc:
+- [Stephen Kildea](https://www.teagasc.ie/contact/staff-directory/k/steven-kildea/)
 
-Members:
+Met Eirean:
+- [Keith Lambkin](https://www.researchgate.net/profile/Keith_Lambkin)
 
-- Member 1
-- Member 2
-- Member 3
-
-## Methodology
-
-Considerations about sampling, study design, randomization, factors, response variables, etc.
+University of Southern Queensland:
+- [Adam Sparks](https://adamhsparks.netlify.com/)
 
 
-## Citation
+<!-- ## Citation -->
 
-Please cite this research compendium as:  
+<!-- Please cite this research compendium as: -->
 
-> Authors, . Title of compendium. Online at https://doi.org/xxx/xxx
+
+<!-- > Cucak, M., Sparks, A., Fealy, R., Lambkin, K., and Kildea, S. 2019. Evaluation of the Irish Rules, a potato late blight forecasting used in Ireland.  -->
 
 ## Licences
 
 Data: [CC-0](https://creativecommons.org/publicdomain/zero/1.0/) attribution requested in reuse
 Manuscript: [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/)  
-Code: [MIT](https://opensource.org/licenses/MIT) year: 2017, copyright holder: Emerson Del Ponte
+Code: [MIT](https://opensource.org/licenses/MIT) year: 2019, copyright holder: Mladen Cucak
 
 ## Contributions
 
 We welcome contributions from everyone. Before you get started, please see our [contributor guidelines](CONTRIBUTING.html). Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.html). By participating in this project you agree to abide by its terms.
-
