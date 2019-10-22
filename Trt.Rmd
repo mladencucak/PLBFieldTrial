@@ -49,55 +49,48 @@ rm(list.of.packages, new.packages, packages_load)
 ## Data import
 
 
-```{r import_data}
-dosedf  <- readRDS(file = here::here("data", "treat", "full_trt.rds") )
-
-```
-  
-
-
-```{r html_tab}
+```{r html_tab, eval=FALSE }
 
 tab <- 
   read_csv(here::here("data", "treat", "Treatments.csv")) 
 
-# library(tableHTML)
-# mycss <- make_css(list('table', c('text-align', 'font-size'), c('center', '20px')),
-#                   list('th', c('background-color', 'height'), c('lightgreen', '30px')))
-# print(mycss)
-
- # colnames(tab)[8] <- "Blight\nManagement"
-
 years <- 
 tab %>% 
 group_by(Year) %>% 
-  summarise(counts =n()) %>% 
-  unlist() 
+  summarise(counts =n())
 year_names <-  unique(tab$Year)
 
 tab[, "Year"] <-  NULL
 
- 
+html_tab <- 
 tableHTML::tableHTML(
   tab,
   rownames = FALSE,
-  row_groups = list(c(years), c(year_names)),
+  row_groups = list(c(years$counts), c(year_names)),
   widths = c(50, 60, 70, rep(40, 6))
 ) %>%
   # add_css_header(css = list('background-color', 'lightgray'), headers = c(1:ncol(tab)+1)) %>%
   add_css_row(css = list('background-color', 'lightgray'),
               rows = c(2:9, 22:29)) %>%
-  add_theme('scientific') %>%
-  tableHTML_to_image(
-    .,
+  add_theme('scientific') 
+
+tableHTML_to_image(
+    html_tab,
     file = here::here("results", "treat", "Programme theme.png"),
     type = "png"
   )
 
+
 ```
   
+
+
 ![Table1](`r here::here("results", "treat", "Programme theme.png")`)
-![Table2]("results/treat/Programme theme.png")
+<!-- ![Table2]("results/treat/Programme theme.png") -->
+```{r import_data}
+dosedf  <- readRDS(file = here::here("data", "treat", "full_trt.rds") )
+dosedf <- rename(dosedf, dose = Dose)
+```
 
 ```{r fig1}
 
@@ -149,7 +142,7 @@ group_by(year, treatment) %>%
   theme_article() +
   facet_grid(~ year, scales = "free") +
   labs(x = "Year",
-       y = "Dose Reduction") +
+       y = "Proportion of the total dose\n") +
   theme(
     axis.title = element_text(size = 11),
     panel.grid.major = element_blank(),
@@ -204,8 +197,6 @@ dosedf %>%
   scale_fill_brewer("Programme:", palette = "Dark2") +
   theme_article() +
   scale_y_continuous(limits = c(0, 110), breaks = seq(0, 100, 20)) +
-  labs(x = "Programme",
-       y = "Dose Reduction\n") +
   theme(
     axis.title = element_text(size = 11),
     panel.grid.major = element_blank(),
@@ -247,10 +238,8 @@ theme(text = element_text(size=14))
 
 
  
-  p <- 
-ggarrange(p1, p2, ncol = 2, widths = c(4,1))
+p <- egg::ggarrange(p1, p2, ncol = 2, widths = c(4,1))
 
- p
 ggsave( here::here("results", "treat", "Treatments.png"),
         plot = p,
         width = 7.5,
