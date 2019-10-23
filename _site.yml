@@ -17,7 +17,7 @@ output:
 bibliography: crossref.bib
 csl: chicago-author-date.csl
 navbar:
-  title: PLBFieldTrial
+  title: PLBipmIE
   left:
   - text: About
     icon: fa fa-home
