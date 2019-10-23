@@ -74,7 +74,9 @@ write_csv(s_tab, here::here("results", "gen", "Summary of isolates.csv"))
 # kable(format = "html") %>% 
 #   kableExtra::kable_styling(latex_options = "striped") 
 
+```
 
+```{r html_tab, eval=FALSE }
 years <- 
 s_tab %>% 
 group_by(Year) %>% 
@@ -100,8 +102,9 @@ tableHTML::tableHTML(.,
 rm(years, s_tab)
 ```
 
+![Table1](`r here::here("results", "gen", "Summary of isolates.png")`)
 
-```{r plot_all,out.width='100%'}
+```{r plot_all, out.width='100%'}
 
 
 # plot successful fin
@@ -243,7 +246,7 @@ ggpubr::ggarrange(plotlist = plot_list,
 ```
 
 
-```{r freq_charts, fig.show="hold", fig.width='50%'}
+```{r freq_charts, fig.show="hold", out.width='50%'}
 
 GenPalette <- c ("#ffff33", "#3399ff","#ff33cc")
 

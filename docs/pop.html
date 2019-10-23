@@ -429,7 +429,7 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/emdelponte/research-compendium-website">
+  <a href="https://github.com/mladencucak/PLBFieldTrial">
     <span class="fa fa-github-square"></span>
      
     source
@@ -517,10 +517,8 @@ s_tab &lt;-
 write_csv(s_tab, here::here(&quot;results&quot;, &quot;gen&quot;, &quot;Summary of isolates.csv&quot;))
 # s_tab %&gt;% 
 # kable(format = &quot;html&quot;) %&gt;% 
-#   kableExtra::kable_styling(latex_options = &quot;striped&quot;) 
-
-
-years &lt;- 
+#   kableExtra::kable_styling(latex_options = &quot;striped&quot;) </code></pre>
+<pre class="r"><code>years &lt;- 
 s_tab %&gt;% 
 group_by(Year) %&gt;% 
   summarise(counts =n()) %&gt;% 
@@ -540,12 +538,12 @@ tableHTML::tableHTML(.,
               rows = c(which(s_tab$Year %in% c(2017, 2019))+1)) %&gt;% 
   add_theme(&#39;scientific&#39;)%&gt;% 
   tableHTML_to_image(.,file =here::here(&quot;results&quot;, &quot;gen&quot;, &quot;Summary of isolates.png&quot;),
-                     type = &quot;png&quot;)</code></pre>
-<p><img src="pop_files/figure-html/summary_table-1.png" width="672" /></p>
-<pre class="r"><code>rm(years, s_tab)</code></pre>
+                     type = &quot;png&quot;)
+
+rm(years, s_tab)</code></pre>
 <div class="figure">
-<img src="results/gen/Summary%20of%20isolates.png" alt="Table of samples" />
-<p class="caption">Table of samples</p>
+<img src="results/gen/Summary%20of%20isolates.png" alt="Table1" />
+<p class="caption">Table1</p>
 </div>
 <pre class="r"><code># plot successful fin
 samples$plotID &lt;- 1
@@ -681,8 +679,83 @@ ggpubr::ggarrange(plotlist = plot_list,
                   # labels = c(&quot;r&quot;,&quot;rr&quot;),
                    ncol = 5)+
   ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;G and v sampling vertical.png&quot;),
-         width = 9.8, height =7, dpi = 600)</code></pre>
+         width = 9.8, height =7, dpi = 620)</code></pre>
 <p><img src="pop_files/figure-html/plot_all-1.png" width="100%" /></p>
+<pre class="r"><code>GenPalette &lt;- c (&quot;#ffff33&quot;, &quot;#3399ff&quot;,&quot;#ff33cc&quot;)
+
+gen_prop &lt;- 
+samples %&gt;%
+  mutate(Genotype = ifelse(Genotype == &quot;8A1-1&quot;, &quot;8A1&quot;, Genotype)) %&gt;%
+  mutate(Genotype = factor(Genotype, levels = c( &quot;8A1&quot;,&quot;13A2&quot;,&quot;6A1&quot; ))) %&gt;% 
+  count(Genotype, variety) %&gt;%
+  rename(counts = n) %&gt;%
+  mutate(prop = prop.table(counts))
+
+labels &lt;- 
+samples %&gt;%
+  mutate(Genotype = ifelse(Genotype == &quot;8A1-1&quot;, &quot;8A1&quot;, Genotype)) %&gt;%
+  count( variety) %&gt;%
+  rename(counts = n) %&gt;%
+  mutate(prop = prop.table(counts)) %&gt;% 
+  dplyr::select(counts) %&gt;% 
+  sapply( .,  function(x) paste0(&quot;n=&quot;, x )) %&gt;% 
+  as.vector()
+
+  
+ggplot(gen_prop, aes(variety, prop, fill = Genotype)) +
+  geom_bar(stat = &quot;identity&quot;,
+           width = 0.6,
+           position = position_fill(reverse = TRUE),
+           color = &quot;black&quot;,
+           size = .1) +
+  ylab(&quot;Frequency&quot;) +
+  xlab(&quot;Variety&quot;)  +
+  annotate(
+    geom = &quot;text&quot;,
+    label = labels,
+    x = unique(gen_prop$variety),
+    y = -0.02
+  )+ 
+  scale_fill_manual(values=GenPalette)+
+  theme_bw()
+
+gen_prop_trt &lt;-
+  samples %&gt;%
+  mutate(Genotype = ifelse(Genotype == &quot;8A1-1&quot;, &quot;8A1&quot;, Genotype)) %&gt;%
+  mutate(Genotype = factor(Genotype, levels = c( &quot;8A1&quot;,&quot;13A2&quot;,&quot;6A1&quot; ))) %&gt;% 
+  count(Genotype, treatment) %&gt;%
+  rename(counts = n) %&gt;%
+  mutate(prop = prop.table(counts))
+
+labels &lt;-
+  samples %&gt;%
+  mutate(Genotype = ifelse(Genotype == &quot;8A1-1&quot;, &quot;8A1&quot;, Genotype)) %&gt;%
+  count(treatment) %&gt;%
+  rename(counts = n) %&gt;%
+  mutate(prop = prop.table(counts)) %&gt;%
+  dplyr::select(counts) %&gt;%
+  sapply(.,  function(x)
+    paste0(&quot;n=&quot;, x)) %&gt;%
+  as.vector()
+
+
+ggplot(gen_prop_trt, aes(treatment, prop, fill = Genotype)) +
+  geom_bar(stat = &quot;identity&quot;,
+           width = 0.6,
+           position = position_fill(reverse = TRUE),
+           color = &quot;black&quot;,
+           size = .1) +
+  ylab(&quot;Propoerion&quot;) +
+  xlab(&quot;Treatment&quot;)  +
+  annotate(
+    geom = &quot;text&quot;,
+    label = labels,
+    x = unique(gen_prop_trt$treatment),
+    y = -0.02
+  ) +
+  scale_fill_manual(values=GenPalette)+
+  theme_bw()</code></pre>
+<p><img src="pop_files/figure-html/freq_charts-1.png" width="50%" /><img src="pop_files/figure-html/freq_charts-2.png" width="50%" /></p>
 </div>
 
 
