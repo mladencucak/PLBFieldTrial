@@ -34,13 +34,13 @@ h1, h2, h3,h4 {
 } 
  
 .navbar-default {
-    background-color: #006699
+    background-color: #6CCDA7
 
 }
 .list-group-item.active {
     z-index: 2;
     color: #ffffff;
-    background-color: #006699;
-    border-color: #006699
+    background-color: #6CCDA7;
+    border-color: #6CCDA7
 }
 
