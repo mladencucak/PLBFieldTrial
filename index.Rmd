@@ -1,17 +1,17 @@
 % About
 
-This repository is part of results of my PhD project.  
+This repository is a part of results of my PhD project. I am working on improvement of potato late blight management in Ireland.   
 Here I present the results of the field trial, set up to evaluate the opportunities for the IPM of potato late blight under Irish conditions.  
-Here we looked into potential for using the environmental disease risk prediction, varietal resistance and infrmation on the pathogen population for the reduction of the pesticide usage.
+We looked into potential for using the environmental disease risk prediction, varietal resistance and infrmation on the pathogen population for the reduction of the pesticide usage.
 
- 
-**The open-access publication of the manuscript the preceding work on the evaluation of the IR, potato late blight risk model used in Ireland, can be found** [here](https://www.mdpi.com/2073-4395/9/9/515).  
+ The funding for this project comes from [DAFM (Department of Agriculture, Food and Marine)](https://www.agriculture.gov.ie).  
+   
+The repository is built on the example research compendium provided by Emerson Del Ponte [here](https://github.com/emdelponte/research-compendium-website).
+  
+### Previous work
+**The open-access publication of the manuscript where we have presented the preceding work on the evaluation of the Irish Rules, potato late blight risk model used in Ireland, can be found** [here](https://www.mdpi.com/2073-4395/9/9/515).  
 The accompanying compendium with open access to the code is [here.](https://mladencucak.github.io/AnalysisPLBIreland/)
 
-  
-  The repository is built on the example research compendium provided by Emerson Del Ponte [here](https://github.com/emdelponte/research-compendium-website).
-
-The funding for this project comes from [DAFM (Department of Agriculture, Food and Marine)](https://www.agriculture.gov.ie). 
 
 ## Notes 
 
