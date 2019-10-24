@@ -116,7 +116,7 @@ write.table(gen,
 ```
 
 Bruvo charts 
-```{r bruvo1}
+```{r load_data}
 path <- here::here("data", "gen data", "final", "pop.csv")
 
 monpop <- read.genalex(path, ploidy = 3)
@@ -151,6 +151,10 @@ set.seed(1000)
 
 cbbPalette <- c ("#ff33cc",  "#ffff33","#3399ff","#F3DA60") 
 
+```
+
+
+```{r bruvo1}
 min_span_net <- bruvo.msn(monpop, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
 plot_poppr_msn(monpop,
                min_span_net,
@@ -170,8 +174,8 @@ plot_poppr_msn(monpop,
 
 
 
-```
 
+```
 
 ```{r bruvoyear}
 setPop(monpop) <- ~year
