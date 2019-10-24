@@ -1,0 +1,117 @@
+% DSS 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+
+chooseCRANmirror(graphics=FALSE, ind=1)
+knitr::knit_hooks$set(
+  source = function(x, options) {
+    hook.r = function(x, options) {
+      fence <- "```"
+      language = tolower(options$engine)
+      if (language == 'node') language = 'javascript'
+      if (!options$highlight) language = 'text'
+      if(!is.null(options$foldcode)) {
+      paste0('\n\n', "<details><summary>The code</summary>\n", fence, language, '\n', x, fence,  '\n\n', "</details>\n")
+      } else {
+              paste0('\n\n', fence, language, '\n', x, fence,  '\n\n')
+      }
+    }
+    x = knitr:::hilight_source(x, 'markdown', options)
+    hook.r(
+      paste(c(
+        x, 
+        ''
+      ), collapse = '\n'), 
+      options
+    )
+  }
+)
+
+```
+
+## DSS
+
+A small DSS service was implemented for the purpose of predicting the risk using three disease risk prediction models.  
+The code provided is an example of a daily model run and will not be fully operational, due to protection of providers of data (Met Eirean) and one of risk prediction models (Blight Management (DK)).  
+
+## Load packages
+```{r libs, warning = FALSE, message= FALSE}
+list.of.packages <-
+  c(
+    "tidyverse",
+    "data.table",
+    "ggplot2",
+    "knitr",
+    "readxl",
+    "agricolae",
+    "egg",
+    "hrbrthemes",
+    "glmmTMB",
+    "sjPlot",
+    "effects",
+    "lsmeans",
+    "multcomp",
+    "car"
+  )
+
+new.packages <-
+  list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
+
+#Download packages that are not already present in the library
+if (length(new.packages))
+  install.packages(new.packages)
+
+packages_load <-
+  lapply(list.of.packages, require, character.only = TRUE)
+
+#Print warning if there is a problem with installing/loading some of packages
+if (any(as.numeric(packages_load) == 0)) {
+  warning(paste("Package/s: ", paste(list.of.packages[packages_load != TRUE], sep = ", "), "not loaded!"))
+} else {
+  print("All packages were successfully loaded.")
+}
+rm(list.of.packages, new.packages, packages_load)
+
+#if instal is not working try 
+#install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/"))
+```
+  
+  
+
+  
+```{r}
+sessionInfo()
+```
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

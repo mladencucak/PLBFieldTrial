@@ -29,18 +29,18 @@ h1, h2, h3,h4 {
   font-family: 'Oswald', sans-serif;
   padding-bottom: 10px;
   padding-top: 20px;
-  color: #4682b4;
+  color: #3CA57C;
  
 } 
  
 .navbar-default {
-    background-color: #6CCDA7
+    background-color: #3CA57C
 
 }
 .list-group-item.active {
     z-index: 2;
     color: #ffffff;
-    background-color: #6CCDA7;
-    border-color: #6CCDA7
+    background-color: #3CA57C;
+    border-color: #3CA57C
 }
 

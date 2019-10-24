@@ -11,9 +11,9 @@
 
 
 
-<title>index.utf8.md</title>
+<title>dss.utf8.md</title>
 
-<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -27,14 +27,6 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-<script src="site_libs/htmlwidgets-1.3/htmlwidgets.js"></script>
-<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
-<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
-<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-<script src="site_libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
-<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
-<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="site_libs/leaflet-binding-2.0.2/leaflet.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -407,29 +399,36 @@ div.tocify {
   </a>
 </li>
 <li>
+  <a href="dss.html">
+    <span class="fa fa fa fa fa fa-cog fa-spin fa-fw"></span>
+     
+    dss
+  </a>
+</li>
+<li>
   <a href="disdata.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa fa fa-pagelines"></span>
      
     Disease
   </a>
 </li>
 <li>
   <a href="Trt.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa fa fa-plus-square"></span>
      
     Trt
   </a>
 </li>
 <li>
   <a href="yield.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa-archive"></span>
      
     Yield
   </a>
 </li>
 <li>
   <a href="pop.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa-share-alt"></span>
      
     Population
   </a>
@@ -452,50 +451,123 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">About</h1>
+<h1 class="title toc-ignore">DSS</h1>
 
 </div>
 
 
-<p>This repository is a part of results of my PhD project. I am working on improvement of potato late blight management in Ireland.<br />
-Here I present the results of the field trial, set up to evaluate the opportunities for the IPM of potato late blight under Irish conditions.<br />
-We looked into potential for using the environmental disease risk prediction, varietal resistance and infrmation on the pathogen population for the reduction of the pesticide usage.</p>
-<p>The funding for this project comes from <a href="https://www.agriculture.gov.ie">DAFM (Department of Agriculture, Food and Marine)</a>.</p>
-<p>The repository is built on the example research compendium provided by Emerson Del Ponte <a href="https://github.com/emdelponte/research-compendium-website">here</a>.</p>
-<div id="previous-work" class="section level3">
-<h3>Previous work</h3>
-<p><strong>The open-access publication of the manuscript where we have presented the preceding work on the evaluation of the Irish Rules, potato late blight risk model used in Ireland, can be found</strong> <a href="https://www.mdpi.com/2073-4395/9/9/515">here</a>.<br />
-The accompanying compendium with open access to the code is <a href="https://mladencucak.github.io/AnalysisPLBIreland/">here.</a></p>
+<div id="dss" class="section level2">
+<h2>DSS</h2>
+<p>A small DSS service was implemented for the purpose of predicting the risk using three disease risk prediction models.<br />
+The code provided is an example of a daily model run and will not be fully operational, due to protection of providers of data (Met Eirean) and one of risk prediction models (Blight Management (DK)).</p>
 </div>
-<div id="the-location" class="section level2">
-<h2>The location</h2>
-<div id="htmlwidget-e196a26bffd6c0e9cd27" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e196a26bffd6c0e9cd27">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,"OSM (default)",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[52.8560667,-6.9121167,{"iconUrl":{"data":"http://leafletjs.com/examples/custom-icons/leaf-green.png","index":0},"iconWidth":38,"iconHeight":95,"iconAnchorX":22,"iconAnchorY":94,"shadowUrl":{"data":"http://leafletjs.com/examples/custom-icons/leaf-shadow.png","index":0},"shadowWidth":50,"shadowHeight":64,"shadowAnchorX":4,"shadowAnchorY":62},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,"Oak Park",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[53.5,-8],6,[]],"limits":{"lat":[52.8560667,52.8560667],"lng":[-6.9121167,-6.9121167]}},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="notes" class="section level2">
-<h2>Notes</h2>
-<p>Some code chunks are folded and they can be accessed by clicking on the arrow (The code).<br />
-Try not to have other R sessions running because it could produce problems installing libraries.<br />
-If there are any problems reproducing the analysis, please raise an issue on GitHub.</p>
-</div>
-<div id="project-team" class="section level2">
-<h2>Project team</h2>
-<p>Maynooth University: - <a href="https://www.maynoothuniversity.ie/people/rowan-fealy">Rowan Fealy</a></p>
-<p>Teagasc: - <a href="https://www.teagasc.ie/contact/staff-directory/k/steven-kildea/">Stephen Kildea</a></p>
-<p>Met Eirean: - <a href="https://www.researchgate.net/profile/Keith_Lambkin">Keith Lambkin</a></p>
-<p>University of Southern Queensland: - <a href="https://adamhsparks.netlify.com/">Adam Sparks</a></p>
-<!-- ## Citation -->
-<!-- Please cite this research compendium as: -->
-<!-- > Cucak, M., Sparks, A., Fealy, R., Lambkin, K., and Kildea, S. 2019. Evaluation of the Irish Rules, a potato late blight forecasting used in Ireland.  -->
-</div>
-<div id="licences" class="section level2">
-<h2>Licences</h2>
-<p>Data: <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC-0</a> attribution requested in reuse Manuscript: <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a><br />
-Code: <a href="https://opensource.org/licenses/MIT">MIT</a> year: 2019, copyright holder: Mladen Cucak</p>
-</div>
-<div id="contributions" class="section level2">
-<h2>Contributions</h2>
-<p>We welcome contributions from everyone. Before you get started, please see our <a href="CONTRIBUTING.html">contributor guidelines</a>. Please note that this project is released with a <a href="CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+<div id="load-packages" class="section level2">
+<h2>Load packages</h2>
+<pre class="r"><code>list.of.packages &lt;-
+  c(
+    &quot;tidyverse&quot;,
+    &quot;data.table&quot;,
+    &quot;ggplot2&quot;,
+    &quot;knitr&quot;,
+    &quot;readxl&quot;,
+    &quot;agricolae&quot;,
+    &quot;egg&quot;,
+    &quot;hrbrthemes&quot;,
+    &quot;glmmTMB&quot;,
+    &quot;sjPlot&quot;,
+    &quot;effects&quot;,
+    &quot;lsmeans&quot;,
+    &quot;multcomp&quot;,
+    &quot;car&quot;
+  )
+
+new.packages &lt;-
+  list.of.packages[!(list.of.packages %in% installed.packages()[, &quot;Package&quot;])]
+
+#Download packages that are not already present in the library
+if (length(new.packages))
+  install.packages(new.packages)
+
+packages_load &lt;-
+  lapply(list.of.packages, require, character.only = TRUE)
+
+#Print warning if there is a problem with installing/loading some of packages
+if (any(as.numeric(packages_load) == 0)) {
+  warning(paste(&quot;Package/s: &quot;, paste(list.of.packages[packages_load != TRUE], sep = &quot;, &quot;), &quot;not loaded!&quot;))
+} else {
+  print(&quot;All packages were successfully loaded.&quot;)
+}</code></pre>
+<pre><code>## [1] &quot;All packages were successfully loaded.&quot;</code></pre>
+<pre class="r"><code>rm(list.of.packages, new.packages, packages_load)
+
+#if instal is not working try 
+#install.packages(&quot;ROCR&quot;, repos = c(CRAN=&quot;https://cran.r-project.org/&quot;))</code></pre>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 3.6.1 (2019-07-05)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 18362)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] car_3.0-3         multcomp_1.4-10   TH.data_1.0-10   
+##  [4] MASS_7.3-51.4     survival_2.44-1.1 mvtnorm_1.0-11   
+##  [7] lsmeans_2.30-0    emmeans_1.3.5     effects_4.1-1    
+## [10] carData_3.0-2     sjPlot_2.6.3      glmmTMB_0.2.3    
+## [13] hrbrthemes_0.6.0  egg_0.4.2         gridExtra_2.3    
+## [16] agricolae_1.3-1   readxl_1.3.1      knitr_1.23       
+## [19] data.table_1.12.2 forcats_0.4.0     stringr_1.4.0    
+## [22] dplyr_0.8.1       purrr_0.3.2       readr_1.3.1      
+## [25] tidyr_0.8.3       tibble_2.1.3      ggplot2_3.2.0    
+## [28] tidyverse_1.2.1  
+## 
+## loaded via a namespace (and not attached):
+##   [1] minqa_1.2.4        colorspace_1.4-1   deldir_0.1-21     
+##   [4] rio_0.5.16         class_7.3-15       sjlabelled_1.1.0  
+##   [7] estimability_1.3   rstudioapi_0.10    lubridate_1.7.4   
+##  [10] xml2_1.2.0         codetools_0.2-16   splines_3.6.1     
+##  [13] extrafont_0.17     mnormt_1.5-5       sjmisc_2.8.1      
+##  [16] jsonlite_1.6       nloptr_1.2.1       ggeffects_0.10.0  
+##  [19] broom_0.5.2        Rttf2pt1_1.3.7     cluster_2.1.0     
+##  [22] shiny_1.3.2        compiler_3.6.1     httr_1.4.0        
+##  [25] sjstats_0.17.5     backports_1.1.4    assertthat_0.2.1  
+##  [28] Matrix_1.2-17      lazyeval_0.2.2     survey_3.36       
+##  [31] cli_1.1.0          later_0.8.0        htmltools_0.3.6   
+##  [34] tools_3.6.1        coda_0.19-2        gtable_0.3.0      
+##  [37] glue_1.3.1         gmodels_2.18.1     Rcpp_1.0.2        
+##  [40] cellranger_1.1.0   spdep_1.1-2        gdata_2.18.0      
+##  [43] nlme_3.1-140       extrafontdb_1.0    psych_1.8.12      
+##  [46] insight_0.3.0      xfun_0.7           openxlsx_4.1.0.1  
+##  [49] lme4_1.1-21        rvest_0.3.4        mime_0.7          
+##  [52] miniUI_0.1.1.1     gtools_3.8.1       zoo_1.8-6         
+##  [55] LearnBayes_2.15.1  scales_1.0.0       hms_0.4.2         
+##  [58] promises_1.0.1     sandwich_2.5-1     parallel_3.6.1    
+##  [61] expm_0.999-4       TMB_1.7.15         curl_3.3          
+##  [64] yaml_2.2.0         gdtools_0.1.9      stringi_1.4.3     
+##  [67] highr_0.8          bayestestR_0.2.2   klaR_0.6-14       
+##  [70] AlgDesign_1.1-7.3  e1071_1.7-2        zip_2.0.2         
+##  [73] boot_1.3-22        spData_0.3.0       rlang_0.4.0       
+##  [76] pkgconfig_2.0.2    evaluate_0.14      lattice_0.20-38   
+##  [79] sf_0.7-4           tidyselect_0.2.5   magrittr_1.5      
+##  [82] R6_2.4.0           generics_0.0.2     combinat_0.0-8    
+##  [85] DBI_1.0.0          pillar_1.4.1       haven_2.1.0       
+##  [88] foreign_0.8-71     withr_2.1.2        units_0.6-3       
+##  [91] abind_1.4-5        nnet_7.3-12        sp_1.3-1          
+##  [94] performance_0.2.0  modelr_0.1.4       crayon_1.3.4      
+##  [97] questionr_0.7.0    KernSmooth_2.23-15 rmarkdown_1.13    
+## [100] grid_3.6.1         digest_0.6.19      classInt_0.3-3    
+## [103] xtable_1.8-4       httpuv_1.5.1       munsell_0.5.0     
+## [106] mitools_2.4</code></pre>
 </div>
 
 

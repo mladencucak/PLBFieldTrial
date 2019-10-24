@@ -22,17 +22,20 @@ navbar:
   - text: About
     icon: fa fa-home
     href: index.html
+  - text: dss
+    icon: fa fa fa-cog fa-spin fa-fw
+    href: dss.html
   - text: Disease
-    icon: fa fa-file-code-o
+    icon: fa fa fa-pagelines
     href: disdata.html
   - text: Trt
-    icon: fa fa-file-code-o
+    icon: fa fa fa-plus-square
     href: Trt.html
   - text: Yield
-    icon: fa fa-file-code-o
+    icon: fa fa-archive
     href: yield.html
   - text: Population
-    icon: fa fa-file-code-o
+    icon: fa fa-share-alt
     href: pop.html
   right:
   - text: source
