@@ -1,0 +1,307 @@
+% Pop
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+chooseCRANmirror(graphics=FALSE, ind=1)
+knitr::knit_hooks$set(
+  source = function(x, options) {
+    hook.r = function(x, options) {
+      fence <- "```"
+      language = tolower(options$engine)
+      if (language == 'node') language = 'javascript'
+      if (!options$highlight) language = 'text'
+      if(!is.null(options$foldcode)) {
+      paste0('\n\n', "<details><summary>The code</summary>\n", fence, language, '\n', x, fence,  '\n\n', "</details>\n")
+      } else {
+              paste0('\n\n', fence, language, '\n', x, fence,  '\n\n')
+      }
+    }
+    x = knitr:::hilight_source(x, 'markdown', options)
+    hook.r(
+      paste(c(
+        x, 
+        ''
+      ), collapse = '\n'), 
+      options
+    )
+  }
+)
+
+```
+
+## Popoulation analysis 
+
+ After gaining insight into population structure we can move onto the analysis of 
+
+## Load packages
+```{r libs, warning = FALSE, message= FALSE}
+list.of.packages <-
+  c(
+    "tidyverse",
+    "devtools",
+    "here",
+    "readxl",
+    "poppr",
+    "egg"
+  )
+
+new.packages <-
+  list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
+
+#Download packages that are not already present in the library
+if (length(new.packages))
+  install.packages(new.packages)
+
+packages_load <-
+  lapply(list.of.packages, require, character.only = TRUE)
+
+#Print warning if there is a problem with installing/loading some of packages
+if (any(as.numeric(packages_load) == 0)) {
+  warning(paste("Package/s: ", paste(list.of.packages[packages_load != TRUE], sep = ", "), "not loaded!"))
+} else {
+  print("All packages were successfully loaded.")
+}
+rm(list.of.packages, new.packages, packages_load)
+
+#if instal is not working try 
+#install.packages("package_name", repos = c(CRAN="https://cran.r-project.org/"))
+```
+
+## Data import/preparation
+
+```{r data}
+fin <-  readRDS(file = here::here("data", "gen data", "final", "gendata.rds") )
+
+```
+
+Prepare the data in genalex format. 
+
+```{r genalex}
+fin <- 
+  unite(fin, "Ind", idd, year, remove = F)
+
+fin <- 
+  unite(fin, "Pop", variety, Genotype, year) 
+
+
+ popcol <- match("Pop",names(fin))
+ idcol <- match("Ind",names(fin))
+
+
+gen <- 
+fin[ , c(idcol,popcol,match("D13",names(fin)):match("X__24",names(fin)))]
+
+
+path <- here::here("data", "gen data", "final", "pop.csv")
+
+data.frame(ssr = c(12,"PInf_Ireland"), 
+           samples = nrow(gen), 
+           pop =  length(unique(fin$Pop)))
+
+write.table(data.frame(ssr = 12, samples = nrow(gen), pop =  length(unique(fin$Pop))),
+            path,
+            sep=",",  col.names=FALSE, row.names = FALSE)
+
+write.table( "PInf_Ireland",
+            path,
+            sep = ",", row.names = FALSE,
+            col.names = FALSE, append = T)
+names(gen)[grep("X__", names(gen))] <- ""
+
+write.table(gen,
+            path,
+            sep = ",", row.names = FALSE,
+            col.names = !file.exists("myDF.csv"), append = T)
+
+```
+
+Bruvo charts 
+```{r bruvo1}
+path <- here::here("data", "gen data", "final", "pop.csv")
+
+monpop <- read.genalex(path, ploidy = 3)
+
+
+
+splitStrata(monpop) <- ~variety/genotype/year
+
+monpop
+
+ monpop$strata<-
+  monpop$strata %>% 
+mutate(genotype = ifelse( genotype ==  "8A1-1","EU_8_1_A1",
+                                   ifelse(genotype ==  "6A1","EU_6_A1",
+                                          ifelse(genotype ==  "13A2","EU_13_A2",
+                                                 ifelse(genotype ==  "8A1","EU_8_A1","" )))))
+ 
+
+  
+# imsn()
+
+monpop_sub <- popsub(monpop, blacklist = character(0))
+monpop_dist <- diss.dist(monpop_sub, percent = FALSE, mat = FALSE)
+min_span_net <- poppr.msn(monpop_sub, monpop_dist, showplot = FALSE, include.ties = TRUE)
+
+#Bruvo distance Genotype
+
+setPop(monpop) <- ~genotype
+monpop_sub <- popsub(monpop, blacklist = character(0))
+min_span_net <- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+set.seed(1000)
+
+cbbPalette <- c ("#ff33cc",  "#ffff33","#3399ff","#F3DA60") 
+
+min_span_net <- bruvo.msn(monpop, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+plot_poppr_msn(monpop,
+               min_span_net,
+               mlg = FALSE,
+               gadj = 7,
+               nodescale = 4,
+               nodelab = 1,
+               palette =cbbPalette,
+               cutoff = 11,
+               inds = "none",
+               quantiles = FALSE,
+               beforecut = TRUE,
+               pop.leg = TRUE,
+               size.leg = FALSE,
+               scale.leg = TRUE,
+               layfun = igraph::layout_nicely)
+
+
+
+```
+
+
+```{r bruvoyear}
+setPop(monpop) <- ~year
+monpop_sub <- popsub(monpop, blacklist = character(0))
+min_span_net <- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+set.seed(1000)
+
+cbbPalette <- c ("#ff33cc",  "#ffff33","#3399ff") 
+
+ 
+  plot_poppr_msn(
+    monpop,
+    min_span_net,
+    mlg = T,
+    gadj = 4,
+    inds = "none",
+    wscale = TRUE,
+    nodescale = 8,
+    nodelab = 0.15,
+    palette = cbbPalette,
+    cutoff = 0.9,
+    quantiles = FALSE,
+    beforecut = TRUE,
+    layfun = igraph::layout_nicely
+  )
+
+  
+dev.copy(png,filename=here::here("results", "gen","bruvo", "Year.png"),
+         width = 1000, height= 700 );
+dev.off ()
+
+```
+
+
+```{r bruvovar}
+setPop(monpop) <- ~variety
+
+monpop_sub <- popsub(monpop, blacklist = character(0))
+min_span_net <- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+set.seed(1000)
+plot_poppr_msn(monpop,
+               min_span_net,
+               inds = "none",
+               mlg = FALSE,
+               gadj = 6,
+               nodescale = 8,
+               palette = rainbow,
+               cutoff = 0.2,
+               quantiles = FALSE,
+               beforecut = TRUE,
+               pop.leg = TRUE,
+               size.leg = TRUE,
+               scale.leg = TRUE,
+               layfun = igraph::layout_nicely)
+
+```
+
+
+```{r}
+setPop(monpop) <- ~year/genotype
+monpop_sub <- popsub(monpop, blacklist = character(0))
+min_span_net <- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+set.seed(1000)
+plot_poppr_msn(monpop,
+               min_span_net,
+               inds = "none",
+               mlg = FALSE,
+               gadj = 6,
+               nodescale = 8,
+               palette = rainbow,
+               cutoff = 0.2,
+               quantiles = FALSE,
+               beforecut = TRUE,
+               pop.leg = TRUE,
+               size.leg = TRUE,
+               scale.leg = TRUE,
+               layfun = igraph::layout_nicely)
+
+```
+
+
+```{r}
+
+set.seed(999)
+setPop(monpop) <- ~genotype
+
+#Determine the OS to assign apropriate character string for parallel processing
+ parallel_proc <- 
+  ifelse(Sys.info()['sysname'] == "Windows", "snow", "multicore") 
+
+ 
+pramx <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop))
+
+
+#HArd to determine the peek number of PC
+set.seed(999)
+system.time(pramx <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop),
+                              n.pca = 10:20, n.rep = 1000,
+                              parallel = parallel_proc, 
+                              ncpus = 4L))
+pramx[-1]
+pramx[-1]$`Number of PCs Achieving Highest Mean Success`
+#
+scatter(pramx$DAPC, 
+        # col = other(monpop)$comparePal, 
+        cex =2 , 
+        legend = TRUE,
+        clabel = FALSE, 
+        posi.leg = "bottomleft", scree.pca = TRUE,
+        posi.pca = "topright", 
+        cleg = .9, xax = 1, 
+        yax = 2, inset.solid = 1)
+
+dev.copy(png,filename=here::here("results", "gen","dapc", "genotype.png"),
+         width = 700, height= 700);
+dev.off ()
+scatter(pramx$DAPC,1,1, 
+        # col=myCol,
+        bg="white",
+        scree.da=FALSE, legend=TRUE, solid=.4)
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+

@@ -14,7 +14,7 @@ The accompanying compendium with open access to the code is [here.](https://mlad
 
 ## The location
 
-```{r map, echo=FALSE}
+```{r map, echo=FALSE, message=FALSE, warning=FALSE}
 library("leaflet")
 greenLeafIcon <- makeIcon(
   iconUrl = "http://leafletjs.com/examples/custom-icons/leaf-green.png",

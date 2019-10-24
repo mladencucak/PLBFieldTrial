@@ -387,7 +387,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">research-compendium-website</a>
+      <a class="navbar-brand" href="index.html">PLBipmIE</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -399,29 +399,36 @@ div.tocify {
   </a>
 </li>
 <li>
+  <a href="dss.html">
+    <span class="fa fa fa fa fa fa-cog fa-spin fa-fw"></span>
+     
+    dss
+  </a>
+</li>
+<li>
   <a href="disdata.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa fa fa-pagelines"></span>
      
     Disease
   </a>
 </li>
 <li>
   <a href="Trt.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa fa fa-plus-square"></span>
      
     Trt
   </a>
 </li>
 <li>
   <a href="yield.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa-archive"></span>
      
     Yield
   </a>
 </li>
 <li>
   <a href="pop.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa-share-alt"></span>
      
     Population
   </a>
@@ -444,7 +451,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Code</h1>
+<h1 class="title toc-ignore">Pop</h1>
 
 </div>
 
@@ -502,9 +509,201 @@ if (any(as.numeric(packages_load) == 0)) {
 </div>
 <div id="data-import" class="section level2">
 <h2>Data import</h2>
-<pre class="r"><code>samples &lt;-  readRDS(file = here::here(&quot;data&quot;, &quot;gen data&quot;, &quot;final&quot;, &quot;gendata.rds&quot;) )
+<pre class="r"><code>samples &lt;-  readRDS(file = here::here(&quot;data&quot;, &quot;gen data&quot;, &quot;final&quot;, &quot;gendata.rds&quot;) )</code></pre>
+<p>Sampling dates and number of samples.</p>
+<pre class="r"><code>samp_dates &lt;- 
+samples %&gt;% 
+  group_by(year, date) %&gt;% 
+  summarise(`No. of Samples` = n()) %&gt;% 
+  rename(Year = year, Date = date) 
 
-s_tab &lt;- 
+write_csv(samp_dates, here::here(&quot;results&quot;, &quot;gen&quot;, &quot;Sampling dates&amp;counts.csv&quot;))
+
+samp_dates %&gt;% 
+  kableExtra::kable()</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+Year
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:right;">
+No. of Samples
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+10/6/2016
+</td>
+<td style="text-align:right;">
+158
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+12/1/2017
+</td>
+<td style="text-align:right;">
+28
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+7/14/2017
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+7/20/2017
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+7/3/2017
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+7/31/2017
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+8/10/2017
+</td>
+<td style="text-align:right;">
+154
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+8/23/2017
+</td>
+<td style="text-align:right;">
+138
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:left;">
+9/13/2017
+</td>
+<td style="text-align:right;">
+125
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+8/20/2018
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+8/28/2018
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+9/24/2018
+</td>
+<td style="text-align:right;">
+165
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:left;">
+9/5/2018
+</td>
+<td style="text-align:right;">
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+8/14/2019
+</td>
+<td style="text-align:right;">
+250
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2019
+</td>
+<td style="text-align:left;">
+8/27/2019
+</td>
+<td style="text-align:right;">
+198
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>s_tab &lt;- 
  samples %&gt;% 
    group_by(year,variety, treatment) %&gt;% 
    summarise(count = n()) %&gt;% 
@@ -517,8 +716,9 @@ s_tab &lt;-
 write_csv(s_tab, here::here(&quot;results&quot;, &quot;gen&quot;, &quot;Summary of isolates.csv&quot;))
 # s_tab %&gt;% 
 # kable(format = &quot;html&quot;) %&gt;% 
-#   kableExtra::kable_styling(latex_options = &quot;striped&quot;) </code></pre>
-<pre class="r"><code>years &lt;- 
+# kableExtra::kable_styling(latex_options = &quot;striped&quot;) 
+
+years &lt;- 
 s_tab %&gt;% 
 group_by(Year) %&gt;% 
   summarise(counts =n()) %&gt;% 
@@ -545,6 +745,8 @@ rm(years, s_tab)</code></pre>
 <img src="results/gen/Summary%20of%20isolates.png" alt="Table1" />
 <p class="caption">Table1</p>
 </div>
+<details>
+<p><summary>The code</summary></p>
 <pre class="r"><code># plot successful fin
 samples$plotID &lt;- 1
 line_size &lt;- 0.13
@@ -571,12 +773,13 @@ filter(dis_obs, treatment == &quot;Control&quot;) %&gt;%
   geom_line(size = 0.3) +
   ylab(&quot;Disease rating (%)&quot;) +
   xlab(&quot;Julian day of year&quot;) +
-  labs(colour = &quot;Variety&quot;)+
+  labs(colour = &quot;Variety:&quot;)+
   facet_wrap(~year, ncol = 1)+
   theme_article()+
+  
   theme(legend.position = &quot;bottom&quot;)+
-  guides(fill=guide_legend(nrow=2,byrow=TRUE))
-
+  guides(fill=guide_legend(nrow=2,byrow=TRUE),
+         colour = guide_legend(title.position = &quot;top&quot;))
 
 # remove tuber samples
 p_gen &lt;- 
@@ -591,8 +794,9 @@ ggplot(.,aes(julian_day, fill = Genotype))+
   # ggtitle(&quot;&quot;)+
   scale_fill_manual(values=cbbPalette)+
   theme_article()+
-  theme(legend.position = &quot;bottom&quot;)+
-  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
+  theme( legend.position = &quot;bottom&quot;,
+        legend.direction = &quot;horizontal&quot;)+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE,title.position = &quot;top&quot;))+
   ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Genotype per sampling vertical.png&quot;), 
          width = 4, height =6, dpi = 620)
 
@@ -609,12 +813,12 @@ ggplot(aes(julian_day, fill = variety))+
   theme_article()+
   # labs(fill = &quot;Variety&quot;)+
   scale_fill_brewer(&quot;Variety:&quot;, palette = &quot;Dark2&quot;) +
-  
-  theme(legend.position = &quot;bottom&quot;,
-        axis.title.y=element_blank(),
-        axis.text.y=element_blank())+
-  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
-  # scale_x_discrete(labels = unique(samples$julian_day))+
+  theme(
+    axis.title.y=element_blank(),
+    axis.text.y=element_blank(),
+    legend.position = &quot;bottom&quot;,
+    legend.direction = &quot;horizontal&quot;)+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE,title.position = &quot;top&quot;))+
   # theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
   #       panel.background = element_blank(), axis.line = element_line(colour = &quot;black&quot;))+
   ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Samples per date and variety.png&quot;), 
@@ -639,47 +843,49 @@ ggplot(aes(julian_day, fill = variety))+
   # ggtitle(&quot;&quot;)+
   # scale_fill_manual(values=cbbPalette)+
   theme_article()+
-  theme(legend.position = &quot;bottom&quot;,
-        axis.title.y=element_blank(),
-        axis.text.y=element_blank())+
-  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
+  theme(
+    axis.title.y=element_blank(),
+    axis.text.y=element_blank(),
+    legend.position = &quot;bottom&quot;,
+    legend.direction = &quot;horizontal&quot;)+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE,title.position = &quot;top&quot;))+
   ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Trt dose per sampling vertical.png&quot;), 
          width = 4, height =6, dpi = 620)
 
 
 
 #plot samples per treatment/fixed reduced dose
-p_prog &lt;- 
+ p_prog &lt;- 
   filter(samples, julian_day &lt; 300) %&gt;% 
   ggplot(.,aes(julian_day, fill = treatment))+
   # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = &quot;black&quot;, size = 0.1)+
   geom_bar(stat = &quot;count&quot;, position = &quot;stack&quot;, width = 6,colour = &quot;black&quot;, size = line_size)+
-  
   facet_wrap(~year, ncol = 1)+
   xlab(&quot;Date&quot;)+
   # ylab(&quot;No. of samples&quot;)+
   ylab(&quot;&quot;)+
   scale_fill_brewer(&quot;Prog.:&quot;, palette = &quot;Dark2&quot;) +
-  
   # ggtitle(&quot;&quot;)+
   # scale_fill_manual(values=cbbPalette)+
   theme_article()+
-  theme(legend.position = &quot;bottom&quot;,
-        axis.title.y=element_blank(),
-        axis.text.y=element_blank())+
-  guides(fill=guide_legend(nrow=2,byrow=TRUE))+
-
+  theme(
+    axis.title.y=element_blank(),
+    axis.text.y=element_blank(),
+    legend.position = &quot;bottom&quot;,
+    legend.direction = &quot;horizontal&quot;)+
+  guides(fill=guide_legend(nrow=2,byrow=TRUE,title.position = &quot;top&quot;))+
   ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Treatment dose per sampling vertical.png&quot;), 
          width = 4, height =6, dpi = 620)
 
 plot_list &lt;- list(p_dis,p_gen, p_var, p_trt, p_prog)
 
 ggpubr::ggarrange(plotlist = plot_list, 
-                   widths = c(1,1,1,1,1),
+                   widths = c(1,1.15,1,1,1),
                   # labels = c(&quot;r&quot;,&quot;rr&quot;),
                    ncol = 5)+
   ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;G and v sampling vertical.png&quot;),
          width = 9.8, height =7, dpi = 620)</code></pre>
+</details>
 <p><img src="pop_files/figure-html/plot_all-1.png" width="100%" /></p>
 <pre class="r"><code>GenPalette &lt;- c (&quot;#ffff33&quot;, &quot;#3399ff&quot;,&quot;#ff33cc&quot;)
 
@@ -760,7 +966,7 @@ ggplot(gen_prop_trt, aes(treatment, prop, fill = Genotype)) +
 
 
 
-Copyright 2018 Adam H Sparks
+Copyright 2018 Mladen Cucak
 
 
 </div>
