@@ -34,9 +34,12 @@ navbar:
   - text: Yield
     icon: fa fa-archive
     href: yield.html
-  - text: Population
-    icon: fa fa-share-alt
+  - text: Population Data
+    icon: fa fa-code-fork
     href: pop.html
+  - text: Population Analysis
+    icon: fa fa-code-fork
+    href: pop2.html
   right:
   - text: source
     icon: fa-github-square
