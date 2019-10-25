@@ -2,7 +2,14 @@
 
 This repository is a part of results of my PhD project. I am working on improvement of potato late blight management in Ireland.   
 Here I present the results of the field trial, set up to evaluate the opportunities for the IPM of potato late blight under Irish conditions.  
-We looked into potential for using the environmental disease risk prediction, varietal resistance and infrmation on the pathogen population for the reduction of the pesticide usage.
+We looked into potential for using the environmental disease risk prediction, varietal resistance and information on the pathogen population for the reduction of the pesticide usage.  
+The presentation is split into following sections:  
+1. DSS: Implementation of the decision support platform implemented for the purpose field evaluation of risk prediction models.  
+2. Disease: The analysis of the foliar disease control.  
+3. Treatment: Number of treatments and proportion of the total dose used in fungicide trials.  
+4. Yield: The effects of the fungicide programme, varietal resistance on marketable yield over the evaluated period.  
+5. Population data: Presentation of the sampling and a descriptive analysis of the samples collected.   
+6. Population analysis: The analysis of the population data.
 
  The funding for this project comes from [DAFM (Department of Agriculture, Food and Marine)](https://www.agriculture.gov.ie).  
    

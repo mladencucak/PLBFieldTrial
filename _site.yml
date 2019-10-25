@@ -22,13 +22,13 @@ navbar:
   - text: About
     icon: fa fa-home
     href: index.html
-  - text: dss
+  - text: DSS
     icon: fa fa fa-cog fa-spin fa-fw
     href: dss.html
   - text: Disease
     icon: fa fa fa-pagelines
     href: disdata.html
-  - text: Trt
+  - text: Control
     icon: fa fa fa-plus-square
     href: Trt.html
   - text: Yield

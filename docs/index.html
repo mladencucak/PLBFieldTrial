@@ -407,31 +407,45 @@ div.tocify {
   </a>
 </li>
 <li>
+  <a href="dss.html">
+    <span class="fa fa fa fa fa fa-cog fa-spin fa-fw"></span>
+     
+    DSS
+  </a>
+</li>
+<li>
   <a href="disdata.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa fa fa-pagelines"></span>
      
     Disease
   </a>
 </li>
 <li>
   <a href="Trt.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa fa fa-plus-square"></span>
      
-    Trt
+    Control
   </a>
 </li>
 <li>
   <a href="yield.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa-archive"></span>
      
     Yield
   </a>
 </li>
 <li>
   <a href="pop.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa-code-fork"></span>
      
-    Population
+    Population Data
+  </a>
+</li>
+<li>
+  <a href="pop2.html">
+    <span class="fa fa fa fa-code-fork"></span>
+     
+    Population Analysis
   </a>
 </li>
       </ul>
@@ -459,7 +473,14 @@ div.tocify {
 
 <p>This repository is a part of results of my PhD project. I am working on improvement of potato late blight management in Ireland.<br />
 Here I present the results of the field trial, set up to evaluate the opportunities for the IPM of potato late blight under Irish conditions.<br />
-We looked into potential for using the environmental disease risk prediction, varietal resistance and infrmation on the pathogen population for the reduction of the pesticide usage.</p>
+We looked into potential for using the environmental disease risk prediction, varietal resistance and information on the pathogen population for the reduction of the pesticide usage.<br />
+The presentation is split into following sections:<br />
+1. DSS: Implementation of the decision support platform implemented for the purpose field evaluation of risk prediction models.<br />
+2. Disease: The analysis of the foliar disease control.<br />
+3. Treatment: Number of treatments and proportion of the total dose used in fungicide trials.<br />
+4. Yield: The effects of the fungicide programme, varietal resistance on marketable yield over the evaluated period.<br />
+5. Population data: Presentation of the sampling and a descriptive analysis of the samples collected.<br />
+6. Population analysis: The analysis of the population data.</p>
 <p>The funding for this project comes from <a href="https://www.agriculture.gov.ie">DAFM (Department of Agriculture, Food and Marine)</a>.</p>
 <p>The repository is built on the example research compendium provided by Emerson Del Ponte <a href="https://github.com/emdelponte/research-compendium-website">here</a>.</p>
 <div id="previous-work" class="section level3">
@@ -469,8 +490,8 @@ The accompanying compendium with open access to the code is <a href="https://mla
 </div>
 <div id="the-location" class="section level2">
 <h2>The location</h2>
-<div id="htmlwidget-e196a26bffd6c0e9cd27" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e196a26bffd6c0e9cd27">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,"OSM (default)",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[52.8560667,-6.9121167,{"iconUrl":{"data":"http://leafletjs.com/examples/custom-icons/leaf-green.png","index":0},"iconWidth":38,"iconHeight":95,"iconAnchorX":22,"iconAnchorY":94,"shadowUrl":{"data":"http://leafletjs.com/examples/custom-icons/leaf-shadow.png","index":0},"shadowWidth":50,"shadowHeight":64,"shadowAnchorX":4,"shadowAnchorY":62},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,"Oak Park",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[53.5,-8],6,[]],"limits":{"lat":[52.8560667,52.8560667],"lng":[-6.9121167,-6.9121167]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ebf748a77e805a7d074e" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ebf748a77e805a7d074e">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,"OSM (default)",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[52.8560667,-6.9121167,{"iconUrl":{"data":"http://leafletjs.com/examples/custom-icons/leaf-green.png","index":0},"iconWidth":38,"iconHeight":95,"iconAnchorX":22,"iconAnchorY":94,"shadowUrl":{"data":"http://leafletjs.com/examples/custom-icons/leaf-shadow.png","index":0},"shadowWidth":50,"shadowHeight":64,"shadowAnchorX":4,"shadowAnchorY":62},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,"Oak Park",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[53.5,-8],6,[]],"limits":{"lat":[52.8560667,52.8560667],"lng":[-6.9121167,-6.9121167]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="notes" class="section level2">
 <h2>Notes</h2>
