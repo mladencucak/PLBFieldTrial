@@ -387,7 +387,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">research-compendium-website</a>
+      <a class="navbar-brand" href="index.html">PLBipmIE</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -399,31 +399,45 @@ div.tocify {
   </a>
 </li>
 <li>
+  <a href="dss.html">
+    <span class="fa fa fa fa fa fa-cog fa-spin fa-fw"></span>
+     
+    dss
+  </a>
+</li>
+<li>
   <a href="disdata.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa fa fa-pagelines"></span>
      
     Disease
   </a>
 </li>
 <li>
   <a href="Trt.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa fa fa-plus-square"></span>
      
     Trt
   </a>
 </li>
 <li>
   <a href="yield.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa-archive"></span>
      
     Yield
   </a>
 </li>
 <li>
   <a href="pop.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa-code-fork"></span>
      
-    Population
+    Population Data
+  </a>
+</li>
+<li>
+  <a href="pop2.html">
+    <span class="fa fa fa fa-code-fork"></span>
+     
+    Population Analysis
   </a>
 </li>
       </ul>
@@ -877,10 +891,8 @@ d1 %&gt;%
     line_positions = as.numeric(factor(variety, levels = unique(variety))),
     line_positions = line_positions + .5,
     line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
-    line_positions = ifelse(year == 2016 &amp;
-                              variety == &quot;CL&quot;, 5.5, line_positions),
-    line_positions = ifelse(year == 2016 &amp;
-                              variety == &quot;SE&quot;, 3.5, line_positions)
+    line_positions = ifelse(year == 2016 &amp; variety == &quot;CL&quot;, 5.5, line_positions),
+    line_positions = ifelse(year == 2016 &amp;  variety == &quot;SE&quot;, 3.5, line_positions)
   ) %&gt;%
   ggplot(data = ., aes(x = variety, y = prop)) +
   geom_errorbar(
@@ -907,6 +919,7 @@ d1 %&gt;%
     alpha = .5,
     position = position_dodge(width = dodging)
   ) +
+  scale_color_brewer(&quot;Programme:&quot;, palette = &quot;Dark2&quot;) +
   theme_article() +
   theme(legend.position = &quot;top&quot;) +
   geom_vline(aes(xintercept = line_positions),
@@ -998,7 +1011,7 @@ rm(p_fin)</code></pre>
 
 
 
-Copyright 2018 Adam H Sparks
+Copyright 2018 Mladen Cucak
 
 
 </div>

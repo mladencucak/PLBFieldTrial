@@ -45,18 +45,25 @@ list.of.packages <-
     "data.table",
     "ggplot2",
     "knitr",
+    "taskscheduleR",
+    "zoo",
+    "RCurl",
+    "imputeTS",
+    "scales",
+    "padr",
+    "mailR",
+    "devtools",
     "readxl",
-    "agricolae",
-    "egg",
-    "hrbrthemes",
-    "glmmTMB",
-    "sjPlot",
-    "effects",
-    "lsmeans",
-    "multcomp",
-    "car"
+    "miniUI",
+    "shiny",
+    "htmltools",
+    "devtools",
+    "stringr",
+    "lubridate",
+    "readr",
+    "cowplot",
+    "egg"
   )
-
 new.packages <-
   list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
 
@@ -80,6 +87,199 @@ rm(list.of.packages, new.packages, packages_load)
 ```
   
   
+  
+```{r}
+userpwd <- "Pass_phrase"
+
+url_fore<- "ftp://Pass_phrase@aimsir.ftp.mu.ie/MET/FORECAST/"
+local_fore <- "./data/ECMWF"
+file_fore <- try(getURL(url_fore, userpwd = userpwd,dirlistonly = TRUE, crlf=TRUE ))
+file_fore <- unlist(str_extract_all(file_fore, ".+(.csv)"))
+
+url_obs<- "ftp://Pass_phrase@aimsir.ftp.mu.ie/MET/OBS/"
+file_obs <- try(getURL(url_obs, userpwd = userpwd,dirlistonly = TRUE, crlf=TRUE ))
+file_obs <- unlist(str_extract_all(file_obs, ".+(.csv)"))
+local_obs <- "./data/historical"
+
+
+source("scripts/lib/Download csv.R")   #fun download missing locally
+lapply(file_fore, function (x) downloadCSV(x, local_fore,url_fore))
+lapply(file_obs, function (x) downloadCSV(x, local_obs,url_obs))
+
+if(length(file_fore)==length(dir(local_fore))){
+  message("All forecast files are downloaded!")
+} else {
+  message("Some forecast files are not downloaded!")
+}
+
+if(length(file_obs)==length(dir(local_obs))-1){
+  message("All historical files are downloaded!")
+} else {
+  message("Some historical files are not downloaded!")
+}
+
+rm(file_fore, file_obs, local_fore, local_obs, url_fore, url_obs, userpwd, downloadCSV)
+
+```
+  
+  
+  
+```{r}
+time<-as.Date(Sys.time(), "%Y%B%d", tz="GMT")
+
+```
+  
+  
+  
+```{r}
+  time <- t
+  station <-station_name
+  Hrly_date<-time-1
+  Hrly_date<- format.Date(Hrly_date, "%Y%b%d")
+  
+  
+  if( station== "Oakpark") {
+    station_name <- "OakPark"
+  }
+  
+  # load in observations
+  Hrly_df <-  read_csv(paste0("./data/historical/Hrly_Obs_",station_name,"_",Hrly_date,".csv"),
+                       col_types = cols(X14 = col_skip(), day = col_skip(),
+                                        hour = col_skip(), month = col_skip(), 
+                                        station_name = col_skip(), station_no = col_skip(), 
+                                        year = col_skip()))
+  Hrly_df <- Hrly_df[1:30,]  #get obs unti 5AM on curent day
+  Hrly_df$date <- dmy_hms(Hrly_df$date)
+  Hrly_df <- Hrly_df[c(1,5,4,7, 2,3,6)]
+  
+  
+  # load in observations from numberof days before
+  ObsDailyFun <-  function(days_vec){
+    fun_df <- read_csv(paste0("./data/historical/Hrly_Obs_",station_name,"_",format.Date(time-days_vec, "%Y%b%d"),".csv"),
+                       col_types = cols(X14 = col_skip(), day = col_skip(),hour = col_skip(), month = col_skip(), 
+                                        station_name = col_skip(), station_no = col_skip(), year = col_skip()))
+    fun_df <- fun_df[1:24,] 
+    fun_df$date <- dmy_hms(fun_df$date)
+    fun_df <- fun_df[c(1,5,4,7, 2,3,6)]
+    return(fun_df)}
+  
+  #Define how many days before are to be loaded
+  days_before <- 2
+  obs_list <- lapply(c(days_before:2), ObsDailyFun)
+  Hrly_df_1 <- do.call("rbind", obs_list)
+  
+  # load in forecast
+  ec_date <- format.Date(time, "%Y%m%d")
+  ec0103day <- read_csv(paste0("./data/ECMWF/ec0103day",station,"-",ec_date,"00.csv"),skip = 13)
+  ec0103day <- ec0103day[6:nrow(ec0103day),]   #take out first five hours of forecast
+  ec0305day <- read_csv(paste0("./data/ECMWF/ec0305day",station,"-",ec_date,"00.csv"), skip = 42)
+  ec0610day <- read_csv(paste0("./data/ECMWF/ec0610day",station,"-",ec_date,"00.csv"),skip = 32)
+  
+  #arrange colls for binding
+  ec0103day<- (unite(ec0103day, date, 1,2,sep = " ")) 
+  ec0103day$date <- as.POSIXct(ec0103day$date, tz = "UTC")
+  ec0305day<- (unite(ec0305day, date, 1,2,sep = " ")) 
+  ec0305day$date <- as.POSIXct(ec0305day$date, tz = "UTC")
+  ec0610day<- (unite(ec0610day, date, 1,2,sep = " ")) 
+  ec0610day$date <- as.POSIXct(ec0610day$date, tz = "UTC")
+  colnames(ec0305day) <- colnames(ec0103day)
+  colnames(ec0610day) <- colnames(ec0103day)
+  fore_df <- bind_rows(ec0103day,ec0305day,ec0610day)
+  colnames(fore_df) <- tolower(colnames(Hrly_df))
+  colnames(fore_df) <- tolower(colnames(Hrly_df_1))
+  
+  #merge all data together
+  df <- bind_rows(Hrly_df_1, Hrly_df, fore_df) 
+  
+  # #infill missing dates
+  df <- padr::pad(df)
+  
+  infil_gap <- 24
+  df1 <- data.frame(df$date)
+  df1$temp <- round(na.spline(df$temp, na.rm = FALSE, maxgap = infil_gap),1)
+  df1$rh <- round(na.spline(df$rh, na.rm = FALSE, maxgap = infil_gap),0)
+  df1$rh  <- sapply(df1$rh, function(x) ifelse(x>100, x<-100, x))
+  df1$rainfall <- round(na.replace(df$rainfall, 0),1)
+  df1$solar <- round(na.spline(df$solar, na.rm = FALSE, maxgap = infil_gap),1)
+  df1$solar <- ifelse(df1$solar < 0, 0, df1$solar)
+  
+  df1$speed <- round(na.spline(df$speed, na.rm = FALSE, maxgap = infil_gap),0)
+  df1$dir <- round(na.spline(df$dir, na.rm = FALSE, maxgap = infil_gap),0)
+  names(df1) <- c("date","temp", "rhum","rain","solar", "wdspd", "wddir")
+  df1$stna <- station_name
+  df1$DayNo <- yday(df1$date)
+  
+  #Remove last Value because it is single value for that date - models cant run
+  df1 <- df1[1:c(length(df1$date)-1),]
+
+```
+  
+  
+  
+```{r}
+
+```
+  
+  
+  
+```{r}
+
+```
+  
+  
+  
+```{r}
+
+```
+  
+  
+  
+```{r}
+
+```
+  
+  
+  
+```{r}
+
+```
+  
+  
+  
+```{r}
+
+```
+  
+  
+  
+```{r}
+
+```
+  
+  
+  
+```{r}
+
+```
+  
+  
+  
+```{r}
+
+```
+  
+  
+  
+```{r}
+
+```
+  
+  
+  
+```{r}
+
+```
+
 
   
 ```{r}
