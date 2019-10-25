@@ -1,4 +1,4 @@
-% Pop
+% Population Data
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -30,7 +30,8 @@ knitr::knit_hooks$set(
 ```
 
 ## Popoulation analysis 
-
+Presentation of the sampling and a descriptive analysis of the samples collected.  
+  
 ## Load packages
 ```{r libs, warning = FALSE, message= FALSE}
 list.of.packages <-
@@ -177,7 +178,6 @@ filter(dis_obs, treatment == "Control") %>%
   labs(colour = "Variety:")+
   facet_wrap(~year, ncol = 1)+
   theme_article()+
-  
   theme(legend.position = "bottom")+
   guides(fill=guide_legend(nrow=2,byrow=TRUE),
          colour = guide_legend(title.position = "top"))

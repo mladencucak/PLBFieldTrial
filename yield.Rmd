@@ -1,4 +1,4 @@
-% Yield analysis
+% Yield
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
@@ -30,7 +30,8 @@ knitr::knit_hooks$set(
 ```
 
 ## Yield analysis
-Here we present the analysis of the impact of the fungicide programme, variety and year on the marketable yield. 
+Here we present the analysis of the impact of the fungicide programme, variety and year on the marketable yield.   
+  
 ## Load packages
 ```{r libs, warning = FALSE, message= FALSE}
 list.of.packages <-

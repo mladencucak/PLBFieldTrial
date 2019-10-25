@@ -387,7 +387,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">PLBipmIE</a>
+      <a class="navbar-brand" href="index.html">PLBFieldEval</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -402,7 +402,7 @@ div.tocify {
   <a href="dss.html">
     <span class="fa fa fa fa fa fa-cog fa-spin fa-fw"></span>
      
-    dss
+    DSS
   </a>
 </li>
 <li>
@@ -416,7 +416,7 @@ div.tocify {
   <a href="Trt.html">
     <span class="fa fa fa fa fa fa-plus-square"></span>
      
-    Trt
+    Sprays
   </a>
 </li>
 <li>
@@ -428,9 +428,16 @@ div.tocify {
 </li>
 <li>
   <a href="pop.html">
-    <span class="fa fa fa fa-share-alt"></span>
+    <span class="fa fa fa fa-code-fork"></span>
      
-    Population
+    Population Data
+  </a>
+</li>
+<li>
+  <a href="pop2.html">
+    <span class="fa fa fa fa-code-fork"></span>
+     
+    Population Analysis
   </a>
 </li>
       </ul>
@@ -458,6 +465,7 @@ div.tocify {
 
 <div id="popoulation-analysis" class="section level2">
 <h2>Popoulation analysis</h2>
+<p>Presentation of the sampling and a descriptive analysis of the samples collected.</p>
 </div>
 <div id="load-packages" class="section level2">
 <h2>Load packages</h2>
@@ -776,7 +784,6 @@ filter(dis_obs, treatment == &quot;Control&quot;) %&gt;%
   labs(colour = &quot;Variety:&quot;)+
   facet_wrap(~year, ncol = 1)+
   theme_article()+
-  
   theme(legend.position = &quot;bottom&quot;)+
   guides(fill=guide_legend(nrow=2,byrow=TRUE),
          colour = guide_legend(title.position = &quot;top&quot;))

@@ -387,7 +387,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">research-compendium-website</a>
+      <a class="navbar-brand" href="index.html">PLBipmIE</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -399,31 +399,45 @@ div.tocify {
   </a>
 </li>
 <li>
+  <a href="dss.html">
+    <span class="fa fa fa fa fa fa-cog fa-spin fa-fw"></span>
+     
+    DSS
+  </a>
+</li>
+<li>
   <a href="disdata.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa fa fa-pagelines"></span>
      
     Disease
   </a>
 </li>
 <li>
   <a href="Trt.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa fa fa-plus-square"></span>
      
-    Trt
+    Sprays
   </a>
 </li>
 <li>
   <a href="yield.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa-archive"></span>
      
     Yield
   </a>
 </li>
 <li>
   <a href="pop.html">
-    <span class="fa fa fa fa-file-code-o"></span>
+    <span class="fa fa fa fa-code-fork"></span>
      
-    Population
+    Population Data
+  </a>
+</li>
+<li>
+  <a href="pop2.html">
+    <span class="fa fa fa fa-code-fork"></span>
+     
+    Population Analysis
   </a>
 </li>
       </ul>
@@ -444,13 +458,14 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Yield analysis</h1>
+<h1 class="title toc-ignore">Yield</h1>
 
 </div>
 
 
 <div id="yield-analysis" class="section level2">
 <h2>Yield analysis</h2>
+<p>Here we present the analysis of the impact of the fungicide programme, variety and year on the marketable yield.</p>
 </div>
 <div id="load-packages" class="section level2">
 <h2>Load packages</h2>
@@ -728,7 +743,7 @@ dodging &lt;-  .8
     alpha = .7,
     position = position_dodge(width = dodging)
   ) +
-  scale_fill_brewer(&quot;Programme:&quot;, palette = &quot;Dark2&quot;) +
+  scale_color_brewer(&quot;Programme:&quot;, palette = &quot;Dark2&quot;) +
   theme_article() +
   theme(legend.position = &quot;top&quot;) +
   geom_vline(aes(xintercept = line_positions),
@@ -758,7 +773,7 @@ rm(p_fin)</code></pre>
 ##  collate  English_United States.1252  
 ##  ctype    English_United States.1252  
 ##  tz       Europe/London               
-##  date     2019-10-22                  
+##  date     2019-10-25                  
 ## 
 ## - Packages --------------------------------------------------------------
 ##  ! package      * version    date       lib
@@ -1026,7 +1041,7 @@ rm(p_fin)</code></pre>
 
 
 
-Copyright 2018 Adam H Sparks
+Copyright 2018 Mladen Cucak
 
 
 </div>

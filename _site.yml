@@ -17,7 +17,7 @@ output:
 bibliography: crossref.bib
 csl: chicago-author-date.csl
 navbar:
-  title: PLBipmIE
+  title: PLBFieldEval
   left:
   - text: About
     icon: fa fa-home
@@ -28,7 +28,7 @@ navbar:
   - text: Disease
     icon: fa fa fa-pagelines
     href: disdata.html
-  - text: Control
+  - text: Sprays
     icon: fa fa fa-plus-square
     href: Trt.html
   - text: Yield

@@ -88,7 +88,7 @@ rm(list.of.packages, new.packages, packages_load)
   
   
   
-```{r}
+```{r get_data, eval= FALSE}
 userpwd <- "Pass_phrase"
 
 url_fore<- "ftp://Pass_phrase@aimsir.ftp.mu.ie/MET/FORECAST/"
@@ -124,9 +124,9 @@ rm(file_fore, file_obs, local_fore, local_obs, url_fore, url_obs, userpwd, downl
   
   
   
-```{r}
-time<-as.Date(Sys.time(), "%Y%B%d", tz="GMT")
-
+```{r set_time}
+# time<-as.Date(Sys.time(), "%Y%B%d", tz="GMT")
+time <-  "2019-08-10"
 ```
   
   

@@ -1,7 +1,7 @@
 % Pop
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 chooseCRANmirror(graphics=FALSE, ind=1)
 knitr::knit_hooks$set(
   source = function(x, options) {
@@ -234,7 +234,7 @@ plot_poppr_msn(monpop,
 ```
 
 
-```{r}
+```{r year_var_bruvo}
 setPop(monpop) <- ~year/genotype
 monpop_sub <- popsub(monpop, blacklist = character(0))
 min_span_net <- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
@@ -257,45 +257,35 @@ plot_poppr_msn(monpop,
 ```
 
 
-```{r}
-
+```{r dapc_genotype}
 set.seed(999)
-setPop(monpop) <- ~genotype
+setPop(monpop) <- ~year
 
-#Determine the OS to assign apropriate character string for parallel processing
- parallel_proc <- 
-  ifelse(Sys.info()['sysname'] == "Windows", "snow", "multicore") 
-
- 
-pramx <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop))
-
-
-#HArd to determine the peek number of PC
 set.seed(999)
 system.time(pramx <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop),
-                              n.pca = 10:20, n.rep = 1000,
+                              n.pca = 5:30, 
+                              n.rep = 5000,
                               parallel = parallel_proc, 
-                              ncpus = 4L))
+                              ncpus = 3L))
 pramx[-1]
 pramx[-1]$`Number of PCs Achieving Highest Mean Success`
-#
+
 scatter(pramx$DAPC, 
         # col = other(monpop)$comparePal, 
-        cex =2 , 
+        cex =1.3 , 
         legend = TRUE,
         clabel = FALSE, 
-        posi.leg = "bottomleft", scree.pca = TRUE,
+        posi.leg = "topleft", scree.pca = TRUE,
         posi.pca = "topright", 
-        cleg = .9, xax = 1, 
-        yax = 2, inset.solid = 1)
+        cleg = .9, 
+        xax = 1, 
+        yax = 2, 
+        inset.solid = 1)
 
-dev.copy(png,filename=here::here("results", "gen","dapc", "genotype.png"),
+dev.copy(png,filename=here::here("results", "gen","dapc", "year.png"),
          width = 700, height= 700);
 dev.off ()
-scatter(pramx$DAPC,1,1, 
-        # col=myCol,
-        bg="white",
-        scree.da=FALSE, legend=TRUE, solid=.4)
+
 
 ```
 
@@ -306,6 +296,6 @@ scatter(pramx$DAPC,1,1,
 
 
 ```{r}
-
+session_info()
 ```
 

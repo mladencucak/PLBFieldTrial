@@ -1,4 +1,4 @@
-% Trt
+% Sprays
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
@@ -30,7 +30,7 @@ knitr::knit_hooks$set(
 ```
 
 ## Treatments analysis
-Impact of the dose reduction on the potato late blight development on potato varieties differing in their resistance level.  
+Number of treatments and proportion of the total dose used in fungicide trials.    
 
 ## Load packages
 ```{r libs, warning = FALSE, message= FALSE}
