@@ -86,9 +86,20 @@ rm(list.of.packages, new.packages, packages_load)
 #install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/"))
 ```
   
-  
+  The weather data is provided on an FTP server. 
   
 ```{r get_data, eval= FALSE}
+
+downloadCSV <- function(filename, folder, baseurl) {
+  fileurl <- paste0(baseurl, filename)
+  if (!file.exists(str_c(folder, "/", filename))) {
+    download.file(fileurl, 
+                  destfile = as.character(paste0(folder, "/", filename)),
+                  method="libcurl", 
+                  mode = "wb")#prevents from adding additional empty rows 
+  }
+}
+
 userpwd <- "Pass_phrase"
 
 url_fore<- "ftp://Pass_phrase@aimsir.ftp.mu.ie/MET/FORECAST/"
@@ -214,15 +225,33 @@ time <-  "2019-08-10"
 
 ```
   
-  
+  Run the models. 
   
 ```{r}
+#run Irish rules model and attach it to each df
+source("./scripts/lib/IrishRules.R")
+df_list <-lapply(df_list, function(x) mutate(x,irish_rules= IrishRulesModel(x)))
+
+#Run Danish model 
+source('./scripts/lib/Danish_Model/Model_BlightManagement.R')
+df_list <-lapply(df_list, function(x) mutate(x,dk_daily_spor= Model_BlightManagement(x)[[1]]))
+df_list <-lapply(df_list, function(x) mutate(x,dk_infpressure= Model_BlightManagement(x)[[2]]))
+
+#Irish model modified
+source("./scripts/lib/IrishRulesModelSensitive.R")
+df_list <-lapply(df_list, function(x) mutate(x,irish_rules_sensitive= IrishRulesModelSensitive(x)))
 
 ```
   
   
   
 ```{r}
+# Create dir for each day
+dir.create(paste0("./graphs/daily graphs/",as.character(time)))
+
+# Create and save plots for all stations
+source("./scripts/Plot outputs.R")
+plot_list <- lapply(df_list, PlotRisk)
 
 ```
   

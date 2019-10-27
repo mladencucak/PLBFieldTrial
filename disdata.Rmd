@@ -1,35 +1,9 @@
-% disdata 
+% Data 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE,
                       message = FALSE)
-
-chooseCRANmirror(graphics=FALSE, ind=1)
-knitr::knit_hooks$set(
-  source = function(x, options) {
-    hook.r = function(x, options) {
-      fence <- "```"
-      language = tolower(options$engine)
-      if (language == 'node') language = 'javascript'
-      if (!options$highlight) language = 'text'
-      if(!is.null(options$foldcode)) {
-      paste0('\n\n', "<details><summary>The code</summary>\n", fence, language, '\n', x, fence,  '\n\n', "</details>\n")
-      } else {
-              paste0('\n\n', fence, language, '\n', x, fence,  '\n\n')
-      }
-    }
-    x = knitr:::hilight_source(x, 'markdown', options)
-    hook.r(
-      paste(c(
-        x, 
-        ''
-      ), collapse = '\n'), 
-      options
-    )
-  }
-)
-
 ```
 
 ## Disease analysis
@@ -318,7 +292,11 @@ dis_obs %>%
 
 ## Model fitting procedure
 
-
+  See the distribution of the data. 
+```{r hist}
+hist(audpc_data$rAUDPC)
+```
+  
   The response (rAUDPC) is a proportion and we have a random component so we will analyse this data with beta general mixed effects models (GLMM). Adding small numeric constant to the 0 values. Anova tables are calculated using Wald chi-square statistics for comparisons. 
   
 ```{r}
@@ -329,20 +307,24 @@ audpc_data$rAUDPC_adj <- audpc_data$rAUDPC
 audpc_data$rAUDPC_adj[audpc_data$rAUDPC == 0] <- 1e-10
 ```
   
-Since two levels are missing in the year 2016 it is analysed separately.    
+  Since two levels are missing in the year 2016 it is analysed separately.    
   
 ```{r}
-fit_2016 <- glmmTMB(rAUDPC_adj ~ block + variety * treatment + (1 | block:treatment),
+fit_2016 <- glmmTMB(rAUDPC_adj ~ block:year + treatment * variety + (1 | block:treatment),
                     family = beta_family,
                     data = subset(audpc_data, year == "2016"))
 
 car::Anova(fit_2016)
 ```
+  The treatment variety interaction is significant. 
 
 Goodness of fit tests. 
 ```{r}
+aov_residuals<-residuals(object = fit_2016)
+shapiro.test(aov_residuals)
 plot(fitted(fit_2016), residuals(fit_2016), xlab = "Fitted Values", ylab = "Residuals")
 abline(h = 0, lty = 2)
+
 ```
 
   
@@ -352,19 +334,24 @@ t <-
   filter(t, effect != "ran_pars") %>% 
   dplyr::select(-c(component, group))
 write_csv(t, path = here::here("results", "dis", "2016fit.csv"))
-rm(t)
+
 ```
 
 Second model is fitted to the rest of the data. 
 ```{r}
-fit_rest <- glmmTMB(rAUDPC_adj ~ block:year + year * variety * treatment + (1 | block:treatment:year),
+
+fit_rest <- glmmTMB(rAUDPC_adj ~  block:year + year * treatment * variety + (1 | block:treatment:year),
                     family = beta_family,
                     data = subset(audpc_data, year != "2016"))
 car::Anova(fit_rest)
 ```
+  
+  
 
 Goodness of fit tests. 
 ```{r}
+aov_residuals<-residuals(object = fit_rest)
+shapiro.test(aov_residuals)
 plot(fitted(fit_rest), residuals(fit_rest), xlab = "Fitted Values", ylab = "Residuals")
 abline(h = 0, lty = 2)
 
@@ -376,7 +363,6 @@ t1 <-
   filter(t1, effect != "ran_pars") %>% 
   dplyr::select(-c(component, group))
 write_csv(t1, path = here::here("results", "dis", "fit_rest.csv"))
-rm(t1)
 ```
   
 
@@ -386,23 +372,21 @@ rm(t1)
 ```{r effects, fig.show= 'hold' }
 ae <- allEffects(fit_2016)
 
-plot(ae[[2]],multiline=TRUE,confint=TRUE,ci.style="bars"
+plot(ae,multiline=TRUE,confint=TRUE,ci.style="bars"
      ,main="Effect of treatment and variety in 2016"
-     ,xlab="Variety"
-     ,ylab="Treatment")
+     ,xlab="Treatment"
+     ,ylab="Variety"); rm(ae)
 
 e <- allEffects(fit_rest)
 
-plot(e[[2]],multiline=TRUE,confint=TRUE,ci.style="bars"
+plot(e,multiline=TRUE,confint=TRUE,ci.style="bars"
      ,main="Effect of treatment and variety 2017-2019"
-     ,xlab="Variety"
-     ,ylab="Treatment")
-rm(ae,e)
+     ,xlab="Treatment"
+     ,ylab="Variety"); rm(e)
 ```
   
   
-For multiple comparisons and post hoc tests, the estimated marginal means, standard errors and confidence intervals were calculated fo both model fits and presented in a single figure (see the last figure in the document).  
-For 2016: 
+
   
 ```{r comparisons_2016, out.width='100%', out.height= 3}
 posthoc<- 
@@ -440,8 +424,8 @@ ggplot(d2016, aes(x=pairs, y = prop, colour = treatment))+
   ggsave(filename= here::here("results", "dis", "pairwise comparisons 2016.png"), 
          width = 7, height = 2.5, dpi = 620)
 ```
-  
-For the remaining years. 
+
+
 
   
 ```{r comparisions_rest, out.width='100%', out.height= 15}
@@ -485,12 +469,10 @@ ggplot(drest, aes(x=pairs, y = prop, colour = treatment))+
 ```
 
 
-Combining the estimates from both models in a single data set. 
+ The model fits are combined in a single data set and presented in a single Figure. 
 
 
 ```{r}
-d2016$year <-  "2016"
-
 d1 <- 
   dplyr::bind_rows(d2016, drest)
 
@@ -503,7 +485,6 @@ d1 <-
 
 ```
   
-  The final plot. 
  
 ```{r final_plot, out.width='100%', fig.height= 3.7}
 
@@ -518,8 +499,10 @@ d1 %>%
     line_positions = as.numeric(factor(variety, levels = unique(variety))),
     line_positions = line_positions + .5,
     line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
-    line_positions = ifelse(year == 2016 & variety == "CL", 5.5, line_positions),
-    line_positions = ifelse(year == 2016 &  variety == "SE", 3.5, line_positions)
+    line_positions = ifelse(year == 2016 &
+                              variety == "CL", 5.5, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "SE", 3.5, line_positions)
   ) %>%
   ggplot(data = ., aes(x = variety, y = prop)) +
   geom_errorbar(
@@ -546,7 +529,6 @@ d1 %>%
     alpha = .5,
     position = position_dodge(width = dodging)
   ) +
-  scale_color_brewer("Programme:", palette = "Dark2") +
   theme_article() +
   theme(legend.position = "top") +
   geom_vline(aes(xintercept = line_positions),

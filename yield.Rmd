@@ -1,37 +1,10 @@
-% Yield
+% Yield analysis
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
-chooseCRANmirror(graphics=FALSE, ind=1)
-knitr::knit_hooks$set(
-  source = function(x, options) {
-    hook.r = function(x, options) {
-      fence <- "```"
-      language = tolower(options$engine)
-      if (language == 'node') language = 'javascript'
-      if (!options$highlight) language = 'text'
-      if(!is.null(options$foldcode)) {
-      paste0('\n\n', "<details><summary>The code</summary>\n", fence, language, '\n', x, fence,  '\n\n', "</details>\n")
-      } else {
-              paste0('\n\n', fence, language, '\n', x, fence,  '\n\n')
-      }
-    }
-    x = knitr:::hilight_source(x, 'markdown', options)
-    hook.r(
-      paste(c(
-        x, 
-        ''
-      ), collapse = '\n'), 
-      options
-    )
-  }
-)
-
 ```
 
 ## Yield analysis
-Here we present the analysis of the impact of the fungicide programme, variety and year on the marketable yield.   
-  
 ## Load packages
 ```{r libs, warning = FALSE, message= FALSE}
 list.of.packages <-
@@ -45,10 +18,7 @@ list.of.packages <-
     "lsmeans",
     "multcomp",
     "multcompView",
-    "ggpubr",
-    "car",
-    "reshape2",
-    "hnp"
+    "ggpubr"
   )
 
 new.packages <-
@@ -80,19 +50,12 @@ rm(list.of.packages, new.packages, packages_load)
 yld <-  read_csv(here::here("data", "yield", "yield.csv"))
 yld <-  yld %>%
   mutate_each_(funs(factor(.)), c("year", "variety", "treatment"))
-yld$treatment <- 
-  factor(yld$treatment, 
-         levels = c("Control", "Full Dose","Half Dose","Irish Rules","Blight Man. (DK)" ,"Modified I. R."))
-yld$variety <- 
-  factor(yld$variety, 
-         levels = c("BQ", "KE","RO","SE","CL" ,"SM"))
-
 
 ```
 
 
 ```{r}
-ggboxplot(yld, x = "variety", y = "marketable",facet.by = "year",   color = "treatment",palette =  "Dark2")
+ggpubr:: ggboxplot(yld, x = "variety", y = "marketable",facet.by = "year",   color = "treatment",palette =  "Dark2")
 
 ```
 
@@ -140,8 +103,8 @@ left_join(yldmean, yldsd, by = colnames(yldmean)[1:4])  %>%
   ggplot(., aes(
     x = variety,
     y = mean,
-    fill = treatment,
-    group = treatment
+    fill = variety,
+    group = variety
   )) +
   geom_bar(
     color = "black",
@@ -193,7 +156,7 @@ car::Anova(fit2016)
 
 ```{r}
 fit <- lmer(marketable ~ 
-              block:year + year * treatment * variety +
+              block :year + year * treatment * variety +
               (1 | block:treatment:year),
             data=subset(yld, year!=2016)
             )
@@ -249,10 +212,11 @@ ggplot(d2016, aes(x=pairs, y = lsmean, colour = treatment))+
 posthoc<- emmeans:: lsmeans(fit, ~treatment * variety *year, adjust="tukey", type = "response")
 
 drest <-  posthoc
-drest <- 
+(drest <- 
     cld(posthoc, 
         alpha = .05,
-        Letters=letters)
+        Letters=letters,
+        adjust = "Bonferroni"))
 
 drest <- 
   drest %>% 
@@ -284,7 +248,7 @@ ggplot(drest, aes(x=pairs, y = lsmean, colour = treatment))+
 
 ```
 
-Merge bothe data sets together. 
+
 ```{r}
 d2016$year <-  "2016"
 d1 <- 
@@ -300,7 +264,7 @@ d1 <-
 ```
 
 
-Final plot. 
+
 
 ```{r final_plot, out.width='100%'}
 #Set the position dodge
@@ -312,8 +276,11 @@ dodging <-  .8
   mutate(
     line_positions = as.numeric(factor(variety, levels = unique(variety))),
     line_positions = line_positions + .5,
-     line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
-    line_positions = ifelse(year == 2016 & variety == "SM", 5.5, line_positions)
+    line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "CL", 5.5, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "SE", 3.5, line_positions)
   ) %>%
   ggplot(data = ., aes(x = variety, y = lsmean)) +
   geom_errorbar(
@@ -336,11 +303,11 @@ dodging <-  .8
   geom_point(
     data = yld,
     aes(y = marketable, color = treatment, group = treatment),
-    size = .3,
-    alpha = .7,
+    size = .2,
+    alpha = .5,
     position = position_dodge(width = dodging)
   ) +
-  scale_color_brewer("Programme:", palette = "Dark2") +
+  scale_fill_brewer("Programme:", palette = "Dark2") +
   theme_article() +
   theme(legend.position = "top") +
   geom_vline(aes(xintercept = line_positions),
