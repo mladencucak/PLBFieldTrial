@@ -362,6 +362,10 @@ t1 <- broom.mixed::tidy(fit_rest, conf.int = TRUE)
 t1 <-  
   filter(t1, effect != "ran_pars") %>% 
   dplyr::select(-c(component, group))
+
+panderOptions('round', 2)
+panderOptions('keep.trailing.zeros', TRUE)
+pander(poly_3_fit, add.significance.stars = TRUE)
 write_csv(t1, path = here::here("results", "dis", "fit_rest.csv"))
 ```
   
@@ -532,8 +536,8 @@ d1 %>%
   theme_article() +
   theme(legend.position = "top") +
   geom_vline(aes(xintercept = line_positions),
-             size  = .1,
-             alpha = .3) +
+             size  = .2,
+             alpha = .6) +
   labs(colour = "Programme:",
        x = "Variety",
        y = "rAUDPC") 
