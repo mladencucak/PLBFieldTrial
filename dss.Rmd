@@ -312,7 +312,7 @@ plot_list <- lapply(df_list, PlotRisk)
 
   
 ```{r}
-sessionInfo()
+session_info()
 ```
   
 

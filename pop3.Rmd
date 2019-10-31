@@ -111,23 +111,19 @@ cpus
 
 
 ```{r dapc_var}
-#VAriety
 set.seed(999)
 setPop(monpop) <- ~variety
 pramx <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop))
 
 
-#HArd to determine the peek number of PC
 set.seed(999)
 system.time(pramx <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop),
                               n.pca = 10:20, n.rep = 1000,
                               parallel = parallel_proc, 
                               ncpus = cpus))
 pramx[2:6]
-
 pramx[-1]
 pramx[-1]$`Number of PCs Achieving Highest Mean Success`
-#
 
 
 scatter(
@@ -282,9 +278,9 @@ scatter(
   legend = TRUE,
   clabel = TRUE,
   posi.leg = "bottomleft",
-  scree.pca = FALSE,
+  scree.pca = TRUE,
   posi.pca = "topright",
-  posi.da = "bottomright",
+  posi.da = "topleft",
   cleg = .9,
   xax = 1,
   yax = 2,

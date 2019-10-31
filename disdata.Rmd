@@ -554,7 +554,7 @@ rm(p_fin)
   
   
 ```{r}
-sessionInfo()
+session_info()
 ```
   
 

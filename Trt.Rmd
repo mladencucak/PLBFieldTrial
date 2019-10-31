@@ -364,6 +364,7 @@ session_info()
 
 
 ```{r}
+session_info()
 
 ```
 

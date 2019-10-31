@@ -37,24 +37,8 @@ Presentation of the sampling and a descriptive analysis of the samples collected
 list.of.packages <-
   c(
     "tidyverse",
-    "data.table",
-    "ggplot2",
-    "knitr",
-    "zoo",
-    "RCurl",
-    "imputeTS",
-    "scales",
-    "padr",
     "devtools",
-    "readxl",
-    "agricolae",
     "egg",
-    "hrbrthemes",
-    "glmmTMB",
-    "sjPlot",
-    "effects",
-    "lsmeans",
-    "multcomp",
     "tableHTML"
   )
 
@@ -290,20 +274,27 @@ ggpubr::ggarrange(plotlist = plot_list,
 ```
 
 
-```{r freq_charts, fig.show="hold", out.width='50%'}
+```{r freq_charts, out.width='50%'}
 
 GenPalette <- c ("#ffff33", "#3399ff","#ff33cc")
+lab_size <-  3
+lab_pos_y <- -0.04
 
 gen_prop <- 
-samples %>%
+  samples %>%
   mutate(Genotype = ifelse(Genotype == "8A1-1", "8A1", Genotype)) %>%
   mutate(Genotype = factor(Genotype, levels = c( "8A1","13A2","6A1" ))) %>% 
+  group_by(variety) %>% 
   count(Genotype, variety) %>%
   rename(counts = n) %>%
-  mutate(prop = prop.table(counts))
+  mutate(prop = prop.table(counts)) %>% 
+  mutate(perc = round(prop * 100,1)) %>% 
+    arrange(desc(variety))
+
+
 
 labels <- 
-samples %>%
+  samples %>%
   mutate(Genotype = ifelse(Genotype == "8A1-1", "8A1", Genotype)) %>%
   count( variety) %>%
   rename(counts = n) %>%
@@ -312,8 +303,15 @@ samples %>%
   sapply( .,  function(x) paste0("n=", x )) %>% 
   as.vector()
 
-  
-ggplot(gen_prop, aes(variety, prop, fill = Genotype)) +
+f_v <-  
+  ggplot(gen_prop, aes(variety, prop, fill = Genotype)) +
+  geom_hline(
+    yintercept = seq(0 , 1, 0.1),
+    size = 0.2,
+    alpha = 0.8,
+    color = "gray",
+    linetype = "dotted"
+  )+
   geom_bar(stat = "identity",
            width = 0.6,
            position = position_fill(reverse = TRUE),
@@ -325,18 +323,29 @@ ggplot(gen_prop, aes(variety, prop, fill = Genotype)) +
     geom = "text",
     label = labels,
     x = unique(gen_prop$variety),
-    y = -0.02
+    y = lab_pos_y,
+    size = lab_size
   )+ 
   scale_fill_manual(values=GenPalette)+
-  theme_bw()
+  theme_bw()+
+  egg::theme_article()+
+  scale_y_continuous(limits = c(-0.09, 1),
+                     # expand = c(0, 0),
+                     breaks = seq(0, 1, 0.1))+
+  theme(legend.position = "top",
+        axis.title.y=element_blank()
+  )
+
 
 gen_prop_trt <-
   samples %>%
   mutate(Genotype = ifelse(Genotype == "8A1-1", "8A1", Genotype)) %>%
-  mutate(Genotype = factor(Genotype, levels = c( "8A1","13A2","6A1" ))) %>% 
+  mutate(Genotype = factor(Genotype, levels = c( "8A1","13A2","6A1" ))) %>%
+  group_by(treatment) %>% 
   count(Genotype, treatment) %>%
   rename(counts = n) %>%
-  mutate(prop = prop.table(counts))
+  mutate(prop = prop.table(counts))%>% 
+  mutate(perc = round(prop * 100,1))
 
 labels <-
   samples %>%
@@ -349,23 +358,121 @@ labels <-
     paste0("n=", x)) %>%
   as.vector()
 
-
-ggplot(gen_prop_trt, aes(treatment, prop, fill = Genotype)) +
-  geom_bar(stat = "identity",
-           width = 0.6,
-           position = position_fill(reverse = TRUE),
-           color = "black",
-           size = .1) +
-  ylab("Propoerion") +
+f_t <-
+  ggplot(gen_prop_trt, aes(treatment, prop, fill = Genotype)) +
+  geom_hline(
+    yintercept = seq(0 , 1, 0.1),
+    size = 0.2,
+    alpha = 0.8,
+    color = "gray",
+    linetype = "dotted"
+  ) +
+  geom_bar(
+    stat = "identity",
+    width = 0.6,
+    position = position_fill(reverse = TRUE),
+    color = "black",
+    size = .1
+  ) +
+  ylab("Proportion") +
   xlab("Treatment")  +
   annotate(
     geom = "text",
     label = labels,
     x = unique(gen_prop_trt$treatment),
-    y = -0.02
+    y = lab_pos_y,
+    size = lab_size
   ) +
-  scale_fill_manual(values=GenPalette)+
-  theme_bw()
+  scale_fill_manual(values = GenPalette) +
+  egg::theme_article() +
+  scale_y_continuous(limits = c(-0.08, 1),
+                     # expand = c(0, 0),
+                     breaks = seq(0, 1, 0.1)) +
+  theme(axis.title.y = element_blank(),
+        legend.position = "none")
+
+#Years
+gen_prop_year<- 
+  samples %>%
+  mutate(Genotype = ifelse(Genotype == "8A1-1", "8A1", Genotype)) %>%
+  mutate(Genotype = factor(Genotype, levels = c( "8A1","13A2","6A1" ))) %>% 
+  group_by(year) %>% 
+  count(Genotype, year) %>%
+  rename(counts = n) %>%
+  mutate(prop = prop.table(counts))%>% 
+  mutate(perc = round(prop * 100,1))
+
+labels <- 
+  samples %>%
+  mutate(Genotype = ifelse(Genotype == "8A1-1", "8A1", Genotype)) %>%
+  count( year) %>%
+  rename(counts = n) %>%
+  mutate(prop = prop.table(counts)) %>% 
+  dplyr::select(counts) %>% 
+  sapply( .,  function(x) paste0("n=", x )) %>% 
+  as.vector()
+
+f_y <-
+  ggplot(gen_prop_year, aes(year, prop, fill = Genotype)) +
+  geom_hline(
+    yintercept = seq(0 , 1, 0.1),
+    size = 0.2,
+    alpha = 0.8,
+    color = "gray",
+    linetype = "solid"
+  ) +
+  geom_bar(
+    stat = "identity",
+    width = 0.45,
+    position = position_fill(reverse = TRUE),
+    color = "black",
+    size = .1
+  ) +
+  ylab("Frequency") +
+  xlab("Year")  +
+  annotate(
+    geom = "text",
+    label = labels,
+    x = unique(gen_prop_year$year),
+    y = lab_pos_y,
+    size = lab_size
+  ) +
+  egg::theme_article() +
+  scale_y_continuous(
+    limits = c(-0.09, 1),
+    # expand = c(0, 0),
+    breaks = seq(0, 1, 0.1)
+  ) +
+  scale_fill_manual(values = GenPalette) +
+  theme(axis.title.y = element_blank(),
+        legend.position = "none")
+
+plotls <- list(f_v, f_t, f_y)
+ggpubr::ggarrange(plotlist = plotls, 
+                  heights = c(1.2,1,1),
+                  # labels = c("r","rr"),
+                  nrow = 3)+
+  ggsave(filename= here::here("results", "gen", "freq", "Freq_all.png"),
+         width = 2.9, height =9, dpi = 820)
+
+```
+
+
+```{r}
+gen_prop %>% 
+  dplyr::select(c(variety, Genotype, perc)) %>% 
+  spread(variety, perc) %>% 
+  lapply(., replace_na, 0) %>% tbl_df()
+
+gen_prop_trt %>% 
+  dplyr::select(c(treatment, Genotype, perc)) %>% 
+  spread(treatment, perc) %>% 
+  kableExtra::kable()
+
+gen_prop_year %>% 
+  dplyr::select(c(year, Genotype, perc)) %>% 
+  spread(year, perc)  %>% 
+  kableExtra::kable(align = "c")
 
 ```
 
@@ -401,11 +508,6 @@ ggplot(gen_prop_trt, aes(treatment, prop, fill = Genotype)) +
 
 
 ```{r}
-
-```
-
-
-```{r}
-
+session_info()
 ```
 
