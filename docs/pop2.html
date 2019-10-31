@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -91,7 +92,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -252,48 +252,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = false;
-    options.smoothScroll = false;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -387,7 +348,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">PLBipmIE</a>
+      <a class="navbar-brand" href="index.html">PLBFieldEval</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -402,7 +363,7 @@ div.tocify {
   <a href="dss.html">
     <span class="fa fa fa fa fa fa-cog fa-spin fa-fw"></span>
      
-    dss
+    DSS
   </a>
 </li>
 <li>
@@ -416,7 +377,7 @@ div.tocify {
   <a href="Trt.html">
     <span class="fa fa fa fa fa fa-plus-square"></span>
      
-    Trt
+    Sprays
   </a>
 </li>
 <li>
@@ -544,8 +505,6 @@ write.table(gen,
             path,
             sep = &quot;,&quot;, row.names = FALSE,
             col.names = !file.exists(&quot;myDF.csv&quot;), append = T)</code></pre>
-<pre><code>## Warning in write.table(gen, path, sep = &quot;,&quot;, row.names = FALSE, col.names
-## = !file.exists(&quot;myDF.csv&quot;), : appending column names to file</code></pre>
 <p>Bruvo charts</p>
 <pre class="r"><code>path &lt;- here::here(&quot;data&quot;, &quot;gen data&quot;, &quot;final&quot;, &quot;pop.csv&quot;)
 
@@ -589,34 +548,12 @@ min_span_net &lt;- poppr.msn(monpop_sub, monpop_dist, showplot = FALSE, include.
 
 setPop(monpop) &lt;- ~genotype
 monpop_sub &lt;- popsub(monpop, blacklist = character(0))
-min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)</code></pre>
-<pre><code>## Warning in bruvo.dist(cgid, replen = replen, add = add, loss = loss): 
-##  -------------------------------------------------------------- 
-##                         !!! ALERT !!! 
-##  
-##  This warning will become an ERROR in future versions of poppr. 
-##  Please define your repeat lengths to avoid this error. 
-##  -------------------------------------------------------------- 
-## 
-## Repeat length vector for loci is not equal to the number of loci represented.
-## Estimating repeat lengths from data:
-##  c(2, 4, 2, 4, 6, 3, 2, 2, 4, 2, 6, 14)</code></pre>
-<pre class="r"><code>set.seed(1000)
+min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+set.seed(1000)
 
 cbbPalette &lt;- c (&quot;#ff33cc&quot;,  &quot;#ffff33&quot;,&quot;#3399ff&quot;,&quot;#F3DA60&quot;) </code></pre>
-<pre class="r"><code>min_span_net &lt;- bruvo.msn(monpop, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)</code></pre>
-<pre><code>## Warning in bruvo.dist(cgid, replen = replen, add = add, loss = loss): 
-##  -------------------------------------------------------------- 
-##                         !!! ALERT !!! 
-##  
-##  This warning will become an ERROR in future versions of poppr. 
-##  Please define your repeat lengths to avoid this error. 
-##  -------------------------------------------------------------- 
-## 
-## Repeat length vector for loci is not equal to the number of loci represented.
-## Estimating repeat lengths from data:
-##  c(2, 4, 2, 4, 6, 3, 2, 2, 4, 2, 6, 14)</code></pre>
-<pre class="r"><code>plot_poppr_msn(monpop,
+<pre class="r"><code>min_span_net &lt;- bruvo.msn(monpop, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+plot_poppr_msn(monpop,
                min_span_net,
                mlg = FALSE,
                gadj = 7,
@@ -634,19 +571,8 @@ cbbPalette &lt;- c (&quot;#ff33cc&quot;,  &quot;#ffff33&quot;,&quot;#3399ff&quot
 <p><img src="pop2_files/figure-html/bruvo1-1.png" width="672" /></p>
 <pre class="r"><code>setPop(monpop) &lt;- ~year
 monpop_sub &lt;- popsub(monpop, blacklist = character(0))
-min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)</code></pre>
-<pre><code>## Warning in bruvo.dist(cgid, replen = replen, add = add, loss = loss): 
-##  -------------------------------------------------------------- 
-##                         !!! ALERT !!! 
-##  
-##  This warning will become an ERROR in future versions of poppr. 
-##  Please define your repeat lengths to avoid this error. 
-##  -------------------------------------------------------------- 
-## 
-## Repeat length vector for loci is not equal to the number of loci represented.
-## Estimating repeat lengths from data:
-##  c(2, 4, 2, 4, 6, 3, 2, 2, 4, 2, 6, 14)</code></pre>
-<pre class="r"><code>set.seed(1000)
+min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+set.seed(1000)
 
 cbbPalette &lt;- c (&quot;#ff33cc&quot;,  &quot;#ffff33&quot;,&quot;#3399ff&quot;) 
 
@@ -666,9 +592,6 @@ cbbPalette &lt;- c (&quot;#ff33cc&quot;,  &quot;#ffff33&quot;,&quot;#3399ff&quot
     beforecut = TRUE,
     layfun = igraph::layout_nicely
   )</code></pre>
-<pre><code>## Warning in palette_parser(pal, length(poppr_msn$populations),
-## poppr_msn$populations): insufficient color palette supplied. Using
-## topo.colors().</code></pre>
 <p><img src="pop2_files/figure-html/bruvoyear-1.png" width="672" /></p>
 <pre class="r"><code>dev.copy(png,filename=here::here(&quot;results&quot;, &quot;gen&quot;,&quot;bruvo&quot;, &quot;Year.png&quot;),
          width = 1000, height= 700 );</code></pre>
@@ -680,19 +603,8 @@ cbbPalette &lt;- c (&quot;#ff33cc&quot;,  &quot;#ffff33&quot;,&quot;#3399ff&quot
 <pre class="r"><code>setPop(monpop) &lt;- ~variety
 
 monpop_sub &lt;- popsub(monpop, blacklist = character(0))
-min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)</code></pre>
-<pre><code>## Warning in bruvo.dist(cgid, replen = replen, add = add, loss = loss): 
-##  -------------------------------------------------------------- 
-##                         !!! ALERT !!! 
-##  
-##  This warning will become an ERROR in future versions of poppr. 
-##  Please define your repeat lengths to avoid this error. 
-##  -------------------------------------------------------------- 
-## 
-## Repeat length vector for loci is not equal to the number of loci represented.
-## Estimating repeat lengths from data:
-##  c(2, 4, 2, 4, 6, 3, 2, 2, 4, 2, 6, 14)</code></pre>
-<pre class="r"><code>set.seed(1000)
+min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+set.seed(1000)
 plot_poppr_msn(monpop,
                min_span_net,
                inds = &quot;none&quot;,
@@ -710,19 +622,8 @@ plot_poppr_msn(monpop,
 <p><img src="pop2_files/figure-html/bruvovar-1.png" width="672" /></p>
 <pre class="r"><code>setPop(monpop) &lt;- ~year/genotype
 monpop_sub &lt;- popsub(monpop, blacklist = character(0))
-min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)</code></pre>
-<pre><code>## Warning in bruvo.dist(cgid, replen = replen, add = add, loss = loss): 
-##  -------------------------------------------------------------- 
-##                         !!! ALERT !!! 
-##  
-##  This warning will become an ERROR in future versions of poppr. 
-##  Please define your repeat lengths to avoid this error. 
-##  -------------------------------------------------------------- 
-## 
-## Repeat length vector for loci is not equal to the number of loci represented.
-## Estimating repeat lengths from data:
-##  c(2, 4, 2, 4, 6, 3, 2, 2, 4, 2, 6, 14)</code></pre>
-<pre class="r"><code>set.seed(1000)
+min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+set.seed(1000)
 plot_poppr_msn(monpop,
                min_span_net,
                inds = &quot;none&quot;,
@@ -737,116 +638,160 @@ plot_poppr_msn(monpop,
                size.leg = TRUE,
                scale.leg = TRUE,
                layfun = igraph::layout_nicely)</code></pre>
-<p><img src="pop2_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<pre class="r"><code>set.seed(999)
-setPop(monpop) &lt;- ~genotype
-
-#Determine the OS to assign apropriate character string for parallel processing
- parallel_proc &lt;- 
-  ifelse(Sys.info()[&#39;sysname&#39;] == &quot;Windows&quot;, &quot;snow&quot;, &quot;multicore&quot;) 
-
- 
-pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(monpop))</code></pre>
-<p><img src="pop2_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<pre class="r"><code>#HArd to determine the peek number of PC
-set.seed(999)
-system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(monpop),
-                              n.pca = 10:20, n.rep = 1000,
-                              parallel = parallel_proc, 
-                              ncpus = 4L))</code></pre>
-<pre><code>## Warning in KernSmooth::bkde2D(x, bandwidth = bandwidth, gridsize = nbin, :
-## Binning grid too coarse for current (small) bandwidth: consider increasing
-## &#39;gridsize&#39;</code></pre>
-<p><img src="pop2_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
-<pre><code>##    user  system elapsed 
-##    1.20    2.63  341.87</code></pre>
-<pre class="r"><code>pramx[-1]</code></pre>
-<pre><code>## $`Median and Confidence Interval for Random Chance`
-##      2.5%       50%     97.5% 
-## 0.2238813 0.2484479 0.2748249 
+<p><img src="pop2_files/figure-html/year_gen_bruvo-1.png" width="672" /></p>
+<pre class="r"><code>setPop(monpop) &lt;- ~year/variety
+monpop_sub &lt;- popsub(monpop, blacklist = character(0))
+min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+set.seed(1000)
+plot_poppr_msn(monpop,
+               min_span_net,
+               inds = &quot;none&quot;,
+               mlg = FALSE,
+               gadj = 6,
+               nodescale = 8,
+               palette = rainbow,
+               cutoff = 0.2,
+               quantiles = FALSE,
+               beforecut = TRUE,
+               pop.leg = TRUE,
+               size.leg = TRUE,
+               scale.leg = TRUE,
+               layfun = igraph::layout_nicely)</code></pre>
+<p><img src="pop2_files/figure-html/year_var_bruvo-1.png" width="672" /></p>
+<pre class="r"><code>session_info()</code></pre>
+<pre><code>## - Session info ----------------------------------------------------------
+##  setting  value                       
+##  version  R version 3.6.1 (2019-07-05)
+##  os       Windows 10 x64              
+##  system   x86_64, mingw32             
+##  ui       RTerm                       
+##  language (EN)                        
+##  collate  English_United States.1252  
+##  ctype    English_United States.1252  
+##  tz       Europe/London               
+##  date     2019-10-31                  
 ## 
-## $`Mean Successful Assignment by Number of PCs of PCA`
-##        10        11        12        13        14        15        16 
-## 0.9995619 0.9995682 0.9995530 0.9994129 0.9980915 0.9981387 0.9988902 
-##        17        18        19        20 
-## 0.9985619 0.9984385 0.9980354 0.9938687 
+## - Packages --------------------------------------------------------------
+##  package     * version  date       lib source        
+##  ade4        * 1.7-13   2018-08-31 [1] CRAN (R 3.6.1)
+##  adegenet    * 2.1.1    2018-02-02 [1] CRAN (R 3.6.1)
+##  ape           5.3      2019-03-17 [1] CRAN (R 3.6.1)
+##  assertthat    0.2.1    2019-03-21 [1] CRAN (R 3.6.1)
+##  backports     1.1.5    2019-10-02 [1] CRAN (R 3.6.1)
+##  boot          1.3-22   2019-04-02 [2] CRAN (R 3.6.1)
+##  broom         0.5.2    2019-04-07 [1] CRAN (R 3.6.1)
+##  callr         3.3.2    2019-09-22 [1] CRAN (R 3.6.1)
+##  cellranger    1.1.0    2016-07-27 [1] CRAN (R 3.6.1)
+##  class         7.3-15   2019-01-01 [2] CRAN (R 3.6.1)
+##  classInt      0.4-2    2019-10-17 [1] CRAN (R 3.6.1)
+##  cli           1.1.0    2019-03-19 [1] CRAN (R 3.6.1)
+##  cluster       2.1.0    2019-06-19 [2] CRAN (R 3.6.1)
+##  coda          0.19-3   2019-07-05 [1] CRAN (R 3.6.1)
+##  colorspace    1.4-1    2019-03-18 [1] CRAN (R 3.6.1)
+##  crayon        1.3.4    2017-09-16 [1] CRAN (R 3.6.1)
+##  DBI           1.0.0    2018-05-02 [1] CRAN (R 3.6.1)
+##  deldir        0.1-23   2019-07-31 [1] CRAN (R 3.6.1)
+##  desc          1.2.0    2018-05-01 [1] CRAN (R 3.6.1)
+##  devtools    * 2.2.1    2019-09-24 [1] CRAN (R 3.6.1)
+##  digest        0.6.22   2019-10-21 [1] CRAN (R 3.6.1)
+##  dplyr       * 0.8.3    2019-07-04 [1] CRAN (R 3.6.1)
+##  e1071         1.7-2    2019-06-05 [1] CRAN (R 3.6.1)
+##  egg         * 0.4.5    2019-07-13 [1] CRAN (R 3.6.1)
+##  ellipsis      0.3.0    2019-09-20 [1] CRAN (R 3.6.1)
+##  evaluate      0.14     2019-05-28 [1] CRAN (R 3.6.1)
+##  expm          0.999-4  2019-03-21 [1] CRAN (R 3.6.1)
+##  fastmap       1.0.1    2019-10-08 [1] CRAN (R 3.6.1)
+##  fastmatch     1.1-0    2017-01-28 [1] CRAN (R 3.6.0)
+##  forcats     * 0.4.0    2019-02-17 [1] CRAN (R 3.6.1)
+##  fs            1.3.1    2019-05-06 [1] CRAN (R 3.6.1)
+##  gdata         2.18.0   2017-06-06 [1] CRAN (R 3.6.0)
+##  generics      0.0.2    2018-11-29 [1] CRAN (R 3.6.1)
+##  ggplot2     * 3.2.1    2019-08-10 [1] CRAN (R 3.6.1)
+##  glue          1.3.1    2019-03-12 [1] CRAN (R 3.6.1)
+##  gmodels       2.18.1   2018-06-25 [1] CRAN (R 3.6.1)
+##  gridExtra   * 2.3      2017-09-09 [1] CRAN (R 3.6.1)
+##  gtable        0.3.0    2019-03-25 [1] CRAN (R 3.6.1)
+##  gtools        3.8.1    2018-06-26 [1] CRAN (R 3.6.0)
+##  haven         2.1.1    2019-07-04 [1] CRAN (R 3.6.1)
+##  here        * 0.1      2017-05-28 [1] CRAN (R 3.6.1)
+##  hms           0.5.2    2019-10-30 [1] CRAN (R 3.6.1)
+##  htmltools     0.4.0    2019-10-04 [1] CRAN (R 3.6.1)
+##  httpuv        1.5.2    2019-09-11 [1] CRAN (R 3.6.1)
+##  httr          1.4.1    2019-08-05 [1] CRAN (R 3.6.1)
+##  igraph        1.2.4.1  2019-04-22 [1] CRAN (R 3.6.1)
+##  jsonlite      1.6      2018-12-07 [1] CRAN (R 3.6.1)
+##  KernSmooth    2.23-15  2015-06-29 [2] CRAN (R 3.6.1)
+##  knitr         1.25     2019-09-18 [1] CRAN (R 3.6.1)
+##  later         1.0.0    2019-10-04 [1] CRAN (R 3.6.1)
+##  lattice       0.20-38  2018-11-04 [2] CRAN (R 3.6.1)
+##  lazyeval      0.2.2    2019-03-15 [1] CRAN (R 3.6.1)
+##  LearnBayes    2.15.1   2018-03-18 [1] CRAN (R 3.6.0)
+##  lifecycle     0.1.0    2019-08-01 [1] CRAN (R 3.6.1)
+##  lubridate     1.7.4    2018-04-11 [1] CRAN (R 3.6.1)
+##  magrittr      1.5      2014-11-22 [1] CRAN (R 3.6.1)
+##  MASS          7.3-51.4 2019-03-31 [2] CRAN (R 3.6.1)
+##  Matrix        1.2-17   2019-03-22 [2] CRAN (R 3.6.1)
+##  memoise       1.1.0    2017-04-21 [1] CRAN (R 3.6.1)
+##  mgcv          1.8-28   2019-03-21 [2] CRAN (R 3.6.1)
+##  mime          0.7      2019-06-11 [1] CRAN (R 3.6.0)
+##  modelr        0.1.5    2019-08-08 [1] CRAN (R 3.6.1)
+##  munsell       0.5.0    2018-06-12 [1] CRAN (R 3.6.1)
+##  nlme          3.1-140  2019-05-12 [2] CRAN (R 3.6.1)
+##  pegas         0.12     2019-10-05 [1] CRAN (R 3.6.1)
+##  permute       0.9-5    2019-03-12 [1] CRAN (R 3.6.1)
+##  phangorn      2.5.5    2019-06-19 [1] CRAN (R 3.6.1)
+##  pillar        1.4.2    2019-06-29 [1] CRAN (R 3.6.1)
+##  pkgbuild      1.0.6    2019-10-09 [1] CRAN (R 3.6.1)
+##  pkgconfig     2.0.3    2019-09-22 [1] CRAN (R 3.6.1)
+##  pkgload       1.0.2    2018-10-29 [1] CRAN (R 3.6.1)
+##  plyr          1.8.4    2016-06-08 [1] CRAN (R 3.6.1)
+##  polysat       1.7-4    2019-03-06 [1] CRAN (R 3.6.1)
+##  poppr       * 2.8.3    2019-06-18 [1] CRAN (R 3.6.1)
+##  prettyunits   1.0.2    2015-07-13 [1] CRAN (R 3.6.1)
+##  processx      3.4.1    2019-07-18 [1] CRAN (R 3.6.1)
+##  promises      1.1.0    2019-10-04 [1] CRAN (R 3.6.1)
+##  ps            1.3.0    2018-12-21 [1] CRAN (R 3.6.1)
+##  purrr       * 0.3.3    2019-10-18 [1] CRAN (R 3.6.1)
+##  quadprog      1.5-7    2019-05-06 [1] CRAN (R 3.6.0)
+##  R6            2.4.0    2019-02-14 [1] CRAN (R 3.6.1)
+##  Rcpp          1.0.2    2019-07-25 [1] CRAN (R 3.6.1)
+##  readr       * 1.3.1    2018-12-21 [1] CRAN (R 3.6.1)
+##  readxl      * 1.3.1    2019-03-13 [1] CRAN (R 3.6.1)
+##  remotes       2.1.0    2019-06-24 [1] CRAN (R 3.6.1)
+##  reshape2      1.4.3    2017-12-11 [1] CRAN (R 3.6.1)
+##  rlang         0.4.1    2019-10-24 [1] CRAN (R 3.6.1)
+##  rmarkdown     1.16     2019-10-01 [1] CRAN (R 3.6.1)
+##  rprojroot     1.3-2    2018-01-03 [1] CRAN (R 3.6.1)
+##  rstudioapi    0.10     2019-03-19 [1] CRAN (R 3.6.1)
+##  rvest         0.3.4    2019-05-15 [1] CRAN (R 3.6.1)
+##  scales        1.0.0    2018-08-09 [1] CRAN (R 3.6.1)
+##  seqinr        3.6-1    2019-09-07 [1] CRAN (R 3.6.1)
+##  sessioninfo   1.1.1    2018-11-05 [1] CRAN (R 3.6.1)
+##  sf            0.8-0    2019-09-17 [1] CRAN (R 3.6.1)
+##  shiny         1.4.0    2019-10-10 [1] CRAN (R 3.6.1)
+##  sp            1.3-1    2018-06-05 [1] CRAN (R 3.6.1)
+##  spData        0.3.2    2019-09-19 [1] CRAN (R 3.6.1)
+##  spdep         1.1-3    2019-09-18 [1] CRAN (R 3.6.1)
+##  stringi       1.4.3    2019-03-12 [1] CRAN (R 3.6.0)
+##  stringr     * 1.4.0    2019-02-10 [1] CRAN (R 3.6.1)
+##  testthat      2.2.1    2019-07-25 [1] CRAN (R 3.6.1)
+##  tibble      * 2.1.3    2019-06-06 [1] CRAN (R 3.6.1)
+##  tidyr       * 1.0.0    2019-09-11 [1] CRAN (R 3.6.1)
+##  tidyselect    0.2.5    2018-10-11 [1] CRAN (R 3.6.1)
+##  tidyverse   * 1.2.1    2017-11-14 [1] CRAN (R 3.6.1)
+##  units         0.6-5    2019-10-08 [1] CRAN (R 3.6.1)
+##  usethis     * 1.5.1    2019-07-04 [1] CRAN (R 3.6.1)
+##  vctrs         0.2.0    2019-07-05 [1] CRAN (R 3.6.1)
+##  vegan         2.5-6    2019-09-01 [1] CRAN (R 3.6.1)
+##  withr         2.1.2    2018-03-15 [1] CRAN (R 3.6.1)
+##  xfun          0.10     2019-10-01 [1] CRAN (R 3.6.1)
+##  xml2          1.2.2    2019-08-09 [1] CRAN (R 3.6.1)
+##  xtable        1.8-4    2019-04-21 [1] CRAN (R 3.6.1)
+##  yaml          2.2.0    2018-07-25 [1] CRAN (R 3.6.0)
+##  zeallot       0.1.0    2018-01-28 [1] CRAN (R 3.6.1)
 ## 
-## $`Number of PCs Achieving Highest Mean Success`
-## [1] &quot;11&quot;
-## 
-## $`Root Mean Squared Error by Number of PCs of PCA`
-##          10          11          12          13          14          15 
-## 0.002129688 0.001549926 0.001596825 0.003051013 0.006583163 0.006070264 
-##          16          17          18          19          20 
-## 0.002179265 0.004342223 0.005273447 0.006871054 0.033405665 
-## 
-## $`Number of PCs Achieving Lowest MSE`
-## [1] &quot;11&quot;
-## 
-## $DAPC
-##  #################################################
-##  # Discriminant Analysis of Principal Components #
-##  #################################################
-## class: dapc
-## $call: dapc.data.frame(x = as.data.frame(x), grp = ..1, n.pca = ..2, 
-##     n.da = ..3)
-## 
-## $n.pca: 11 first PCs of PCA used
-## $n.da: 3 discriminant functions saved
-## $var (proportion of conserved variance): 0.993
-## 
-## $eig (eigenvalues): 2612000 193100 13470  vector    length content                   
-## 1 $eig      3      eigenvalues               
-## 2 $grp      1315   prior group assignment    
-## 3 $prior    4      prior group probabilities 
-## 4 $assign   1315   posterior group assignment
-## 5 $pca.cent 60     centring vector of PCA    
-## 6 $pca.norm 60     scaling vector of PCA     
-## 7 $pca.eig  23     eigenvalues of PCA        
-## 
-##   data.frame    nrow ncol
-## 1 $tab          1315 11  
-## 2 $means        4    11  
-## 3 $loadings     11   3   
-## 4 $ind.coord    1315 3   
-## 5 $grp.coord    4    3   
-## 6 $posterior    1315 4   
-## 7 $pca.loadings 60   11  
-## 8 $var.contr    60   3   
-##   content                                          
-## 1 retained PCs of PCA                              
-## 2 group means                                      
-## 3 loadings of variables                            
-## 4 coordinates of individuals (principal components)
-## 5 coordinates of groups                            
-## 6 posterior membership probabilities               
-## 7 PCA loadings of original variables               
-## 8 contribution of original variables</code></pre>
-<pre class="r"><code>pramx[-1]$`Number of PCs Achieving Highest Mean Success`</code></pre>
-<pre><code>## [1] &quot;11&quot;</code></pre>
-<pre class="r"><code>#
-scatter(pramx$DAPC, 
-        # col = other(monpop)$comparePal, 
-        cex =2 , 
-        legend = TRUE,
-        clabel = FALSE, 
-        posi.leg = &quot;bottomleft&quot;, scree.pca = TRUE,
-        posi.pca = &quot;topright&quot;, 
-        cleg = .9, xax = 1, 
-        yax = 2, inset.solid = 1)</code></pre>
-<p><img src="pop2_files/figure-html/unnamed-chunk-2-3.png" width="672" /></p>
-<pre class="r"><code>dev.copy(png,filename=here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;, &quot;genotype.png&quot;),
-         width = 700, height= 700);</code></pre>
-<pre><code>## png 
-##   3</code></pre>
-<pre class="r"><code>dev.off ()</code></pre>
-<pre><code>## png 
-##   2</code></pre>
-<pre class="r"><code>scatter(pramx$DAPC,1,1, 
-        # col=myCol,
-        bg=&quot;white&quot;,
-        scree.da=FALSE, legend=TRUE, solid=.4)</code></pre>
-<p><img src="pop2_files/figure-html/unnamed-chunk-2-4.png" width="672" /></p>
+## [1] C:/Users/mlade/Documents/R/win-library/3.6
+## [2] C:/Program Files/R/R-3.6.1/library</code></pre>
 </div>
 
 
@@ -870,6 +815,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

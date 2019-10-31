@@ -37,9 +37,12 @@ navbar:
   - text: Population Data
     icon: fa fa-code-fork
     href: pop.html
-  - text: Population Analysis
+  - text: Pop Bruvo
     icon: fa fa-code-fork
     href: pop2.html
+  - text: Pop DAPC
+    icon: fa fa-code-fork
+    href: pop3.html
   right:
   - text: source
     icon: fa-github-square

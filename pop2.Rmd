@@ -234,7 +234,7 @@ plot_poppr_msn(monpop,
 ```
 
 
-```{r year_var_bruvo}
+```{r year_gen_bruvo}
 setPop(monpop) <- ~year/genotype
 monpop_sub <- popsub(monpop, blacklist = character(0))
 min_span_net <- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
@@ -257,40 +257,25 @@ plot_poppr_msn(monpop,
 ```
 
 
-```{r dapc_genotype}
-set.seed(999)
-setPop(monpop) <- ~year
-
-set.seed(999)
-system.time(pramx <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop),
-                              n.pca = 5:30, 
-                              n.rep = 5000,
-                              parallel = parallel_proc, 
-                              ncpus = 3L))
-pramx[-1]
-pramx[-1]$`Number of PCs Achieving Highest Mean Success`
-
-scatter(pramx$DAPC, 
-        # col = other(monpop)$comparePal, 
-        cex =1.3 , 
-        legend = TRUE,
-        clabel = FALSE, 
-        posi.leg = "topleft", scree.pca = TRUE,
-        posi.pca = "topright", 
-        cleg = .9, 
-        xax = 1, 
-        yax = 2, 
-        inset.solid = 1)
-
-dev.copy(png,filename=here::here("results", "gen","dapc", "year.png"),
-         width = 700, height= 700);
-dev.off ()
-
-
-```
-
-
-```{r}
+```{r year_var_bruvo}
+setPop(monpop) <- ~year/variety
+monpop_sub <- popsub(monpop, blacklist = character(0))
+min_span_net <- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+set.seed(1000)
+plot_poppr_msn(monpop,
+               min_span_net,
+               inds = "none",
+               mlg = FALSE,
+               gadj = 6,
+               nodescale = 8,
+               palette = rainbow,
+               cutoff = 0.2,
+               quantiles = FALSE,
+               beforecut = TRUE,
+               pop.leg = TRUE,
+               size.leg = TRUE,
+               scale.leg = TRUE,
+               layfun = igraph::layout_nicely)
 
 ```
 
