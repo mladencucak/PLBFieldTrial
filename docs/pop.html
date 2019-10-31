@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -91,7 +92,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -252,48 +252,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = false;
-    options.smoothScroll = false;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -437,7 +398,14 @@ div.tocify {
   <a href="pop2.html">
     <span class="fa fa fa fa-code-fork"></span>
      
-    Population Analysis
+    Pop Bruvo
+  </a>
+</li>
+<li>
+  <a href="pop3.html">
+    <span class="fa fa fa fa-code-fork"></span>
+     
+    Pop DAPC
   </a>
 </li>
       </ul>
@@ -474,7 +442,8 @@ div.tocify {
     &quot;tidyverse&quot;,
     &quot;devtools&quot;,
     &quot;egg&quot;,
-    &quot;tableHTML&quot;
+    &quot;tableHTML&quot;,
+    &quot;kableExtra&quot;
   )
 
 new.packages &lt;-
@@ -923,7 +892,7 @@ f_v &lt;-
   xlab(&quot;Variety&quot;)  +
   annotate(
     geom = &quot;text&quot;,
-    label = labels,
+    label = rev(labels),
     x = unique(gen_prop$variety),
     y = lab_pos_y,
     size = lab_size
@@ -1056,7 +1025,7 @@ ggpubr::ggarrange(plotlist = plotls,
                   nrow = 3)+
   ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Freq_all.png&quot;),
          width = 2.9, height =9, dpi = 820)</code></pre>
-<p><img src="pop_files/figure-html/freq_charts-1.png" width="50%" /></p>
+<p><img src="pop_files/figure-html/freq_charts-1.png" width="288" /></p>
 <pre class="r"><code>gen_prop %&gt;% 
   dplyr::select(c(variety, Genotype, perc)) %&gt;% 
   spread(variety, perc) %&gt;% 
@@ -1070,184 +1039,120 @@ ggpubr::ggarrange(plotlist = plotls,
 </div>
 <pre class="r"><code>gen_prop_trt %&gt;% 
   dplyr::select(c(treatment, Genotype, perc)) %&gt;% 
-  spread(treatment, perc) %&gt;% 
-  kableExtra::kable()</code></pre>
-<table>
-<thead>
-<tr>
-<th style="text-align:left;">
-Genotype
-</th>
-<th style="text-align:right;">
-0
-</th>
-<th style="text-align:right;">
-100
-</th>
-<th style="text-align:right;">
-50
-</th>
-<th style="text-align:right;">
-IR
-</th>
-<th style="text-align:right;">
-BM
-</th>
-<th style="text-align:right;">
-MIR
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-8A1
-</td>
-<td style="text-align:right;">
-58.2
-</td>
-<td style="text-align:right;">
-45.2
-</td>
-<td style="text-align:right;">
-48.5
-</td>
-<td style="text-align:right;">
-62.3
-</td>
-<td style="text-align:right;">
-55.3
-</td>
-<td style="text-align:right;">
-65.6
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-13A2
-</td>
-<td style="text-align:right;">
-15.6
-</td>
-<td style="text-align:right;">
-24.4
-</td>
-<td style="text-align:right;">
-23.9
-</td>
-<td style="text-align:right;">
-15.0
-</td>
-<td style="text-align:right;">
-8.7
-</td>
-<td style="text-align:right;">
-11.3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-6A1
-</td>
-<td style="text-align:right;">
-26.3
-</td>
-<td style="text-align:right;">
-30.4
-</td>
-<td style="text-align:right;">
-27.6
-</td>
-<td style="text-align:right;">
-22.7
-</td>
-<td style="text-align:right;">
-36.0
-</td>
-<td style="text-align:right;">
-23.2
-</td>
-</tr>
-</tbody>
-</table>
+  spread(treatment, perc) </code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["0"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["100"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["50"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["IR"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BM"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MIR"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"58.2","3":"45.2","4":"48.5","5":"62.3","6":"55.3","7":"65.6"},{"1":"13A2","2":"15.6","3":"24.4","4":"23.9","5":"15.0","6":"8.7","7":"11.3"},{"1":"6A1","2":"26.3","3":"30.4","4":"27.6","5":"22.7","6":"36.0","7":"23.2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <pre class="r"><code>gen_prop_year %&gt;% 
   dplyr::select(c(year, Genotype, perc)) %&gt;% 
-  spread(year, perc)  %&gt;% 
-  kableExtra::kable()</code></pre>
-<table>
-<thead>
-<tr>
-<th style="text-align:left;">
-Genotype
-</th>
-<th style="text-align:right;">
-2016
-</th>
-<th style="text-align:right;">
-2017
-</th>
-<th style="text-align:right;">
-2018
-</th>
-<th style="text-align:right;">
-2019
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-8A1
-</td>
-<td style="text-align:right;">
-34.2
-</td>
-<td style="text-align:right;">
-53.9
-</td>
-<td style="text-align:right;">
-90.3
-</td>
-<td style="text-align:right;">
-53.6
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-13A2
-</td>
-<td style="text-align:right;">
-46.8
-</td>
-<td style="text-align:right;">
-4.0
-</td>
-<td style="text-align:right;">
-1.0
-</td>
-<td style="text-align:right;">
-25.7
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-6A1
-</td>
-<td style="text-align:right;">
-19.0
-</td>
-<td style="text-align:right;">
-42.1
-</td>
-<td style="text-align:right;">
-8.7
-</td>
-<td style="text-align:right;">
-20.8
-</td>
-</tr>
-</tbody>
-</table>
+  spread(year, perc)  </code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["2016"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["2017"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["2018"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["2019"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"34.2","3":"53.9","4":"90.3","5":"53.6"},{"1":"13A2","2":"46.8","3":"4.0","4":"1.0","5":"25.7"},{"1":"6A1","2":"19.0","3":"42.1","4":"8.7","5":"20.8"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>session_info()</code></pre>
+<pre><code>## - Session info ----------------------------------------------------------
+##  setting  value                       
+##  version  R version 3.6.1 (2019-07-05)
+##  os       Windows 10 x64              
+##  system   x86_64, mingw32             
+##  ui       RTerm                       
+##  language (EN)                        
+##  collate  English_United States.1252  
+##  ctype    English_United States.1252  
+##  tz       Europe/London               
+##  date     2019-10-31                  
+## 
+## - Packages --------------------------------------------------------------
+##  package      * version date       lib source        
+##  assertthat     0.2.1   2019-03-21 [1] CRAN (R 3.6.1)
+##  backports      1.1.5   2019-10-02 [1] CRAN (R 3.6.1)
+##  broom          0.5.2   2019-04-07 [1] CRAN (R 3.6.1)
+##  callr          3.3.2   2019-09-22 [1] CRAN (R 3.6.1)
+##  cellranger     1.1.0   2016-07-27 [1] CRAN (R 3.6.1)
+##  cli            1.1.0   2019-03-19 [1] CRAN (R 3.6.1)
+##  colorspace     1.4-1   2019-03-18 [1] CRAN (R 3.6.1)
+##  cowplot        1.0.0   2019-07-11 [1] CRAN (R 3.6.1)
+##  crayon         1.3.4   2017-09-16 [1] CRAN (R 3.6.1)
+##  desc           1.2.0   2018-05-01 [1] CRAN (R 3.6.1)
+##  devtools     * 2.2.1   2019-09-24 [1] CRAN (R 3.6.1)
+##  digest         0.6.22  2019-10-21 [1] CRAN (R 3.6.1)
+##  dplyr        * 0.8.3   2019-07-04 [1] CRAN (R 3.6.1)
+##  egg          * 0.4.5   2019-07-13 [1] CRAN (R 3.6.1)
+##  ellipsis       0.3.0   2019-09-20 [1] CRAN (R 3.6.1)
+##  evaluate       0.14    2019-05-28 [1] CRAN (R 3.6.1)
+##  forcats      * 0.4.0   2019-02-17 [1] CRAN (R 3.6.1)
+##  fs             1.3.1   2019-05-06 [1] CRAN (R 3.6.1)
+##  generics       0.0.2   2018-11-29 [1] CRAN (R 3.6.1)
+##  ggplot2      * 3.2.1   2019-08-10 [1] CRAN (R 3.6.1)
+##  ggpubr         0.2.3   2019-09-03 [1] CRAN (R 3.6.1)
+##  ggsignif       0.6.0   2019-08-08 [1] CRAN (R 3.6.1)
+##  glue           1.3.1   2019-03-12 [1] CRAN (R 3.6.1)
+##  gridExtra    * 2.3     2017-09-09 [1] CRAN (R 3.6.1)
+##  gtable         0.3.0   2019-03-25 [1] CRAN (R 3.6.1)
+##  haven          2.1.1   2019-07-04 [1] CRAN (R 3.6.1)
+##  here           0.1     2017-05-28 [1] CRAN (R 3.6.1)
+##  highr          0.8     2019-03-20 [1] CRAN (R 3.6.1)
+##  hms            0.5.2   2019-10-30 [1] CRAN (R 3.6.1)
+##  htmltools      0.4.0   2019-10-04 [1] CRAN (R 3.6.1)
+##  httr           1.4.1   2019-08-05 [1] CRAN (R 3.6.1)
+##  jsonlite       1.6     2018-12-07 [1] CRAN (R 3.6.1)
+##  kableExtra   * 1.1.0   2019-03-16 [1] CRAN (R 3.6.1)
+##  knitr          1.25    2019-09-18 [1] CRAN (R 3.6.1)
+##  labeling       0.3     2014-08-23 [1] CRAN (R 3.6.0)
+##  lattice        0.20-38 2018-11-04 [2] CRAN (R 3.6.1)
+##  lazyeval       0.2.2   2019-03-15 [1] CRAN (R 3.6.1)
+##  lifecycle      0.1.0   2019-08-01 [1] CRAN (R 3.6.1)
+##  lubridate      1.7.4   2018-04-11 [1] CRAN (R 3.6.1)
+##  magrittr       1.5     2014-11-22 [1] CRAN (R 3.6.1)
+##  memoise        1.1.0   2017-04-21 [1] CRAN (R 3.6.1)
+##  modelr         0.1.5   2019-08-08 [1] CRAN (R 3.6.1)
+##  munsell        0.5.0   2018-06-12 [1] CRAN (R 3.6.1)
+##  nlme           3.1-140 2019-05-12 [2] CRAN (R 3.6.1)
+##  pillar         1.4.2   2019-06-29 [1] CRAN (R 3.6.1)
+##  pkgbuild       1.0.6   2019-10-09 [1] CRAN (R 3.6.1)
+##  pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 3.6.1)
+##  pkgload        1.0.2   2018-10-29 [1] CRAN (R 3.6.1)
+##  prettyunits    1.0.2   2015-07-13 [1] CRAN (R 3.6.1)
+##  processx       3.4.1   2019-07-18 [1] CRAN (R 3.6.1)
+##  ps             1.3.0   2018-12-21 [1] CRAN (R 3.6.1)
+##  purrr        * 0.3.3   2019-10-18 [1] CRAN (R 3.6.1)
+##  R6             2.4.0   2019-02-14 [1] CRAN (R 3.6.1)
+##  RColorBrewer   1.1-2   2014-12-07 [1] CRAN (R 3.6.0)
+##  Rcpp           1.0.2   2019-07-25 [1] CRAN (R 3.6.1)
+##  readr        * 1.3.1   2018-12-21 [1] CRAN (R 3.6.1)
+##  readxl         1.3.1   2019-03-13 [1] CRAN (R 3.6.1)
+##  remotes        2.1.0   2019-06-24 [1] CRAN (R 3.6.1)
+##  rlang          0.4.1   2019-10-24 [1] CRAN (R 3.6.1)
+##  rmarkdown      1.16    2019-10-01 [1] CRAN (R 3.6.1)
+##  rprojroot      1.3-2   2018-01-03 [1] CRAN (R 3.6.1)
+##  rstudioapi     0.10    2019-03-19 [1] CRAN (R 3.6.1)
+##  rvest          0.3.4   2019-05-15 [1] CRAN (R 3.6.1)
+##  scales         1.0.0   2018-08-09 [1] CRAN (R 3.6.1)
+##  sessioninfo    1.1.1   2018-11-05 [1] CRAN (R 3.6.1)
+##  stringi        1.4.3   2019-03-12 [1] CRAN (R 3.6.0)
+##  stringr      * 1.4.0   2019-02-10 [1] CRAN (R 3.6.1)
+##  tableHTML    * 2.0.0   2019-03-16 [1] CRAN (R 3.6.1)
+##  testthat       2.2.1   2019-07-25 [1] CRAN (R 3.6.1)
+##  tibble       * 2.1.3   2019-06-06 [1] CRAN (R 3.6.1)
+##  tidyr        * 1.0.0   2019-09-11 [1] CRAN (R 3.6.1)
+##  tidyselect     0.2.5   2018-10-11 [1] CRAN (R 3.6.1)
+##  tidyverse    * 1.2.1   2017-11-14 [1] CRAN (R 3.6.1)
+##  usethis      * 1.5.1   2019-07-04 [1] CRAN (R 3.6.1)
+##  vctrs          0.2.0   2019-07-05 [1] CRAN (R 3.6.1)
+##  viridisLite    0.3.0   2018-02-01 [1] CRAN (R 3.6.1)
+##  webshot        0.5.1   2018-09-28 [1] CRAN (R 3.6.1)
+##  withr          2.1.2   2018-03-15 [1] CRAN (R 3.6.1)
+##  xfun           0.10    2019-10-01 [1] CRAN (R 3.6.1)
+##  xml2           1.2.2   2019-08-09 [1] CRAN (R 3.6.1)
+##  yaml           2.2.0   2018-07-25 [1] CRAN (R 3.6.0)
+##  zeallot        0.1.0   2018-01-28 [1] CRAN (R 3.6.1)
+## 
+## [1] C:/Users/mlade/Documents/R/win-library/3.6
+## [2] C:/Program Files/R/R-3.6.1/library</code></pre>
 </div>
 
 
@@ -1271,6 +1176,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

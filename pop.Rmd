@@ -39,7 +39,8 @@ list.of.packages <-
     "tidyverse",
     "devtools",
     "egg",
-    "tableHTML"
+    "tableHTML",
+    "kableExtra"
   )
 
 new.packages <-
@@ -274,7 +275,7 @@ ggpubr::ggarrange(plotlist = plot_list,
 ```
 
 
-```{r freq_charts, out.width='50%'}
+```{r freq_charts, fig.width= 3, fig.height=9 }
 
 GenPalette <- c ("#ffff33", "#3399ff","#ff33cc")
 lab_size <-  3
@@ -321,7 +322,7 @@ f_v <-
   xlab("Variety")  +
   annotate(
     geom = "text",
-    label = labels,
+    label = rev(labels),
     x = unique(gen_prop$variety),
     y = lab_pos_y,
     size = lab_size
@@ -466,14 +467,11 @@ gen_prop %>%
 
 gen_prop_trt %>% 
   dplyr::select(c(treatment, Genotype, perc)) %>% 
-  spread(treatment, perc) %>% 
-  kableExtra::kable()
+  spread(treatment, perc) 
 
 gen_prop_year %>% 
   dplyr::select(c(year, Genotype, perc)) %>% 
-  spread(year, perc)  %>% 
-  kableExtra::kable(align = "c")
-
+  spread(year, perc)  
 ```
 
 
