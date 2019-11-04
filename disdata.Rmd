@@ -26,7 +26,8 @@ list.of.packages <-
     "effects",
     "lsmeans",
     "multcomp",
-    "car"
+    "car",
+    "ggridges"
   )
 
 new.packages <-
@@ -53,6 +54,8 @@ rm(list.of.packages, new.packages, packages_load)
   
   
 ## The (disease) data
+
+
 ```{r load_data}
 ls <- 
 map(list.files(here::here("data", "disease"), full.names = TRUE, pattern = "disease"), readRDS)
@@ -299,7 +302,7 @@ hist(audpc_data$rAUDPC)
   
   The response (rAUDPC) is a proportion and we have a random component so we will analyse this data with beta general mixed effects models (GLMM). Adding small numeric constant to the 0 values. Anova tables are calculated using Wald chi-square statistics for comparisons. 
   
-```{r}
+```{r prep_data}
 audpc_data$block<-factor(audpc_data$bloc)
 audpc_data$year<-factor(audpc_data$year)
 
@@ -309,8 +312,8 @@ audpc_data$rAUDPC_adj[audpc_data$rAUDPC == 0] <- 1e-10
   
   Since two levels are missing in the year 2016 it is analysed separately.    
   
-```{r}
-fit_2016 <- glmmTMB(rAUDPC_adj ~ block:year + treatment * variety + (1 | block:treatment),
+```{r fit2016}
+fit_2016 <- glmmTMB(rAUDPC_adj ~ block + treatment * variety + (1 | block:treatment),
                     family = beta_family,
                     data = subset(audpc_data, year == "2016"))
 
