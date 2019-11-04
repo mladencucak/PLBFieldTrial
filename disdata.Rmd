@@ -27,7 +27,10 @@ list.of.packages <-
     "lsmeans",
     "multcomp",
     "car",
-    "ggridges"
+    "ggridges",
+    "broom.mixed",
+    "pander",
+    "devtools"
   )
 
 new.packages <-
