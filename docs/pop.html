@@ -470,7 +470,20 @@ if (any(as.numeric(packages_load) == 0)) {
 </div>
 <div id="data-import" class="section level2">
 <h2>Data import</h2>
-<pre class="r"><code>samples &lt;-  readRDS(file = here::here(&quot;data&quot;, &quot;gen data&quot;, &quot;final&quot;, &quot;gendata.rds&quot;) )</code></pre>
+<p>Import the data and set the levels of the treatment (3 fixed and 3 variable doses) and variety (susceptible to resistant).</p>
+<pre class="r"><code>samples &lt;-  readRDS(file = here::here(&quot;data&quot;, &quot;gen data&quot;, &quot;final&quot;, &quot;gendata.rds&quot;) )
+
+paste( &quot;The data set is consisted of&quot;, nrow(samples), &quot;genotyped samples&quot;)</code></pre>
+<pre><code>## [1] &quot;The data set is consisted of 1287 genotyped samples&quot;</code></pre>
+<pre class="r"><code>#Prepare the poulation strata initials
+samples$treatment &lt;- 
+  factor(samples$treatment, 
+         levels = c(&quot;0&quot;, &quot;100&quot;,&quot;50&quot;,&quot;IR&quot;,&quot;BM&quot; ,&quot;MIR&quot;))
+
+
+samples &lt;- 
+  samples %&gt;% 
+  mutate(variety = factor(variety, levels =c(&quot;KE&quot;,&quot;BQ&quot;, &quot;RO&quot;, &quot;SE&quot;, &quot;CL&quot;,&quot;SM&quot;))) </code></pre>
 <p>Sampling dates and number of samples.</p>
 <pre class="r"><code>samp_dates &lt;- 
 samples %&gt;% 
@@ -506,17 +519,6 @@ No. of Samples
 </td>
 <td style="text-align:right;">
 158
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-2017
-</td>
-<td style="text-align:left;">
-12/1/2017
-</td>
-<td style="text-align:right;">
-28
 </td>
 </tr>
 <tr>
@@ -713,7 +715,7 @@ samples$plotID &lt;- 1
 line_size &lt;- 0.13
 
 
-cbbPalette &lt;- c (&quot;#3399ff&quot;, &quot;#ff33cc&quot;,  &quot;#FDFD8D&quot;,&quot;#ffff33&quot;)
+cbbPalette &lt;- c (&quot;#3399ff&quot;, &quot;#ff33cc&quot;,&quot;#ffff33&quot;)
 
 dis_obs &lt;- readRDS(file = here::here(&quot;data&quot;, &quot;disease&quot;, &quot;dis_obs.rds&quot;) )
 
@@ -787,31 +789,6 @@ ggplot(aes(julian_day, fill = variety))+
 
 
 
-#plot samples per treatment
- p_trt &lt;- 
-  filter(samples, julian_day &lt; 300) %&gt;% 
-  ggplot(.,aes(julian_day, fill = trt))+
-  # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = &quot;black&quot;, size = 0.1)+
-  geom_bar(stat = &quot;count&quot;, position = &quot;stack&quot;, width = 6,colour = &quot;black&quot;, size = line_size)+
-  
-  facet_wrap(~year, ncol = 1)+
-  xlab(&quot;Date&quot;)+
-   # ylab(&quot;No. of samples&quot;)+
-   ylab(&quot;&quot;)+
-   scale_fill_brewer(&quot;Dose:&quot;, palette = &quot;Dark2&quot;) +
-  
-  # ggtitle(&quot;&quot;)+
-  # scale_fill_manual(values=cbbPalette)+
-  theme_article()+
-  theme(
-    axis.title.y=element_blank(),
-    axis.text.y=element_blank(),
-    legend.position = &quot;bottom&quot;,
-    legend.direction = &quot;horizontal&quot;)+
-  guides(fill=guide_legend(nrow=2,byrow=TRUE,title.position = &quot;top&quot;))+
-  ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Trt dose per sampling vertical.png&quot;), 
-         width = 4, height =6, dpi = 620)
-
 
 
 #plot samples per treatment/fixed reduced dose
@@ -837,16 +814,18 @@ ggplot(aes(julian_day, fill = variety))+
   ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Treatment dose per sampling vertical.png&quot;), 
          width = 4, height =6, dpi = 620)
 
-plot_list &lt;- list(p_dis,p_gen, p_var, p_trt, p_prog)
+plot_list &lt;- list(p_dis,p_gen, p_var, p_prog)
 
 ggpubr::ggarrange(plotlist = plot_list, 
-                   widths = c(1,1.15,1,1,1),
+                   widths = c(1,1.15,1,1),
                   # labels = c(&quot;r&quot;,&quot;rr&quot;),
                    ncol = 5)+
   ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;G and v sampling vertical.png&quot;),
-         width = 9.8, height =7, dpi = 620)</code></pre>
+         width = 9, height =7, dpi = 620)</code></pre>
 </details>
 <p><img src="pop_files/figure-html/plot_all-1.png" width="100%" /></p>
+<details>
+<p><summary>The code</summary></p>
 <pre class="r"><code>GenPalette &lt;- c (&quot;#ffff33&quot;, &quot;#3399ff&quot;,&quot;#ff33cc&quot;)
 lab_size &lt;-  3
 lab_pos_y &lt;- -0.04
@@ -1025,6 +1004,7 @@ ggpubr::ggarrange(plotlist = plotls,
                   nrow = 3)+
   ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Freq_all.png&quot;),
          width = 2.9, height =9, dpi = 820)</code></pre>
+</details>
 <p><img src="pop_files/figure-html/freq_charts-1.png" width="288" /></p>
 <pre class="r"><code>gen_prop %&gt;% 
   dplyr::select(c(variety, Genotype, perc)) %&gt;% 
@@ -1034,7 +1014,7 @@ ggpubr::ggarrange(plotlist = plotls,
 ## factor level, NA generated</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["KE"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["BQ"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["RO"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["SE"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["CL"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["SM"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"68.2","3":"65.8","4":"65.4","5":"19.0","6":"17.1","7":"0"},{"1":"13A2","2":"7.1","3":"8.5","4":"8.3","5":"35.1","6":"71.4","7":"88"},{"1":"6A1","2":"24.7","3":"25.6","4":"26.3","5":"46.0","6":"11.4","7":"12"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["KE"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["BQ"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["RO"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["SE"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["CL"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["SM"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"67.3","3":"64.9","4":"66.2","5":"19.0","6":"17.1","7":"0"},{"1":"13A2","2":"7.3","3":"8.8","4":"8.4","5":"35.1","6":"71.4","7":"88"},{"1":"6A1","2":"25.3","3":"26.3","4":"25.3","5":"46.0","6":"11.4","7":"12"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <pre class="r"><code>gen_prop_trt %&gt;% 
@@ -1042,7 +1022,7 @@ ggpubr::ggarrange(plotlist = plotls,
   spread(treatment, perc) </code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["0"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["100"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["50"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["IR"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BM"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MIR"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"58.2","3":"45.2","4":"48.5","5":"62.3","6":"55.3","7":"65.6"},{"1":"13A2","2":"15.6","3":"24.4","4":"23.9","5":"15.0","6":"8.7","7":"11.3"},{"1":"6A1","2":"26.3","3":"30.4","4":"27.6","5":"22.7","6":"36.0","7":"23.2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["0"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["100"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["50"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["IR"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BM"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MIR"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"57.2","3":"45.1","4":"48.5","5":"60.8","6":"55.3","7":"65.3"},{"1":"13A2","2":"16.0","3":"24.8","4":"23.9","5":"15.6","6":"8.8","7":"11.3"},{"1":"6A1","2":"26.8","3":"30.1","4":"27.6","5":"23.6","6":"35.8","7":"23.3"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <pre class="r"><code>gen_prop_year %&gt;% 
@@ -1050,7 +1030,7 @@ ggpubr::ggarrange(plotlist = plotls,
   spread(year, perc)  </code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["2016"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["2017"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["2018"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["2019"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"34.2","3":"53.9","4":"90.3","5":"53.6"},{"1":"13A2","2":"46.8","3":"4.0","4":"1.0","5":"25.7"},{"1":"6A1","2":"19.0","3":"42.1","4":"8.7","5":"20.8"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["2016"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["2017"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["2018"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["2019"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"34.2","3":"51.8","4":"90.3","5":"53.6"},{"1":"13A2","2":"46.8","3":"4.2","4":"1.0","5":"25.7"},{"1":"6A1","2":"19.0","3":"44.0","4":"8.7","5":"20.8"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <pre class="r"><code>session_info()</code></pre>
@@ -1064,7 +1044,7 @@ ggpubr::ggarrange(plotlist = plotls,
 ##  collate  English_United States.1252  
 ##  ctype    English_United States.1252  
 ##  tz       Europe/London               
-##  date     2019-10-31                  
+##  date     2019-11-04                  
 ## 
 ## - Packages --------------------------------------------------------------
 ##  package      * version date       lib source        

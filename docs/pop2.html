@@ -495,7 +495,7 @@ data.frame(ssr = c(12,&quot;PInf_Ireland&quot;),
            pop =  length(unique(fin$Pop)))</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["ssr"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["samples"],"name":[2],"type":["int"],"align":["right"]},{"label":["pop"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"12","2":"1315","3":"61"},{"1":"PInf_Ireland","2":"1315","3":"61"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["ssr"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["samples"],"name":[2],"type":["int"],"align":["right"]},{"label":["pop"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"12","2":"1315","3":"51"},{"1":"PInf_Ireland","2":"1315","3":"51"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <pre class="r"><code>write.table(data.frame(ssr = 12, samples = nrow(gen), pop =  length(unique(fin$Pop))),
@@ -534,14 +534,13 @@ monpop</code></pre>
 ## Population information:
 ## 
 ##       3 strata - variety, genotype, year
-##      61 populations defined - 
+##      51 populations defined - 
 ## KE_6A1_2016, KE_8A1_2016, SE_6A1_2016, ..., CL_8A1_2019, SM_13A2_2019, SM_6A1_2019</code></pre>
 <pre class="r"><code> monpop$strata&lt;-
   monpop$strata %&gt;% 
-mutate(genotype = ifelse( genotype ==  &quot;8A1-1&quot;,&quot;EU_8_1_A1&quot;,
-                                   ifelse(genotype ==  &quot;6A1&quot;,&quot;EU_6_A1&quot;,
+mutate(genotype = ifelse(genotype ==  &quot;6A1&quot;,&quot;EU_6_A1&quot;,
                                           ifelse(genotype ==  &quot;13A2&quot;,&quot;EU_13_A2&quot;,
-                                                 ifelse(genotype ==  &quot;8A1&quot;,&quot;EU_8_A1&quot;,&quot;&quot; )))))
+                                                 ifelse(genotype ==  &quot;8A1&quot;,&quot;EU_8_A1&quot;,&quot;&quot; ))))
  
 
   
@@ -558,7 +557,7 @@ monpop_sub &lt;- popsub(monpop, blacklist = character(0))
 min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
 set.seed(1000)
 
-cbbPalette &lt;- c (&quot;#ff33cc&quot;,  &quot;#ffff33&quot;,&quot;#3399ff&quot;,&quot;#F3DA60&quot;) </code></pre>
+cbbPalette &lt;- c (&quot;#3399ff&quot;, &quot;#ff33cc&quot;,&quot;#ffff33&quot;)</code></pre>
 <pre class="r"><code>min_span_net &lt;- bruvo.msn(monpop, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
 plot_poppr_msn(monpop,
                min_span_net,

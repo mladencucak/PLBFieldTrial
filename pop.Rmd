@@ -66,10 +66,21 @@ rm(list.of.packages, new.packages, packages_load)
 ```
 
 ## Data import
-
+Import the data and set the levels of the treatment (3 fixed and 3 variable doses) and variety (susceptible to resistant).
 ```{r summary_table}
 samples <-  readRDS(file = here::here("data", "gen data", "final", "gendata.rds") )
 
+paste( "The data set is consisted of", nrow(samples), "genotyped samples")
+
+#Prepare the poulation strata initials
+samples$treatment <- 
+  factor(samples$treatment, 
+         levels = c("0", "100","50","IR","BM" ,"MIR"))
+
+
+samples <- 
+  samples %>% 
+  mutate(variety = factor(variety, levels =c("KE","BQ", "RO", "SE", "CL","SM"))) 
 
 ```
 
@@ -139,7 +150,7 @@ samples$plotID <- 1
 line_size <- 0.13
 
 
-cbbPalette <- c ("#3399ff", "#ff33cc",  "#FDFD8D","#ffff33")
+cbbPalette <- c ("#3399ff", "#ff33cc","#ffff33")
 
 dis_obs <- readRDS(file = here::here("data", "disease", "dis_obs.rds") )
 
@@ -213,31 +224,6 @@ ggplot(aes(julian_day, fill = variety))+
 
 
 
-#plot samples per treatment
- p_trt <- 
-  filter(samples, julian_day < 300) %>% 
-  ggplot(.,aes(julian_day, fill = trt))+
-  # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = "black", size = 0.1)+
-  geom_bar(stat = "count", position = "stack", width = 6,colour = "black", size = line_size)+
-  
-  facet_wrap(~year, ncol = 1)+
-  xlab("Date")+
-   # ylab("No. of samples")+
-   ylab("")+
-   scale_fill_brewer("Dose:", palette = "Dark2") +
-  
-  # ggtitle("")+
-  # scale_fill_manual(values=cbbPalette)+
-  theme_article()+
-  theme(
-    axis.title.y=element_blank(),
-    axis.text.y=element_blank(),
-    legend.position = "bottom",
-    legend.direction = "horizontal")+
-  guides(fill=guide_legend(nrow=2,byrow=TRUE,title.position = "top"))+
-  ggsave(filename= here::here("results", "gen", "freq", "Trt dose per sampling vertical.png"), 
-         width = 4, height =6, dpi = 620)
-
 
 
 #plot samples per treatment/fixed reduced dose
@@ -263,19 +249,19 @@ ggplot(aes(julian_day, fill = variety))+
   ggsave(filename= here::here("results", "gen", "freq", "Treatment dose per sampling vertical.png"), 
          width = 4, height =6, dpi = 620)
 
-plot_list <- list(p_dis,p_gen, p_var, p_trt, p_prog)
+plot_list <- list(p_dis,p_gen, p_var, p_prog)
 
 ggpubr::ggarrange(plotlist = plot_list, 
-                   widths = c(1,1.15,1,1,1),
+                   widths = c(1,1.15,1,1),
                   # labels = c("r","rr"),
                    ncol = 5)+
   ggsave(filename= here::here("results", "gen", "freq", "G and v sampling vertical.png"),
-         width = 9.8, height =7, dpi = 620)
+         width = 9, height =7, dpi = 620)
 
 ```
 
 
-```{r freq_charts, fig.width= 3, fig.height=9 }
+```{r freq_charts, fig.width= 3, fig.height=9, foldcode=TRUE}
 
 GenPalette <- c ("#ffff33", "#3399ff","#ff33cc")
 lab_size <-  3
@@ -472,31 +458,6 @@ gen_prop_trt %>%
 gen_prop_year %>% 
   dplyr::select(c(year, Genotype, perc)) %>% 
   spread(year, perc)  
-```
-
-
-```{r}
-
-```
-
-
-```{r}
-
-```
-
-
-```{r}
-
-```
-
-
-```{r}
-
-```
-
-
-```{r}
-
 ```
 
 

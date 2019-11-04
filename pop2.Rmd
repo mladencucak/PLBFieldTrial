@@ -129,10 +129,9 @@ monpop
 
  monpop$strata<-
   monpop$strata %>% 
-mutate(genotype = ifelse( genotype ==  "8A1-1","EU_8_1_A1",
-                                   ifelse(genotype ==  "6A1","EU_6_A1",
+mutate(genotype = ifelse(genotype ==  "6A1","EU_6_A1",
                                           ifelse(genotype ==  "13A2","EU_13_A2",
-                                                 ifelse(genotype ==  "8A1","EU_8_A1","" )))))
+                                                 ifelse(genotype ==  "8A1","EU_8_A1","" ))))
  
 
   
@@ -149,7 +148,7 @@ monpop_sub <- popsub(monpop, blacklist = character(0))
 min_span_net <- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
 set.seed(1000)
 
-cbbPalette <- c ("#ff33cc",  "#ffff33","#3399ff","#F3DA60") 
+cbbPalette <- c ("#3399ff", "#ff33cc","#ffff33")
 
 ```
 

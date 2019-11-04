@@ -38,7 +38,9 @@ list.of.packages <-
     "tidyverse",
     "devtools",
     "egg",
-    "ggpubr"
+    "ggpubr",
+    "zoo",
+    "kableExtra"
   )
 
 new.packages <-
@@ -109,23 +111,6 @@ df %>% group_by(year)  %>%
   )%>% 
   kable(format = "html") %>% 
   kableExtra::kable_styling(latex_options = "striped",full_width = FALSE)
-
-# The data 
-df_ts <-
-df %>% 
-  filter(year > 2006) %>% 
-  group_by(year, month) %>%
-  summarise(rain = sum(rain, na.rm = T)) %>%
-  ungroup %>% 
-  transmute(rain) %>%
-  ts(start = c(2005, 1), freq = 12)  
-
-library(dygraphs)
-df_ts %>% dygraph(width=800,height=360) %>% dyRangeSelector
-
-df_ts %>% 
-  dygraph(width=800,height=130,group="multiple",main="OP") %>% 
-  dyRoller(rollPeriod= 6)
 
 
 
