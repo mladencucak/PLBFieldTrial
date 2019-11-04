@@ -1,4 +1,4 @@
-% Pop3
+% DAPC analysis
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
@@ -29,9 +29,10 @@ knitr::knit_hooks$set(
 
 ```
 
-## Popoulation analysis 
 
- After gaining insight into population structure we can move onto the analysis of 
+ Discriminant analysis of principal comonents will give us some more insights into possible clustering within the population.  
+ We would like to se eif there are effects of our treatments, variety and fungicide programmes.  
+ Another interesting thing to look at is year to year variation of the pathogen population structure. 
 
 ## Load packages
 ```{r libs, warning = FALSE, message= FALSE}
@@ -70,8 +71,6 @@ rm(list.of.packages, new.packages, packages_load)
 
 ## Data import/preparation
 
-
-
 ```{r load_data}
 path <- here::here("data", "gen data", "final", "pop.csv")
 
@@ -81,24 +80,13 @@ splitStrata(monpop) <- ~variety/genotype/year
 
 monpop
 
-#Set genotype id's
- monpop$strata<-
-  monpop$strata %>% 
-mutate(genotype = ifelse( genotype ==  "8A1-1","EU_8_1_A1",
-                                   ifelse(genotype ==  "6A1","EU_6_A1",
-                                          ifelse(genotype ==  "13A2","EU_13_A2",
-                                                 ifelse(genotype ==  "8A1","EU_8_A1","" )))))
- 
-
-  
-cbbPalette <- c ("#ff33cc",  "#ffff33","#3399ff","#F3DA60") 
 
 ```
 
 ## DAPC
 Very good tutorials are avaialble at [adegent page](https://github.com/thibautjombart/adegenet/wiki/Tutorials) and [Grünwald lab web page](https://grunwaldlab.github.io/Population_Genetics_in_R/DAPC.html).  
 Set paralel processing. This argument should be removed if the code is to be reproduced on machine which can not devote muliple cores, although that is probably not a good idea.   
-We will also assign a number of cores to be used. WE will set it to be one les than maximum no. of cores, so we dont 'sufficate' the computer. 
+We will also assign a number of cores to be used. We will set it to be one less than the maximum no. of cores, so we dont 'sufficate' the computer. 
 
 ```{r}
 #Determine the OS to assign apropriate character string for parallel processing
@@ -111,9 +99,7 @@ cpus
 
 
 ```{r dapc_var}
-set.seed(999)
 setPop(monpop) <- ~variety
-pramx <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop))
 
 
 set.seed(999)
@@ -149,7 +135,8 @@ dev.copy(png,filename=here::here("results", "gen","dapc", "var.png"),
 dev.off ()
 
 ```
-  
+   
+## Treatment effect
   Prepare the data in genalex format once again. We can define only thre stratums, so we will prepare another file which will be re-used for same purpose as above.  
 
 ```{r genalex_new}
@@ -204,35 +191,20 @@ monpop <- read.genalex(path, ploidy = 3)
 splitStrata(monpop) <- ~treatment/genotype/year
 
 monpop
-
-#Set genotype id's
- monpop$strata<-
-  monpop$strata %>% 
-mutate(genotype = ifelse( genotype ==  "8A1-1","EU_8_1_A1",
-                                   ifelse(genotype ==  "6A1","EU_6_A1",
-                                          ifelse(genotype ==  "13A2","EU_13_A2",
-                                                 ifelse(genotype ==  "8A1","EU_8_A1","" )))))
- 
-
-  
-cbbPalette <- c ("#ff33cc",  "#ffff33","#3399ff","#F3DA60") 
-
 ```
 
 
 
 ```{r dapc_trt}
-set.seed(999)
 setPop(monpop) <- ~treatment
 
 set.seed(999)
 system.time(pramx <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop),
-                              n.pca = 5:30, 
+                              n.pca = 5:20, 
                               n.rep = 1000,
                               parallel = parallel_proc, 
                               ncpus = cpus))
 pramx[-1]
-pramx[-1]$`Number of PCs Achieving Highest Mean Success`
 
 scatter(
   pramx$DAPC,
@@ -241,7 +213,7 @@ scatter(
   legend = TRUE,
   clabel = TRUE,
   posi.leg = "topleft",
-  scree.pca = FALSE,
+  scree.pca = TRUE,
   posi.pca = "topright",
   posi.da = "bottomright",
   cleg = .9,
@@ -256,20 +228,18 @@ dev.off ()
 
 ```
 
-
+## Year effect
 
 ```{r dapc_year}
-set.seed(999)
 setPop(monpop) <- ~year
 
 set.seed(999)
 system.time(pramx <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop),
-                              n.pca = 5:30, 
+                              n.pca = 5:20,
                               n.rep = 1000,
                               parallel = parallel_proc, 
                               ncpus = cpus))
 pramx[-1]
-pramx[-1]$`Number of PCs Achieving Highest Mean Success`
 
 scatter(
   pramx$DAPC,
