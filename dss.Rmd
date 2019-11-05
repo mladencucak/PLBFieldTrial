@@ -228,14 +228,17 @@ time <-  "2019-08-10"
   Run the models. 
   
 ```{r}
-#run Irish rules model and attach it to each df
-source("./scripts/lib/IrishRules.R")
-df_list <-lapply(df_list, function(x) mutate(x,irish_rules= IrishRulesModel(x)))
-
 #Run Danish model 
 source('./scripts/lib/Danish_Model/Model_BlightManagement.R')
 df_list <-lapply(df_list, function(x) mutate(x,dk_daily_spor= Model_BlightManagement(x)[[1]]))
 df_list <-lapply(df_list, function(x) mutate(x,dk_infpressure= Model_BlightManagement(x)[[2]]))
+```
+
+```{r}
+#run Irish rules model and attach it to each df
+source("./scripts/lib/IrishRules.R")
+df_list <-lapply(df_list, function(x) mutate(x,irish_rules= IrishRulesModel(x)))
+
 
 #Irish model modified
 source("./scripts/lib/IrishRulesModelSensitive.R")

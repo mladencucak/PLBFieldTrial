@@ -116,7 +116,7 @@ tableHTML_to_image(
 dosedf  <- readRDS(file = here::here("data", "treat", "full_trt.rds") )
 dosedf <- rename(dosedf, dose = Dose)
 ```
-
+## The charts
 ```{r fig1}
 
 # dosedf <- rename(dosedf, dose = Dose)

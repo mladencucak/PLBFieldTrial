@@ -113,6 +113,13 @@ df %>% group_by(year)  %>%
   kableExtra::kable_styling(latex_options = "striped",full_width = FALSE)
 
 
+#Remove the years before 2007
+df <-  filter(df, year >2006)
+
+#Only two missing values for rain should not be a problem, so we will just do a linear interpolation
+df$rain <- 
+    round(na.approx(df$temp, na.rm = FALSE, maxgap = infil_gap), 1)
+
 
 df_rain <- 
   df %>%
@@ -227,14 +234,14 @@ df %>%
     # axis.title.x = element_blank(),
     # axis.text.x = element_blank(),
     # axis.ticks.x = element_blank(),
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank(),
+    # axis.title.y = element_blank(),
+    # axis.text.y = element_blank(),
+    # axis.ticks.y = element_blank(),
     legend.position = "right"
   ) +
   scale_x_date(date_labels = "%b", date_breaks = "1 month")+
   facet_wrap(. ~ year, scales = "free_x", ncol = 1,strip.position="right") +
-  guides(fill=guide_legend(nrow=3,byrow=TRUE))+
+  guides(fill=guide_legend(nrow=3,byrow=TRUE))
   ggsave(filename= here::here("results", "wth", "all_wth.png"), 
          width = 8, height =7, dpi = 620)
 
