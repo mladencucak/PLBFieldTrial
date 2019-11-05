@@ -134,7 +134,7 @@ mutate(genotype = ifelse(genotype ==  "6A1","EU_6_A1",
                                                  ifelse(genotype ==  "8A1","EU_8_A1","" ))))
  
 
-  
+monpop$strata$genotype <- factor( monpop$strata$genotype, levels = c("EU_8_A1", "EU_13_A2", "EU_6_A1"))
 # imsn()
 
 monpop_sub <- popsub(monpop, blacklist = character(0))
@@ -148,11 +148,14 @@ monpop_sub <- popsub(monpop, blacklist = character(0))
 min_span_net <- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
 set.seed(1000)
 
-cbbPalette <- c ("#3399ff", "#ff33cc","#ffff33")
+cbbPalette <- c (  "#ff33cc", # pink 6
+                   "#ffff33", # yellow 8
+                   "#3399ff"#blue 13
+                   )
 
 ```
 
-
+## Bruvo genotypes
 ```{r bruvo1}
 min_span_net <- bruvo.msn(monpop, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
 plot_poppr_msn(monpop,
@@ -167,15 +170,18 @@ plot_poppr_msn(monpop,
                quantiles = FALSE,
                beforecut = TRUE,
                pop.leg = TRUE,
-               size.leg = FALSE,
+               size.leg = TRUE,
                scale.leg = TRUE,
                layfun = igraph::layout_nicely)
 
-
+dev.copy(png,filename=here::here("results", "gen","bruvo", "Pop.png"),
+         width = 700, height= 700 );
+dev.off ()
 
 
 ```
 
+## Bruvo year
 ```{r bruvoyear}
 setPop(monpop) <- ~year
 monpop_sub <- popsub(monpop, blacklist = character(0))
@@ -208,6 +214,7 @@ dev.off ()
 
 ```
 
+## Bruvo variety  
 
 ```{r bruvovar}
 setPop(monpop) <- ~variety
@@ -232,7 +239,7 @@ plot_poppr_msn(monpop,
 
 ```
 
-
+## Bruvo year and genotype
 ```{r year_gen_bruvo}
 setPop(monpop) <- ~year/genotype
 monpop_sub <- popsub(monpop, blacklist = character(0))
@@ -255,7 +262,7 @@ plot_poppr_msn(monpop,
 
 ```
 
-
+## Bruvo year and variety
 ```{r year_var_bruvo}
 setPop(monpop) <- ~year/variety
 monpop_sub <- popsub(monpop, blacklist = character(0))

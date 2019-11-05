@@ -369,9 +369,6 @@ t1 <-
   filter(t1, effect != "ran_pars") %>% 
   dplyr::select(-c(component, group))
 
-panderOptions('round', 2)
-panderOptions('keep.trailing.zeros', TRUE)
-pander(poly_3_fit, add.significance.stars = TRUE)
 write_csv(t1, path = here::here("results", "dis", "fit_rest.csv"))
 ```
   
@@ -382,14 +379,14 @@ write_csv(t1, path = here::here("results", "dis", "fit_rest.csv"))
 ```{r effects, fig.show= 'hold' }
 ae <- allEffects(fit_2016)
 
-plot(ae,multiline=TRUE,confint=TRUE,ci.style="bars"
+plot(ae[[2]],multiline=TRUE,confint=TRUE,ci.style="bars"
      ,main="Effect of treatment and variety in 2016"
      ,xlab="Treatment"
      ,ylab="Variety"); rm(ae)
 
 e <- allEffects(fit_rest)
 
-plot(e,multiline=TRUE,confint=TRUE,ci.style="bars"
+plot(e[[2]],multiline=TRUE,confint=TRUE,ci.style="bars"
      ,main="Effect of treatment and variety 2017-2019"
      ,xlab="Treatment"
      ,ylab="Variety"); rm(e)
@@ -458,6 +455,7 @@ drest$pairs <-
 
 drest$.group <- trimws(drest$.group)
 
+p_rest <- 
 ggplot(drest, aes(x=pairs, y = prop, colour = treatment))+
   geom_errorbar(aes(ymin=lower.CL, ymax=upper.CL), width=.2)+
   geom_point(size = .1)+
@@ -472,17 +470,19 @@ ggplot(drest, aes(x=pairs, y = prop, colour = treatment))+
     size = 2
   ) +
   theme_bw()+
-  theme(axis.text.y = element_text(size = 8))+
-  ggsave(filename= here::here("results", "dis", "pairwise comparisons.png"), 
+  theme(axis.text.y = element_text(size = 8))
+p_rest
+  ggsave(p_rest,filename= here::here("results", "dis", "pairwise comparisons.png"), 
          width = 7, height = 11.5, dpi = 420)
-
+rm(p_rest)
 ```
 
 
- The model fits are combined in a single data set and presented in a single Figure. 
+ The model fits are combined in a single data set and presented in one figure. 
 
 
 ```{r}
+d2016$year <- factor(2016)
 d1 <- 
   dplyr::bind_rows(d2016, drest)
 
@@ -539,6 +539,7 @@ d1 %>%
     alpha = .5,
     position = position_dodge(width = dodging)
   ) +
+  scale_color_brewer("Programme:", palette = "Dark2") +
   theme_article() +
   theme(legend.position = "top") +
   geom_vline(aes(xintercept = line_positions),

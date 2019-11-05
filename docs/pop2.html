@@ -495,7 +495,7 @@ data.frame(ssr = c(12,&quot;PInf_Ireland&quot;),
            pop =  length(unique(fin$Pop)))</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["ssr"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["samples"],"name":[2],"type":["int"],"align":["right"]},{"label":["pop"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"12","2":"1315","3":"51"},{"1":"PInf_Ireland","2":"1315","3":"51"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["ssr"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["samples"],"name":[2],"type":["int"],"align":["right"]},{"label":["pop"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"12","2":"1287","3":"51"},{"1":"PInf_Ireland","2":"1287","3":"51"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <pre class="r"><code>write.table(data.frame(ssr = 12, samples = nrow(gen), pop =  length(unique(fin$Pop))),
@@ -528,7 +528,7 @@ monpop</code></pre>
 ## Genotype information:
 ## 
 ##      29 original multilocus genotypes 
-##    1315 triploid individuals
+##    1287 triploid individuals
 ##      12 codominant loci
 ## 
 ## Population information:
@@ -543,7 +543,7 @@ mutate(genotype = ifelse(genotype ==  &quot;6A1&quot;,&quot;EU_6_A1&quot;,
                                                  ifelse(genotype ==  &quot;8A1&quot;,&quot;EU_8_A1&quot;,&quot;&quot; ))))
  
 
-  
+monpop$strata$genotype &lt;- factor( monpop$strata$genotype, levels = c(&quot;EU_8_A1&quot;, &quot;EU_13_A2&quot;, &quot;EU_6_A1&quot;))
 # imsn()
 
 monpop_sub &lt;- popsub(monpop, blacklist = character(0))
@@ -557,7 +557,13 @@ monpop_sub &lt;- popsub(monpop, blacklist = character(0))
 min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
 set.seed(1000)
 
-cbbPalette &lt;- c (&quot;#3399ff&quot;, &quot;#ff33cc&quot;,&quot;#ffff33&quot;)</code></pre>
+cbbPalette &lt;- c (  &quot;#ff33cc&quot;, # pink 6
+                   &quot;#ffff33&quot;, # yellow 8
+                   &quot;#3399ff&quot;#blue 13
+                   )</code></pre>
+</div>
+<div id="bruvo-genotypes" class="section level2">
+<h2>Bruvo genotypes</h2>
 <pre class="r"><code>min_span_net &lt;- bruvo.msn(monpop, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
 plot_poppr_msn(monpop,
                min_span_net,
@@ -571,10 +577,20 @@ plot_poppr_msn(monpop,
                quantiles = FALSE,
                beforecut = TRUE,
                pop.leg = TRUE,
-               size.leg = FALSE,
+               size.leg = TRUE,
                scale.leg = TRUE,
                layfun = igraph::layout_nicely)</code></pre>
 <p><img src="pop2_files/figure-html/bruvo1-1.png" width="672" /></p>
+<pre class="r"><code>dev.copy(png,filename=here::here(&quot;results&quot;, &quot;gen&quot;,&quot;bruvo&quot;, &quot;Pop.png&quot;),
+         width = 700, height= 700 );</code></pre>
+<pre><code>## png 
+##   3</code></pre>
+<pre class="r"><code>dev.off ()</code></pre>
+<pre><code>## png 
+##   2</code></pre>
+</div>
+<div id="bruvo-year" class="section level2">
+<h2>Bruvo year</h2>
 <pre class="r"><code>setPop(monpop) &lt;- ~year
 monpop_sub &lt;- popsub(monpop, blacklist = character(0))
 min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
@@ -606,6 +622,9 @@ cbbPalette &lt;- c (&quot;#ff33cc&quot;,  &quot;#ffff33&quot;,&quot;#3399ff&quot
 <pre class="r"><code>dev.off ()</code></pre>
 <pre><code>## png 
 ##   2</code></pre>
+</div>
+<div id="bruvo-variety" class="section level2">
+<h2>Bruvo variety</h2>
 <pre class="r"><code>setPop(monpop) &lt;- ~variety
 
 monpop_sub &lt;- popsub(monpop, blacklist = character(0))
@@ -626,6 +645,9 @@ plot_poppr_msn(monpop,
                scale.leg = TRUE,
                layfun = igraph::layout_nicely)</code></pre>
 <p><img src="pop2_files/figure-html/bruvovar-1.png" width="672" /></p>
+</div>
+<div id="bruvo-year-and-genotype" class="section level2">
+<h2>Bruvo year and genotype</h2>
 <pre class="r"><code>setPop(monpop) &lt;- ~year/genotype
 monpop_sub &lt;- popsub(monpop, blacklist = character(0))
 min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
@@ -645,6 +667,9 @@ plot_poppr_msn(monpop,
                scale.leg = TRUE,
                layfun = igraph::layout_nicely)</code></pre>
 <p><img src="pop2_files/figure-html/year_gen_bruvo-1.png" width="672" /></p>
+</div>
+<div id="bruvo-year-and-variety" class="section level2">
+<h2>Bruvo year and variety</h2>
 <pre class="r"><code>setPop(monpop) &lt;- ~year/variety
 monpop_sub &lt;- popsub(monpop, blacklist = character(0))
 min_span_net &lt;- bruvo.msn(monpop_sub, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
@@ -675,7 +700,7 @@ plot_poppr_msn(monpop,
 ##  collate  English_United States.1252  
 ##  ctype    English_United States.1252  
 ##  tz       Europe/London               
-##  date     2019-11-04                  
+##  date     2019-11-05                  
 ## 
 ## - Packages --------------------------------------------------------------
 ##  package     * version  date       lib source        

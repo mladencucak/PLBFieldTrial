@@ -760,24 +760,20 @@ t1 &lt;-
   filter(t1, effect != &quot;ran_pars&quot;) %&gt;% 
   dplyr::select(-c(component, group))
 
-panderOptions(&#39;round&#39;, 2)
-panderOptions(&#39;keep.trailing.zeros&#39;, TRUE)
-pander(poly_3_fit, add.significance.stars = TRUE)</code></pre>
-<p>Error in pander(poly_3_fit, add.significance.stars = TRUE) : object ‘poly_3_fit’ not found Calls: <Anonymous> … withCallingHandlers -&gt; withVisible -&gt; eval -&gt; eval -&gt; pander In addition: Warning messages: 1: In mutate_impl(.data, dots, caller_env()) : Unequal factor levels: coercing to character 2: In mutate_impl(.data, dots, caller_env()) : binding character and factor vector, coercing into character vector 3: In mutate_impl(.data, dots, caller_env()) : binding character and factor vector, coercing into character vector 4: In mutate_impl(.data, dots, caller_env()) : binding character and factor vector, coercing into character vector 5: In mutate_impl(.data, dots, caller_env()) : binding character and factor vector, coercing into character vector 6: In mutate_impl(.data, dots, caller_env()) : binding character and factor vector, coercing into character vector 7: In mutate_impl(.data, dots, caller_env()) : binding character and factor vector, coercing into character vector</p>
-<pre class="r"><code>write_csv(t1, path = here::here(&quot;results&quot;, &quot;dis&quot;, &quot;fit_rest.csv&quot;))</code></pre>
+write_csv(t1, path = here::here(&quot;results&quot;, &quot;dis&quot;, &quot;fit_rest.csv&quot;))</code></pre>
 </div>
 <div id="post-hoc" class="section level2">
 <h2><em>Post hoc</em></h2>
 <pre class="r"><code>ae &lt;- allEffects(fit_2016)
 
-plot(ae,multiline=TRUE,confint=TRUE,ci.style=&quot;bars&quot;
+plot(ae[[2]],multiline=TRUE,confint=TRUE,ci.style=&quot;bars&quot;
      ,main=&quot;Effect of treatment and variety in 2016&quot;
      ,xlab=&quot;Treatment&quot;
      ,ylab=&quot;Variety&quot;); rm(ae)
 
 e &lt;- allEffects(fit_rest)
 
-plot(e,multiline=TRUE,confint=TRUE,ci.style=&quot;bars&quot;
+plot(e[[2]],multiline=TRUE,confint=TRUE,ci.style=&quot;bars&quot;
      ,main=&quot;Effect of treatment and variety 2017-2019&quot;
      ,xlab=&quot;Treatment&quot;
      ,ylab=&quot;Variety&quot;); rm(e)</code></pre>
@@ -839,6 +835,7 @@ drest$pairs &lt;-
 
 drest$.group &lt;- trimws(drest$.group)
 
+p_rest &lt;- 
 ggplot(drest, aes(x=pairs, y = prop, colour = treatment))+
   geom_errorbar(aes(ymin=lower.CL, ymax=upper.CL), width=.2)+
   geom_point(size = .1)+
@@ -853,12 +850,15 @@ ggplot(drest, aes(x=pairs, y = prop, colour = treatment))+
     size = 2
   ) +
   theme_bw()+
-  theme(axis.text.y = element_text(size = 8))+
-  ggsave(filename= here::here(&quot;results&quot;, &quot;dis&quot;, &quot;pairwise comparisons.png&quot;), 
-         width = 7, height = 11.5, dpi = 420)</code></pre>
+  theme(axis.text.y = element_text(size = 8))
+p_rest</code></pre>
 <p><img src="disdata_files/figure-html/comparisions_rest-1.png" width="100%" height="15" /></p>
-<p>The model fits are combined in a single data set and presented in a single Figure.</p>
-<pre class="r"><code>d1 &lt;- 
+<pre class="r"><code>  ggsave(p_rest,filename= here::here(&quot;results&quot;, &quot;dis&quot;, &quot;pairwise comparisons.png&quot;), 
+         width = 7, height = 11.5, dpi = 420)
+rm(p_rest)</code></pre>
+<p>The model fits are combined in a single data set and presented in one figure.</p>
+<pre class="r"><code>d2016$year &lt;- factor(2016)
+d1 &lt;- 
   dplyr::bind_rows(d2016, drest)
 
 
@@ -907,6 +907,7 @@ d1 %&gt;%
     alpha = .5,
     position = position_dodge(width = dodging)
   ) +
+  scale_color_brewer(&quot;Programme:&quot;, palette = &quot;Dark2&quot;) +
   theme_article() +
   theme(legend.position = &quot;top&quot;) +
   geom_vline(aes(xintercept = line_positions),
@@ -936,7 +937,7 @@ rm(p_fin)</code></pre>
 ##  collate  English_United States.1252  
 ##  ctype    English_United States.1252  
 ##  tz       Europe/London               
-##  date     2019-11-04                  
+##  date     2019-11-05                  
 ## 
 ## - Packages --------------------------------------------------------------
 ##  ! package      * version  date       lib source        
