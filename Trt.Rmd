@@ -167,7 +167,7 @@ group_by(year, treatment) %>%
   theme_article() +
   facet_grid(~ year, scales = "free") +
   labs(x = "Year",
-       y = "Proportion of the total dose\n") +
+       y = "Proportion of the total dose (%)\n") +
   theme(
     axis.title = element_text(size = 11),
     panel.grid.major = element_blank(),
