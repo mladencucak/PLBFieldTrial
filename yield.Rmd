@@ -335,7 +335,7 @@ dodging <-  .8
     alpha = .5,
     position = position_dodge(width = dodging)
   ) +
-  scale_fill_brewer("Programme:", palette = "Dark2") +
+  scale_color_brewer("Programme:", palette = "Dark2") +
   theme_article() +
   theme(legend.position = "top") +
   geom_vline(aes(xintercept = line_positions),
