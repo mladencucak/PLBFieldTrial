@@ -327,7 +327,6 @@ car::Anova(fit_2016)
 Goodness of fit tests. 
 ```{r}
 aov_residuals<-residuals(object = fit_2016)
-shapiro.test(aov_residuals)
 plot(fitted(fit_2016), residuals(fit_2016), xlab = "Fitted Values", ylab = "Residuals")
 abline(h = 0, lty = 2)
 
@@ -357,7 +356,7 @@ car::Anova(fit_rest)
 Goodness of fit tests. 
 ```{r}
 aov_residuals<-residuals(object = fit_rest)
-shapiro.test(aov_residuals)
+
 plot(fitted(fit_rest), residuals(fit_rest), xlab = "Fitted Values", ylab = "Residuals")
 abline(h = 0, lty = 2)
 
@@ -395,7 +394,7 @@ plot(e[[2]],multiline=TRUE,confint=TRUE,ci.style="bars"
   
 
   
-```{r comparisons_2016, out.width='100%', out.height= 3}
+```{r comparisons_2016, out.width='100%', fig.height= 3}
 posthoc<- 
   emmeans:: lsmeans(fit_2016, pairwise~treatment * variety, adjust="tukey",  type = "response")
 
@@ -435,7 +434,7 @@ ggplot(d2016, aes(x=pairs, y = prop, colour = treatment))+
 
 
   
-```{r comparisions_rest, out.width='100%', out.height= 15}
+```{r comparisions_rest, out.width='100%', fig.height= 15}
 
 posthoc<- emmeans:: lsmeans(fit_rest, ~treatment * variety *year, adjust="tukey", type = "response")
 

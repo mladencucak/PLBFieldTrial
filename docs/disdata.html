@@ -720,13 +720,7 @@ car::Anova(fit_2016)</code></pre>
 <p>The treatment variety interaction is significant.</p>
 <p>Goodness of fit tests.</p>
 <pre class="r"><code>aov_residuals&lt;-residuals(object = fit_2016)
-shapiro.test(aov_residuals)</code></pre>
-<pre><code>## 
-##  Shapiro-Wilk normality test
-## 
-## data:  aov_residuals
-## W = 0.65538, p-value = 6.879e-11</code></pre>
-<pre class="r"><code>plot(fitted(fit_2016), residuals(fit_2016), xlab = &quot;Fitted Values&quot;, ylab = &quot;Residuals&quot;)
+plot(fitted(fit_2016), residuals(fit_2016), xlab = &quot;Fitted Values&quot;, ylab = &quot;Residuals&quot;)
 abline(h = 0, lty = 2)</code></pre>
 <p><img src="disdata_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <pre class="r"><code>t &lt;- broom.mixed::tidy(fit_2016, conf.int = TRUE)
@@ -746,13 +740,8 @@ car::Anova(fit_rest)</code></pre>
 </div>
 <p>Goodness of fit tests.</p>
 <pre class="r"><code>aov_residuals&lt;-residuals(object = fit_rest)
-shapiro.test(aov_residuals)</code></pre>
-<pre><code>## 
-##  Shapiro-Wilk normality test
-## 
-## data:  aov_residuals
-## W = 0.48083, p-value &lt; 2.2e-16</code></pre>
-<pre class="r"><code>plot(fitted(fit_rest), residuals(fit_rest), xlab = &quot;Fitted Values&quot;, ylab = &quot;Residuals&quot;)
+
+plot(fitted(fit_rest), residuals(fit_rest), xlab = &quot;Fitted Values&quot;, ylab = &quot;Residuals&quot;)
 abline(h = 0, lty = 2)</code></pre>
 <p><img src="disdata_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code>t1 &lt;- broom.mixed::tidy(fit_rest, conf.int = TRUE)
@@ -812,7 +801,7 @@ ggplot(d2016, aes(x=pairs, y = prop, colour = treatment))+
   theme_bw()+
   ggsave(filename= here::here(&quot;results&quot;, &quot;dis&quot;, &quot;pairwise comparisons 2016.png&quot;), 
          width = 7, height = 2.5, dpi = 620)</code></pre>
-<p><img src="disdata_files/figure-html/comparisons_2016-1.png" width="100%" height="3" /></p>
+<p><img src="disdata_files/figure-html/comparisons_2016-1.png" width="100%" /></p>
 <pre class="r"><code>posthoc&lt;- emmeans:: lsmeans(fit_rest, ~treatment * variety *year, adjust=&quot;tukey&quot;, type = &quot;response&quot;)
 
 drest &lt;-  posthoc
@@ -852,7 +841,7 @@ ggplot(drest, aes(x=pairs, y = prop, colour = treatment))+
   theme_bw()+
   theme(axis.text.y = element_text(size = 8))
 p_rest</code></pre>
-<p><img src="disdata_files/figure-html/comparisions_rest-1.png" width="100%" height="15" /></p>
+<p><img src="disdata_files/figure-html/comparisions_rest-1.png" width="100%" /></p>
 <pre class="r"><code>  ggsave(p_rest,filename= here::here(&quot;results&quot;, &quot;dis&quot;, &quot;pairwise comparisons.png&quot;), 
          width = 7, height = 11.5, dpi = 420)
 rm(p_rest)</code></pre>
@@ -937,7 +926,7 @@ rm(p_fin)</code></pre>
 ##  collate  English_United States.1252  
 ##  ctype    English_United States.1252  
 ##  tz       Europe/London               
-##  date     2019-11-05                  
+##  date     2019-11-15                  
 ## 
 ## - Packages --------------------------------------------------------------
 ##  ! package      * version  date       lib source        
