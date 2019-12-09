@@ -42,7 +42,8 @@ list.of.packages <-
     "here",
     "readxl",
     "poppr",
-    "egg"
+    "egg",
+    "conflicted"
   )
 
 new.packages <-

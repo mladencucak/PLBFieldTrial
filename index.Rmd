@@ -46,6 +46,7 @@ leaflet() %>%
 
 ## Notes 
 
+This project contains a snapshot of packages used in the project. For the full reproducibility just download the whole R project. 
 Some code chunks are folded and they can be accessed by clicking on the arrow (The code).  
 Try not to have other R sessions running because it could produce problems installing libraries.  
 If there are any problems reproducing the analysis, please raise an issue on GitHub.  

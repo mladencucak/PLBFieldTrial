@@ -443,7 +443,8 @@ div.tocify {
     &quot;devtools&quot;,
     &quot;egg&quot;,
     &quot;tableHTML&quot;,
-    &quot;kableExtra&quot;
+    &quot;kableExtra&quot;,
+    &quot;conflicted&quot;
   )
 
 new.packages &lt;-
@@ -451,9 +452,13 @@ new.packages &lt;-
 
 #Download packages that are not already present in the library
 if (length(new.packages))
-  install.packages(new.packages)
-
-packages_load &lt;-
+  install.packages(new.packages)</code></pre>
+<pre><code>## package &#39;jpeg&#39; successfully unpacked and MD5 sums checked
+## package &#39;tableHTML&#39; successfully unpacked and MD5 sums checked
+## 
+## The downloaded binary packages are in
+##  C:\Users\mlade\AppData\Local\Temp\RtmpsHc3UH\downloaded_packages</code></pre>
+<pre class="r"><code>packages_load &lt;-
   lapply(list.of.packages, require, character.only = TRUE)
 
 #Print warning if there is a problem with installing/loading some of packages
@@ -464,6 +469,7 @@ if (any(as.numeric(packages_load) == 0)) {
 }</code></pre>
 <pre><code>## [1] &quot;All packages were successfully loaded.&quot;</code></pre>
 <pre class="r"><code>rm(list.of.packages, new.packages, packages_load)
+
 
 #if instal is not working try 
 #install.packages(&quot;package_name&quot;, repos = c(CRAN=&quot;https://cran.r-project.org/&quot;))</code></pre>
@@ -708,6 +714,9 @@ rm(years, s_tab)</code></pre>
 <img src="results/gen/Summary%20of%20isolates.png" alt="Table1" />
 <p class="caption">Table1</p>
 </div>
+</div>
+<div id="frequency-charts" class="section level2">
+<h2>Frequency charts</h2>
 <details>
 <p><summary>The code</summary></p>
 <pre class="r"><code># plot successful fin
@@ -720,7 +729,7 @@ cbbPalette &lt;- c (&quot;#3399ff&quot;, &quot;#ff33cc&quot;,&quot;#ffff33&quot;
 dis_obs &lt;- readRDS(file = here::here(&quot;data&quot;, &quot;disease&quot;, &quot;dis_obs.rds&quot;) )
 
 p_dis &lt;- 
-filter(dis_obs, treatment == &quot;Control&quot;) %&gt;%
+dplyr::filter(dis_obs, treatment == &quot;Control&quot;) %&gt;%
   mutate(treatment = &quot;Control plots&quot;) %&gt;% 
   group_by(treatment, variety, year, julian_day) %&gt;%
   summarise(rating = mean(obs)) %&gt;% 
@@ -745,7 +754,7 @@ filter(dis_obs, treatment == &quot;Control&quot;) %&gt;%
 
 # remove tuber samples
 p_gen &lt;- 
-filter(samples, julian_day &lt; 300) %&gt;% 
+dplyr::filter(samples, julian_day &lt; 300) %&gt;% 
 ggplot(.,aes(julian_day, fill = Genotype))+
   # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = &quot;black&quot;, size = 0.1)+
   geom_bar(stat = &quot;count&quot;, position = &quot;stack&quot;, width = 6,colour = &quot;black&quot;, size = line_size)+
@@ -764,7 +773,7 @@ ggplot(.,aes(julian_day, fill = Genotype))+
 
 
 p_var &lt;- 
-filter(samples, julian_day &lt; 300) %&gt;% 
+dplyr::filter(samples, julian_day &lt; 300) %&gt;% 
 ggplot(aes(julian_day, fill = variety))+
   geom_bar(stat = &quot;count&quot;, position = &quot;stack&quot;, width = 6,colour = &quot;black&quot;, size = line_size)+
   facet_wrap(~year, ncol = 1)+
@@ -793,7 +802,7 @@ ggplot(aes(julian_day, fill = variety))+
 
 #plot samples per treatment/fixed reduced dose
  p_prog &lt;- 
-  filter(samples, julian_day &lt; 300) %&gt;% 
+  dplyr::filter(samples, julian_day &lt; 300) %&gt;% 
   ggplot(.,aes(julian_day, fill = treatment))+
   # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = &quot;black&quot;, size = 0.1)+
   geom_bar(stat = &quot;count&quot;, position = &quot;stack&quot;, width = 6,colour = &quot;black&quot;, size = line_size)+
@@ -1006,6 +1015,9 @@ ggpubr::ggarrange(plotlist = plotls,
          width = 2.9, height =9, dpi = 820)</code></pre>
 </details>
 <p><img src="pop_files/figure-html/freq_charts-1.png" width="288" /></p>
+</div>
+<div id="frequency-tables" class="section level2">
+<h2>Frequency tables</h2>
 <pre class="r"><code>gen_prop %&gt;% 
   dplyr::select(c(variety, Genotype, perc)) %&gt;% 
   spread(variety, perc) %&gt;% 
@@ -1044,7 +1056,7 @@ ggpubr::ggarrange(plotlist = plotls,
 ##  collate  English_United States.1252  
 ##  ctype    English_United States.1252  
 ##  tz       Europe/London               
-##  date     2019-11-04                  
+##  date     2019-12-09                  
 ## 
 ## - Packages --------------------------------------------------------------
 ##  package      * version date       lib source        
@@ -1055,8 +1067,11 @@ ggpubr::ggarrange(plotlist = plotls,
 ##  cellranger     1.1.0   2016-07-27 [1] CRAN (R 3.6.1)
 ##  cli            1.1.0   2019-03-19 [1] CRAN (R 3.6.1)
 ##  colorspace     1.4-1   2019-03-18 [1] CRAN (R 3.6.1)
+##  conflicted   * 1.0.4   2019-06-21 [1] CRAN (R 3.6.1)
 ##  cowplot        1.0.0   2019-07-11 [1] CRAN (R 3.6.1)
 ##  crayon         1.3.4   2017-09-16 [1] CRAN (R 3.6.1)
+##  DBI            1.0.0   2018-05-02 [1] CRAN (R 3.6.1)
+##  dbplyr         1.4.2   2019-06-17 [1] CRAN (R 3.6.1)
 ##  desc           1.2.0   2018-05-01 [1] CRAN (R 3.6.1)
 ##  devtools     * 2.2.1   2019-09-24 [1] CRAN (R 3.6.1)
 ##  digest         0.6.22  2019-10-21 [1] CRAN (R 3.6.1)
@@ -1073,7 +1088,7 @@ ggpubr::ggarrange(plotlist = plotls,
 ##  glue           1.3.1   2019-03-12 [1] CRAN (R 3.6.1)
 ##  gridExtra    * 2.3     2017-09-09 [1] CRAN (R 3.6.1)
 ##  gtable         0.3.0   2019-03-25 [1] CRAN (R 3.6.1)
-##  haven          2.1.1   2019-07-04 [1] CRAN (R 3.6.1)
+##  haven          2.2.0   2019-11-08 [1] CRAN (R 3.6.1)
 ##  here           0.1     2017-05-28 [1] CRAN (R 3.6.1)
 ##  highr          0.8     2019-03-20 [1] CRAN (R 3.6.1)
 ##  hms            0.5.2   2019-10-30 [1] CRAN (R 3.6.1)
@@ -1083,7 +1098,7 @@ ggpubr::ggarrange(plotlist = plotls,
 ##  kableExtra   * 1.1.0   2019-03-16 [1] CRAN (R 3.6.1)
 ##  knitr          1.25    2019-09-18 [1] CRAN (R 3.6.1)
 ##  labeling       0.3     2014-08-23 [1] CRAN (R 3.6.0)
-##  lattice        0.20-38 2018-11-04 [2] CRAN (R 3.6.1)
+##  lattice        0.20-38 2018-11-04 [3] CRAN (R 3.6.1)
 ##  lazyeval       0.2.2   2019-03-15 [1] CRAN (R 3.6.1)
 ##  lifecycle      0.1.0   2019-08-01 [1] CRAN (R 3.6.1)
 ##  lubridate      1.7.4   2018-04-11 [1] CRAN (R 3.6.1)
@@ -1091,7 +1106,8 @@ ggpubr::ggarrange(plotlist = plotls,
 ##  memoise        1.1.0   2017-04-21 [1] CRAN (R 3.6.1)
 ##  modelr         0.1.5   2019-08-08 [1] CRAN (R 3.6.1)
 ##  munsell        0.5.0   2018-06-12 [1] CRAN (R 3.6.1)
-##  nlme           3.1-140 2019-05-12 [2] CRAN (R 3.6.1)
+##  nlme           3.1-140 2019-05-12 [3] CRAN (R 3.6.1)
+##  packrat        0.5.0   2018-11-14 [1] CRAN (R 3.6.1)
 ##  pillar         1.4.2   2019-06-29 [1] CRAN (R 3.6.1)
 ##  pkgbuild       1.0.6   2019-10-09 [1] CRAN (R 3.6.1)
 ##  pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 3.6.1)
@@ -1106,21 +1122,22 @@ ggpubr::ggarrange(plotlist = plotls,
 ##  readr        * 1.3.1   2018-12-21 [1] CRAN (R 3.6.1)
 ##  readxl         1.3.1   2019-03-13 [1] CRAN (R 3.6.1)
 ##  remotes        2.1.0   2019-06-24 [1] CRAN (R 3.6.1)
+##  reprex         0.3.0   2019-05-16 [1] CRAN (R 3.6.1)
 ##  rlang          0.4.1   2019-10-24 [1] CRAN (R 3.6.1)
 ##  rmarkdown      1.16    2019-10-01 [1] CRAN (R 3.6.1)
 ##  rprojroot      1.3-2   2018-01-03 [1] CRAN (R 3.6.1)
 ##  rstudioapi     0.10    2019-03-19 [1] CRAN (R 3.6.1)
-##  rvest          0.3.4   2019-05-15 [1] CRAN (R 3.6.1)
+##  rvest          0.3.5   2019-11-08 [1] CRAN (R 3.6.1)
 ##  scales         1.0.0   2018-08-09 [1] CRAN (R 3.6.1)
 ##  sessioninfo    1.1.1   2018-11-05 [1] CRAN (R 3.6.1)
 ##  stringi        1.4.3   2019-03-12 [1] CRAN (R 3.6.0)
 ##  stringr      * 1.4.0   2019-02-10 [1] CRAN (R 3.6.1)
 ##  tableHTML    * 2.0.0   2019-03-16 [1] CRAN (R 3.6.1)
-##  testthat       2.2.1   2019-07-25 [1] CRAN (R 3.6.1)
+##  testthat       2.3.1   2019-12-01 [1] CRAN (R 3.6.1)
 ##  tibble       * 2.1.3   2019-06-06 [1] CRAN (R 3.6.1)
 ##  tidyr        * 1.0.0   2019-09-11 [1] CRAN (R 3.6.1)
 ##  tidyselect     0.2.5   2018-10-11 [1] CRAN (R 3.6.1)
-##  tidyverse    * 1.2.1   2017-11-14 [1] CRAN (R 3.6.1)
+##  tidyverse    * 1.3.0   2019-11-21 [1] CRAN (R 3.6.1)
 ##  usethis      * 1.5.1   2019-07-04 [1] CRAN (R 3.6.1)
 ##  vctrs          0.2.0   2019-07-05 [1] CRAN (R 3.6.1)
 ##  viridisLite    0.3.0   2018-02-01 [1] CRAN (R 3.6.1)
@@ -1131,8 +1148,9 @@ ggpubr::ggarrange(plotlist = plotls,
 ##  yaml           2.2.0   2018-07-25 [1] CRAN (R 3.6.0)
 ##  zeallot        0.1.0   2018-01-28 [1] CRAN (R 3.6.1)
 ## 
-## [1] C:/Users/mlade/Documents/R/win-library/3.6
-## [2] C:/Program Files/R/R-3.6.1/library</code></pre>
+## [1] C:/Users/mlade/Documents/Github/PLBFieldTrial/packrat/lib/x86_64-w64-mingw32/3.6.1
+## [2] C:/Users/mlade/Documents/Github/PLBFieldTrial/packrat/lib-ext/x86_64-w64-mingw32/3.6.1
+## [3] C:/Users/mlade/Documents/Github/PLBFieldTrial/packrat/lib-R/x86_64-w64-mingw32/3.6.1</code></pre>
 </div>
 
 

@@ -40,7 +40,8 @@ list.of.packages <-
     "devtools",
     "egg",
     "tableHTML",
-    "kableExtra"
+    "kableExtra",
+    "conflicted"
   )
 
 new.packages <-
@@ -60,6 +61,7 @@ if (any(as.numeric(packages_load) == 0)) {
   print("All packages were successfully loaded.")
 }
 rm(list.of.packages, new.packages, packages_load)
+
 
 #if instal is not working try 
 #install.packages("package_name", repos = c(CRAN="https://cran.r-project.org/"))
@@ -142,6 +144,8 @@ rm(years, s_tab)
 
 ![Table1](`r here::here("results", "gen", "Summary of isolates.png")`)
 
+## Frequency charts
+
 ```{r plot_all, out.width='100%', foldcode=TRUE, fig.width=10, fig.height=7.2}
 
 
@@ -155,7 +159,7 @@ cbbPalette <- c ("#3399ff", "#ff33cc","#ffff33")
 dis_obs <- readRDS(file = here::here("data", "disease", "dis_obs.rds") )
 
 p_dis <- 
-filter(dis_obs, treatment == "Control") %>%
+dplyr::filter(dis_obs, treatment == "Control") %>%
   mutate(treatment = "Control plots") %>% 
   group_by(treatment, variety, year, julian_day) %>%
   summarise(rating = mean(obs)) %>% 
@@ -180,7 +184,7 @@ filter(dis_obs, treatment == "Control") %>%
 
 # remove tuber samples
 p_gen <- 
-filter(samples, julian_day < 300) %>% 
+dplyr::filter(samples, julian_day < 300) %>% 
 ggplot(.,aes(julian_day, fill = Genotype))+
   # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = "black", size = 0.1)+
   geom_bar(stat = "count", position = "stack", width = 6,colour = "black", size = line_size)+
@@ -199,7 +203,7 @@ ggplot(.,aes(julian_day, fill = Genotype))+
 
 
 p_var <- 
-filter(samples, julian_day < 300) %>% 
+dplyr::filter(samples, julian_day < 300) %>% 
 ggplot(aes(julian_day, fill = variety))+
   geom_bar(stat = "count", position = "stack", width = 6,colour = "black", size = line_size)+
   facet_wrap(~year, ncol = 1)+
@@ -228,7 +232,7 @@ ggplot(aes(julian_day, fill = variety))+
 
 #plot samples per treatment/fixed reduced dose
  p_prog <- 
-  filter(samples, julian_day < 300) %>% 
+  dplyr::filter(samples, julian_day < 300) %>% 
   ggplot(.,aes(julian_day, fill = treatment))+
   # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = "black", size = 0.1)+
   geom_bar(stat = "count", position = "stack", width = 6,colour = "black", size = line_size)+
@@ -444,6 +448,8 @@ ggpubr::ggarrange(plotlist = plotls,
 
 ```
 
+ 
+## Frequency tables 
 
 ```{r}
 gen_prop %>% 

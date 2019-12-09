@@ -44,7 +44,8 @@ list.of.packages <-
     "readxl",
     "poppr",
     "egg",
-    "parallel"
+    "parallel",
+    "conflicted"
   )
 
 new.packages <-

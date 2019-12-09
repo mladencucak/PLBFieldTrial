@@ -62,7 +62,8 @@ list.of.packages <-
     "lubridate",
     "readr",
     "cowplot",
-    "egg"
+    "egg",
+    "conflicted"
   )
 new.packages <-
   list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]

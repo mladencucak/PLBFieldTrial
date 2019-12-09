@@ -46,7 +46,8 @@ list.of.packages <-
     "lsmeans",
     "multcomp",
     "multcompView",
-    "ggpubr"
+    "ggpubr",
+    "conflicted"
   )
 
 new.packages <-

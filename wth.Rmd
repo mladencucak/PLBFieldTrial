@@ -40,7 +40,8 @@ list.of.packages <-
     "egg",
     "ggpubr",
     "zoo",
-    "kableExtra"
+    "kableExtra",
+    "conflicted"
   )
 
 new.packages <-

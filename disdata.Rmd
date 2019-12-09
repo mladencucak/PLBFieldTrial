@@ -30,7 +30,8 @@ list.of.packages <-
     "ggridges",
     "broom.mixed",
     "pander",
-    "devtools"
+    "devtools",
+    "conflicted"
   )
 
 new.packages <-
