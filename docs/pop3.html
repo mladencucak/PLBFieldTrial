@@ -444,7 +444,8 @@ Another interesting thing to look at is year to year variation of the pathogen p
     &quot;readxl&quot;,
     &quot;poppr&quot;,
     &quot;egg&quot;,
-    &quot;parallel&quot;
+    &quot;parallel&quot;,
+    &quot;conflicted&quot;
   )
 
 new.packages &lt;-
@@ -484,13 +485,13 @@ monpop</code></pre>
 ## Genotype information:
 ## 
 ##      29 original multilocus genotypes 
-##    1315 triploid individuals
+##    1287 triploid individuals
 ##      12 codominant loci
 ## 
 ## Population information:
 ## 
 ##       3 strata - variety, genotype, year
-##      61 populations defined - 
+##      51 populations defined - 
 ## KE_6A1_2016, KE_8A1_2016, SE_6A1_2016, ..., CL_8A1_2019, SM_13A2_2019, SM_6A1_2019</code></pre>
 </div>
 <div id="dapc" class="section level2">
@@ -510,53 +511,61 @@ cpus</code></pre>
 
 set.seed(999)
 system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(monpop),
-                              n.pca = 10:20, n.rep = 1000,
+                              n.pca = 5:20, n.rep = 100,
                               parallel = parallel_proc, 
                               ncpus = cpus))</code></pre>
 <p><img src="pop3_files/figure-html/dapc_var-1.png" width="672" /></p>
 <pre><code>##    user  system elapsed 
-##    1.07    2.76  411.29</code></pre>
+##    0.80    1.39  157.78</code></pre>
 <pre class="r"><code>pramx[2:6]</code></pre>
 <pre><code>## $`Median and Confidence Interval for Random Chance`
 ##      2.5%       50%     97.5% 
-## 0.1486146 0.1658857 0.1865321 
+## 0.1467338 0.1661992 0.1886241 
 ## 
 ## $`Mean Successful Assignment by Number of PCs of PCA`
-##        10        11        12        13        14        15        16 
-## 0.3715842 0.3556017 0.3547476 0.3528834 0.3543063 0.3514315 0.3532643 
-##        17        18        19        20 
-## 0.3503348 0.3465681 0.3485085 0.3425435 
+##         5         6         7         8         9        10        11 
+## 0.2732444 0.2673079 0.3620459 0.3312674 0.3674138 0.3734538 0.3691795 
+##        12        13        14        15        16        17        18 
+## 0.3573218 0.3626850 0.3532357 0.3478570 0.3655659 0.3570768 0.3544466 
+##        19        20 
+## 0.3486169 0.3490194 
 ## 
 ## $`Number of PCs Achieving Highest Mean Success`
 ## [1] &quot;10&quot;
 ## 
 ## $`Root Mean Squared Error by Number of PCs of PCA`
-##        10        11        12        13        14        15        16 
-## 0.6301132 0.6469447 0.6479093 0.6497086 0.6481190 0.6510133 0.6490196 
-##        17        18        19        20 
-## 0.6520900 0.6558652 0.6539410 0.6599883 
+##         5         6         7         8         9        10        11 
+## 0.7272597 0.7331833 0.6400063 0.6699112 0.6343519 0.6280380 0.6332413 
+##        12        13        14        15        16        17        18 
+## 0.6450937 0.6394599 0.6493183 0.6543262 0.6364757 0.6456276 0.6485797 
+##        19        20 
+## 0.6530956 0.6532961 
 ## 
 ## $`Number of PCs Achieving Lowest MSE`
 ## [1] &quot;10&quot;</code></pre>
 <pre class="r"><code>pramx[-1]</code></pre>
 <pre><code>## $`Median and Confidence Interval for Random Chance`
 ##      2.5%       50%     97.5% 
-## 0.1486146 0.1658857 0.1865321 
+## 0.1467338 0.1661992 0.1886241 
 ## 
 ## $`Mean Successful Assignment by Number of PCs of PCA`
-##        10        11        12        13        14        15        16 
-## 0.3715842 0.3556017 0.3547476 0.3528834 0.3543063 0.3514315 0.3532643 
-##        17        18        19        20 
-## 0.3503348 0.3465681 0.3485085 0.3425435 
+##         5         6         7         8         9        10        11 
+## 0.2732444 0.2673079 0.3620459 0.3312674 0.3674138 0.3734538 0.3691795 
+##        12        13        14        15        16        17        18 
+## 0.3573218 0.3626850 0.3532357 0.3478570 0.3655659 0.3570768 0.3544466 
+##        19        20 
+## 0.3486169 0.3490194 
 ## 
 ## $`Number of PCs Achieving Highest Mean Success`
 ## [1] &quot;10&quot;
 ## 
 ## $`Root Mean Squared Error by Number of PCs of PCA`
-##        10        11        12        13        14        15        16 
-## 0.6301132 0.6469447 0.6479093 0.6497086 0.6481190 0.6510133 0.6490196 
-##        17        18        19        20 
-## 0.6520900 0.6558652 0.6539410 0.6599883 
+##         5         6         7         8         9        10        11 
+## 0.7272597 0.7331833 0.6400063 0.6699112 0.6343519 0.6280380 0.6332413 
+##        12        13        14        15        16        17        18 
+## 0.6450937 0.6394599 0.6493183 0.6543262 0.6364757 0.6456276 0.6485797 
+##        19        20 
+## 0.6530956 0.6532961 
 ## 
 ## $`Number of PCs Achieving Lowest MSE`
 ## [1] &quot;10&quot;
@@ -573,22 +582,22 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
 ## $n.da: 5 discriminant functions saved
 ## $var (proportion of conserved variance): 0.991
 ## 
-## $eig (eigenvalues): 181 26.39 18.79 3.409 0.7485  vector    length content                   
+## $eig (eigenvalues): 175.3 26.07 19.4 3.397 0.7438  vector    length content                   
 ## 1 $eig      5      eigenvalues               
-## 2 $grp      1315   prior group assignment    
+## 2 $grp      1287   prior group assignment    
 ## 3 $prior    6      prior group probabilities 
-## 4 $assign   1315   posterior group assignment
+## 4 $assign   1287   posterior group assignment
 ## 5 $pca.cent 60     centring vector of PCA    
 ## 6 $pca.norm 60     scaling vector of PCA     
 ## 7 $pca.eig  23     eigenvalues of PCA        
 ## 
 ##   data.frame    nrow ncol
-## 1 $tab          1315 10  
+## 1 $tab          1287 10  
 ## 2 $means        6    10  
 ## 3 $loadings     10   5   
-## 4 $ind.coord    1315 5   
+## 4 $ind.coord    1287 5   
 ## 5 $grp.coord    6    5   
-## 6 $posterior    1315 6   
+## 6 $posterior    1287 6   
 ## 7 $pca.loadings 60   10  
 ## 8 $var.contr    60   5   
 ##   content                                          
@@ -602,22 +611,26 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
 ## 8 contribution of original variables</code></pre>
 <pre class="r"><code>pramx[-1]$`Number of PCs Achieving Highest Mean Success`</code></pre>
 <pre><code>## [1] &quot;10&quot;</code></pre>
-<pre class="r"><code>scatter(
+<pre class="r"><code>#Reorder levels of the factor for plotting
+pramx$DAPC$grp &lt;- 
+factor(pramx$DAPC$grp, levels = c(&quot;KE&quot;, &quot;BQ&quot;, &quot;RO&quot;, &quot;SE&quot;, &quot;CL&quot;, &quot;SM&quot;))
+
+
+scatter(
   pramx$DAPC,
-  # col = other(monpop)$comparePal,
-  cex = 1.5 ,
-  pch=18:23,
   legend = TRUE,
-  clabel = TRUE,
-  posi.leg = &quot;topright&quot;,
-  scree.pca = TRUE,
-  posi.da = &quot;bottom&quot;,
-  posi.pca = &quot;topleft&quot;,
-  cleg = .9,
+  cex = 3,
+  # pch=18:23,
+  posi.leg = &quot;topleft&quot;,
+  scree.da = FALSE,
+  clab =2,
+  cleg = 2.1,
+  cell = 1, #zoom
   xax = 1,
   yax = 2,
   inset.solid = 1,
-  ratio.da = .2
+  cstar=0.5,
+  lwd=.1
 )</code></pre>
 <p><img src="pop3_files/figure-html/dapc_var-2.png" width="672" /></p>
 <pre class="r"><code>dev.copy(png,filename=here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;, &quot;var.png&quot;),
@@ -655,7 +668,7 @@ data.frame(ssr = c(12,&quot;PInf_Ireland&quot;),
            pop =  length(unique(fin$Pop)))</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["ssr"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["samples"],"name":[2],"type":["int"],"align":["right"]},{"label":["pop"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"12","2":"1315","3":"74"},{"1":"PInf_Ireland","2":"1315","3":"74"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["ssr"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["samples"],"name":[2],"type":["int"],"align":["right"]},{"label":["pop"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"12","2":"1287","3":"60"},{"1":"PInf_Ireland","2":"1287","3":"60"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <pre class="r"><code>write.table(data.frame(ssr = 12, samples = nrow(gen), pop =  length(unique(fin$Pop))),
@@ -687,14 +700,14 @@ monpop</code></pre>
 ## Genotype information:
 ## 
 ##      29 original multilocus genotypes 
-##    1315 triploid individuals
+##    1287 triploid individuals
 ##      12 codominant loci
 ## 
 ## Population information:
 ## 
 ##       3 strata - treatment, genotype, year
-##      74 populations defined - 
-## 0_6A1_2016, 0_8A1_2016, 100_6A1_2016, ..., IR_6A1_2019, 50_6A1_2019, IR_8A1-1_2019</code></pre>
+##      60 populations defined - 
+## 0_6A1_2016, 0_8A1_2016, 100_6A1_2016, ..., 100_6A1_2019, IR_6A1_2019, 50_6A1_2019</code></pre>
 <pre class="r"><code>setPop(monpop) &lt;- ~treatment
 
 set.seed(999)
@@ -705,30 +718,30 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
                               ncpus = cpus))</code></pre>
 <p><img src="pop3_files/figure-html/dapc_trt-1.png" width="672" /></p>
 <pre><code>##    user  system elapsed 
-##    1.29    4.16  579.91</code></pre>
+##    1.39    4.09  759.08</code></pre>
 <pre class="r"><code>pramx[-1]</code></pre>
 <pre><code>## $`Median and Confidence Interval for Random Chance`
 ##      2.5%       50%     97.5% 
-## 0.1482989 0.1670398 0.1880296 
+## 0.1451753 0.1667619 0.1879970 
 ## 
 ## $`Mean Successful Assignment by Number of PCs of PCA`
 ##         5         6         7         8         9        10        11 
-## 0.1644902 0.1826818 0.1925873 0.1790766 0.1855829 0.1986248 0.1979529 
+## 0.1614769 0.1788286 0.1886094 0.1781690 0.1818116 0.1959091 0.1933334 
 ##        12        13        14        15        16        17        18 
-## 0.1925181 0.1907940 0.1921735 0.1910467 0.1896027 0.1941032 0.1921203 
+## 0.1914369 0.1933276 0.1922427 0.1905560 0.1892878 0.1944264 0.1933459 
 ##        19        20 
-## 0.1920632 0.1923475 
+## 0.1932490 0.1925974 
 ## 
 ## $`Number of PCs Achieving Highest Mean Success`
 ## [1] &quot;10&quot;
 ## 
 ## $`Root Mean Squared Error by Number of PCs of PCA`
 ##         5         6         7         8         9        10        11 
-## 0.8355862 0.8175364 0.8077066 0.8211066 0.8146639 0.8017177 0.8023775 
+## 0.8385763 0.8213525 0.8116493 0.8220250 0.8184423 0.8044251 0.8069723 
 ##        12        13        14        15        16        17        18 
-## 0.8077833 0.8095016 0.8081438 0.8092499 0.8106819 0.8062380 0.8082190 
+## 0.8088620 0.8069989 0.8080874 0.8097442 0.8110071 0.8058971 0.8069668 
 ##        19        20 
-## 0.8082706 0.8079827 
+## 0.8070908 0.8077323 
 ## 
 ## $`Number of PCs Achieving Lowest MSE`
 ## [1] &quot;10&quot;
@@ -745,22 +758,22 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
 ## $n.da: 5 discriminant functions saved
 ## $var (proportion of conserved variance): 0.991
 ## 
-## $eig (eigenvalues): 15.3 9.625 4.225 2.027 1.341  vector    length content                   
+## $eig (eigenvalues): 15.81 9.464 3.786 1.946 1.354  vector    length content                   
 ## 1 $eig      5      eigenvalues               
-## 2 $grp      1315   prior group assignment    
+## 2 $grp      1287   prior group assignment    
 ## 3 $prior    6      prior group probabilities 
-## 4 $assign   1315   posterior group assignment
+## 4 $assign   1287   posterior group assignment
 ## 5 $pca.cent 60     centring vector of PCA    
 ## 6 $pca.norm 60     scaling vector of PCA     
 ## 7 $pca.eig  23     eigenvalues of PCA        
 ## 
 ##   data.frame    nrow ncol
-## 1 $tab          1315 10  
+## 1 $tab          1287 10  
 ## 2 $means        6    10  
 ## 3 $loadings     10   5   
-## 4 $ind.coord    1315 5   
+## 4 $ind.coord    1287 5   
 ## 5 $grp.coord    6    5   
-## 6 $posterior    1315 6   
+## 6 $posterior    1287 6   
 ## 7 $pca.loadings 60   10  
 ## 8 $var.contr    60   5   
 ##   content                                          
@@ -774,18 +787,19 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
 ## 8 contribution of original variables</code></pre>
 <pre class="r"><code>scatter(
   pramx$DAPC,
-  # col = other(monpop)$comparePal,
-  cex = 1.3 ,
   legend = TRUE,
-  clabel = TRUE,
+  cex = 3,
+  # pch=18:23,
   posi.leg = &quot;topleft&quot;,
-  scree.pca = TRUE,
-  posi.pca = &quot;topright&quot;,
-  posi.da = &quot;bottomright&quot;,
-  cleg = .9,
+  scree.da = FALSE,
+  clab =2,
+  cleg = 2.1,
+  cell = 1, #zoom
   xax = 1,
   yax = 2,
-  inset.solid = 1
+  inset.solid = 1,
+  cstar=0.5,
+  lwd=.1
 )</code></pre>
 <p><img src="pop3_files/figure-html/dapc_trt-2.png" width="672" /></p>
 <pre class="r"><code>dev.copy(png,filename=here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;, &quot;treatment.png&quot;),
@@ -808,33 +822,33 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
                               ncpus = cpus))</code></pre>
 <p><img src="pop3_files/figure-html/dapc_year-1.png" width="672" /></p>
 <pre><code>##    user  system elapsed 
-##    1.28    3.67  560.02</code></pre>
+##    1.40    4.35  578.78</code></pre>
 <pre class="r"><code>pramx[-1]</code></pre>
 <pre><code>## $`Median and Confidence Interval for Random Chance`
 ##      2.5%       50%     97.5% 
-## 0.2276972 0.2475752 0.2713200 
+## 0.2257941 0.2507039 0.2773436 
 ## 
 ## $`Mean Successful Assignment by Number of PCs of PCA`
 ##         5         6         7         8         9        10        11 
-## 0.5714399 0.6455599 0.6404781 0.6570257 0.6542511 0.6677174 0.6673807 
+## 0.5781881 0.6441077 0.6422808 0.6589358 0.6539261 0.6678523 0.6680317 
 ##        12        13        14        15        16        17        18 
-## 0.6746419 0.6723268 0.6745808 0.6753796 0.6754561 0.6718231 0.6746880 
+## 0.6678554 0.6749130 0.6764358 0.6750795 0.6767290 0.6779423 0.6730887 
 ##        19        20 
-## 0.6749401 0.6742428 
+## 0.6783975 0.6783760 
 ## 
 ## $`Number of PCs Achieving Highest Mean Success`
-## [1] &quot;16&quot;
+## [1] &quot;19&quot;
 ## 
 ## $`Root Mean Squared Error by Number of PCs of PCA`
 ##         5         6         7         8         9        10        11 
-## 0.4321234 0.3569802 0.3621226 0.3455767 0.3480716 0.3349190 0.3352096 
+## 0.4255115 0.3583974 0.3604867 0.3436311 0.3485413 0.3345418 0.3344695 
 ##        12        13        14        15        16        17        18 
-## 0.3277609 0.3301696 0.3278154 0.3271443 0.3271816 0.3308077 0.3278817 
+## 0.3345758 0.3278586 0.3261744 0.3277387 0.3260649 0.3248375 0.3293735 
 ##        19        20 
-## 0.3275667 0.3283145 
+## 0.3239983 0.3241916 
 ## 
 ## $`Number of PCs Achieving Lowest MSE`
-## [1] &quot;15&quot;
+## [1] &quot;19&quot;
 ## 
 ## $DAPC
 ##  #################################################
@@ -844,27 +858,27 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
 ## $call: dapc.data.frame(x = as.data.frame(x), grp = ..1, n.pca = ..2, 
 ##     n.da = ..3)
 ## 
-## $n.pca: 15 first PCs of PCA used
+## $n.pca: 19 first PCs of PCA used
 ## $n.da: 3 discriminant functions saved
-## $var (proportion of conserved variance): 0.998
+## $var (proportion of conserved variance): 1
 ## 
-## $eig (eigenvalues): 1252 347.3 255  vector    length content                   
+## $eig (eigenvalues): 1249 374.5 251.8  vector    length content                   
 ## 1 $eig      3      eigenvalues               
-## 2 $grp      1315   prior group assignment    
+## 2 $grp      1287   prior group assignment    
 ## 3 $prior    4      prior group probabilities 
-## 4 $assign   1315   posterior group assignment
+## 4 $assign   1287   posterior group assignment
 ## 5 $pca.cent 60     centring vector of PCA    
 ## 6 $pca.norm 60     scaling vector of PCA     
 ## 7 $pca.eig  23     eigenvalues of PCA        
 ## 
 ##   data.frame    nrow ncol
-## 1 $tab          1315 15  
-## 2 $means        4    15  
-## 3 $loadings     15   3   
-## 4 $ind.coord    1315 3   
+## 1 $tab          1287 19  
+## 2 $means        4    19  
+## 3 $loadings     19   3   
+## 4 $ind.coord    1287 3   
 ## 5 $grp.coord    4    3   
-## 6 $posterior    1315 4   
-## 7 $pca.loadings 60   15  
+## 6 $posterior    1287 4   
+## 7 $pca.loadings 60   19  
 ## 8 $var.contr    60   3   
 ##   content                                          
 ## 1 retained PCs of PCA                              
@@ -877,18 +891,19 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
 ## 8 contribution of original variables</code></pre>
 <pre class="r"><code>scatter(
   pramx$DAPC,
-  # col = other(monpop)$comparePal,
-  cex = 1.3 ,
   legend = TRUE,
-  clabel = TRUE,
-  posi.leg = &quot;bottomleft&quot;,
-  scree.pca = TRUE,
-  posi.pca = &quot;topright&quot;,
-  posi.da = &quot;topleft&quot;,
-  cleg = .9,
+  cex = 3,
+  # pch=18:23,
+  posi.leg = &quot;topleft&quot;,
+  scree.da = FALSE,
+  clab =2,
+  cleg = 2.1,
+  cell = 1, #zoom
   xax = 1,
   yax = 2,
-  inset.solid = 1
+  inset.solid = 1,
+  cstar=0.5,
+  lwd=.1
 )</code></pre>
 <p><img src="pop3_files/figure-html/dapc_year-2.png" width="672" /></p>
 <pre class="r"><code>dev.copy(png,filename=here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;, &quot;year.png&quot;),
@@ -909,7 +924,7 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
 ##  collate  English_United States.1252  
 ##  ctype    English_United States.1252  
 ##  tz       Europe/London               
-##  date     2019-11-04                  
+##  date     2019-12-10                  
 ## 
 ## - Packages --------------------------------------------------------------
 ##  package     * version  date       lib source        
@@ -918,24 +933,26 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
 ##  ape           5.3      2019-03-17 [1] CRAN (R 3.6.1)
 ##  assertthat    0.2.1    2019-03-21 [1] CRAN (R 3.6.1)
 ##  backports     1.1.5    2019-10-02 [1] CRAN (R 3.6.1)
-##  boot          1.3-22   2019-04-02 [2] CRAN (R 3.6.1)
+##  boot          1.3-22   2019-04-02 [3] CRAN (R 3.6.1)
 ##  broom         0.5.2    2019-04-07 [1] CRAN (R 3.6.1)
 ##  callr         3.3.2    2019-09-22 [1] CRAN (R 3.6.1)
 ##  cellranger    1.1.0    2016-07-27 [1] CRAN (R 3.6.1)
-##  class         7.3-15   2019-01-01 [2] CRAN (R 3.6.1)
+##  class         7.3-15   2019-01-01 [3] CRAN (R 3.6.1)
 ##  classInt      0.4-2    2019-10-17 [1] CRAN (R 3.6.1)
 ##  cli           1.1.0    2019-03-19 [1] CRAN (R 3.6.1)
-##  cluster       2.1.0    2019-06-19 [2] CRAN (R 3.6.1)
+##  cluster       2.1.0    2019-06-19 [3] CRAN (R 3.6.1)
 ##  coda          0.19-3   2019-07-05 [1] CRAN (R 3.6.1)
 ##  colorspace    1.4-1    2019-03-18 [1] CRAN (R 3.6.1)
+##  conflicted  * 1.0.4    2019-06-21 [1] CRAN (R 3.6.1)
 ##  crayon        1.3.4    2017-09-16 [1] CRAN (R 3.6.1)
 ##  DBI           1.0.0    2018-05-02 [1] CRAN (R 3.6.1)
+##  dbplyr        1.4.2    2019-06-17 [1] CRAN (R 3.6.1)
 ##  deldir        0.1-23   2019-07-31 [1] CRAN (R 3.6.1)
 ##  desc          1.2.0    2018-05-01 [1] CRAN (R 3.6.1)
 ##  devtools    * 2.2.1    2019-09-24 [1] CRAN (R 3.6.1)
 ##  digest        0.6.22   2019-10-21 [1] CRAN (R 3.6.1)
 ##  dplyr       * 0.8.3    2019-07-04 [1] CRAN (R 3.6.1)
-##  e1071         1.7-2    2019-06-05 [1] CRAN (R 3.6.1)
+##  e1071         1.7-3    2019-11-26 [1] CRAN (R 3.6.1)
 ##  egg         * 0.4.5    2019-07-13 [1] CRAN (R 3.6.1)
 ##  ellipsis      0.3.0    2019-09-20 [1] CRAN (R 3.6.1)
 ##  evaluate      0.14     2019-05-28 [1] CRAN (R 3.6.1)
@@ -952,7 +969,7 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
 ##  gridExtra   * 2.3      2017-09-09 [1] CRAN (R 3.6.1)
 ##  gtable        0.3.0    2019-03-25 [1] CRAN (R 3.6.1)
 ##  gtools        3.8.1    2018-06-26 [1] CRAN (R 3.6.0)
-##  haven         2.1.1    2019-07-04 [1] CRAN (R 3.6.1)
+##  haven         2.2.0    2019-11-08 [1] CRAN (R 3.6.1)
 ##  here        * 0.1      2017-05-28 [1] CRAN (R 3.6.1)
 ##  hms           0.5.2    2019-10-30 [1] CRAN (R 3.6.1)
 ##  htmltools     0.4.0    2019-10-04 [1] CRAN (R 3.6.1)
@@ -960,23 +977,24 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
 ##  httr          1.4.1    2019-08-05 [1] CRAN (R 3.6.1)
 ##  igraph        1.2.4.1  2019-04-22 [1] CRAN (R 3.6.1)
 ##  jsonlite      1.6      2018-12-07 [1] CRAN (R 3.6.1)
-##  KernSmooth    2.23-15  2015-06-29 [2] CRAN (R 3.6.1)
+##  KernSmooth    2.23-15  2015-06-29 [3] CRAN (R 3.6.1)
 ##  knitr         1.25     2019-09-18 [1] CRAN (R 3.6.1)
 ##  later         1.0.0    2019-10-04 [1] CRAN (R 3.6.1)
-##  lattice       0.20-38  2018-11-04 [2] CRAN (R 3.6.1)
+##  lattice       0.20-38  2018-11-04 [3] CRAN (R 3.6.1)
 ##  lazyeval      0.2.2    2019-03-15 [1] CRAN (R 3.6.1)
 ##  LearnBayes    2.15.1   2018-03-18 [1] CRAN (R 3.6.0)
 ##  lifecycle     0.1.0    2019-08-01 [1] CRAN (R 3.6.1)
 ##  lubridate     1.7.4    2018-04-11 [1] CRAN (R 3.6.1)
 ##  magrittr      1.5      2014-11-22 [1] CRAN (R 3.6.1)
-##  MASS          7.3-51.4 2019-03-31 [2] CRAN (R 3.6.1)
-##  Matrix        1.2-17   2019-03-22 [2] CRAN (R 3.6.1)
+##  MASS          7.3-51.4 2019-03-31 [3] CRAN (R 3.6.1)
+##  Matrix        1.2-17   2019-03-22 [3] CRAN (R 3.6.1)
 ##  memoise       1.1.0    2017-04-21 [1] CRAN (R 3.6.1)
-##  mgcv          1.8-28   2019-03-21 [2] CRAN (R 3.6.1)
+##  mgcv          1.8-28   2019-03-21 [3] CRAN (R 3.6.1)
 ##  mime          0.7      2019-06-11 [1] CRAN (R 3.6.0)
 ##  modelr        0.1.5    2019-08-08 [1] CRAN (R 3.6.1)
 ##  munsell       0.5.0    2018-06-12 [1] CRAN (R 3.6.1)
-##  nlme          3.1-140  2019-05-12 [2] CRAN (R 3.6.1)
+##  nlme          3.1-140  2019-05-12 [3] CRAN (R 3.6.1)
+##  packrat       0.5.0    2018-11-14 [1] CRAN (R 3.6.1)
 ##  pegas         0.12     2019-10-05 [1] CRAN (R 3.6.1)
 ##  permute       0.9-5    2019-03-12 [1] CRAN (R 3.6.1)
 ##  phangorn      2.5.5    2019-06-19 [1] CRAN (R 3.6.1)
@@ -992,18 +1010,19 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
 ##  promises      1.1.0    2019-10-04 [1] CRAN (R 3.6.1)
 ##  ps            1.3.0    2018-12-21 [1] CRAN (R 3.6.1)
 ##  purrr       * 0.3.3    2019-10-18 [1] CRAN (R 3.6.1)
-##  quadprog      1.5-7    2019-05-06 [1] CRAN (R 3.6.0)
+##  quadprog      1.5-8    2019-11-20 [1] CRAN (R 3.6.1)
 ##  R6            2.4.0    2019-02-14 [1] CRAN (R 3.6.1)
 ##  Rcpp          1.0.2    2019-07-25 [1] CRAN (R 3.6.1)
 ##  readr       * 1.3.1    2018-12-21 [1] CRAN (R 3.6.1)
 ##  readxl      * 1.3.1    2019-03-13 [1] CRAN (R 3.6.1)
 ##  remotes       2.1.0    2019-06-24 [1] CRAN (R 3.6.1)
+##  reprex        0.3.0    2019-05-16 [1] CRAN (R 3.6.1)
 ##  reshape2      1.4.3    2017-12-11 [1] CRAN (R 3.6.1)
 ##  rlang         0.4.1    2019-10-24 [1] CRAN (R 3.6.1)
 ##  rmarkdown     1.16     2019-10-01 [1] CRAN (R 3.6.1)
 ##  rprojroot     1.3-2    2018-01-03 [1] CRAN (R 3.6.1)
 ##  rstudioapi    0.10     2019-03-19 [1] CRAN (R 3.6.1)
-##  rvest         0.3.4    2019-05-15 [1] CRAN (R 3.6.1)
+##  rvest         0.3.5    2019-11-08 [1] CRAN (R 3.6.1)
 ##  scales        1.0.0    2018-08-09 [1] CRAN (R 3.6.1)
 ##  seqinr        3.6-1    2019-09-07 [1] CRAN (R 3.6.1)
 ##  sessioninfo   1.1.1    2018-11-05 [1] CRAN (R 3.6.1)
@@ -1014,11 +1033,11 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
 ##  spdep         1.1-3    2019-09-18 [1] CRAN (R 3.6.1)
 ##  stringi       1.4.3    2019-03-12 [1] CRAN (R 3.6.0)
 ##  stringr     * 1.4.0    2019-02-10 [1] CRAN (R 3.6.1)
-##  testthat      2.2.1    2019-07-25 [1] CRAN (R 3.6.1)
+##  testthat      2.3.1    2019-12-01 [1] CRAN (R 3.6.1)
 ##  tibble      * 2.1.3    2019-06-06 [1] CRAN (R 3.6.1)
 ##  tidyr       * 1.0.0    2019-09-11 [1] CRAN (R 3.6.1)
 ##  tidyselect    0.2.5    2018-10-11 [1] CRAN (R 3.6.1)
-##  tidyverse   * 1.2.1    2017-11-14 [1] CRAN (R 3.6.1)
+##  tidyverse   * 1.3.0    2019-11-21 [1] CRAN (R 3.6.1)
 ##  units         0.6-5    2019-10-08 [1] CRAN (R 3.6.1)
 ##  usethis     * 1.5.1    2019-07-04 [1] CRAN (R 3.6.1)
 ##  vctrs         0.2.0    2019-07-05 [1] CRAN (R 3.6.1)
@@ -1030,8 +1049,9 @@ system.time(pramx &lt;- xvalDapc(tab(monpop, NA.method = &quot;mean&quot;), pop(
 ##  yaml          2.2.0    2018-07-25 [1] CRAN (R 3.6.0)
 ##  zeallot       0.1.0    2018-01-28 [1] CRAN (R 3.6.1)
 ## 
-## [1] C:/Users/mlade/Documents/R/win-library/3.6
-## [2] C:/Program Files/R/R-3.6.1/library</code></pre>
+## [1] C:/Users/mlade/Documents/Github/PLBFieldTrial/packrat/lib/x86_64-w64-mingw32/3.6.1
+## [2] C:/Users/mlade/Documents/Github/PLBFieldTrial/packrat/lib-ext/x86_64-w64-mingw32/3.6.1
+## [3] C:/Users/mlade/Documents/Github/PLBFieldTrial/packrat/lib-R/x86_64-w64-mingw32/3.6.1</code></pre>
 </div>
 
 

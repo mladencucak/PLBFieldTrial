@@ -47,7 +47,9 @@ list.of.packages <-
     "multcomp",
     "multcompView",
     "ggpubr",
-    "conflicted"
+    "conflicted",
+    "lmerTest",
+    "hnp"
   )
 
 new.packages <-
@@ -171,7 +173,6 @@ left_join(yldmean, yldsd, by = colnames(yldmean)[1:4])  %>%
 ## Model fitting
 ```{r}
 
-library (lmerTest)
 fit2016 <- lmer(marketable ~ 
               block +  treatment * variety + (1 | block:treatment),
             data=subset(yld, year==2016)
@@ -354,6 +355,9 @@ ggsave(
   height = 3.7,
   dpi = 820
 )
+
+saveRDS(p_fin, file = here::here("results", "yield",  "yld_plot_fin.RDS"))
+
 rm(p_fin)
 
 ```

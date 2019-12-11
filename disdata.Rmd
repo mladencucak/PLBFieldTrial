@@ -77,8 +77,8 @@ map(ls, function(x)
   x %>% 
     mutate(julian_day = yday(as.Date(date))) %>% 
     group_by(variety) %>% 
-    mutate(time = ifelse(is.na(lag(julian_day)), 1,
-                         julian_day - lag(julian_day))) %>%
+    mutate(time = ifelse(is.na(dplyr::lag(julian_day)), 1,
+                         julian_day - dplyr::lag(julian_day))) %>%
     mutate(time = cumsum(time))) 
 
    
@@ -337,7 +337,7 @@ abline(h = 0, lty = 2)
 ```{r}
 t <- broom.mixed::tidy(fit_2016, conf.int = TRUE)
 t <-  
-  filter(t, effect != "ran_pars") %>% 
+  dplyr::filter(t, effect != "ran_pars") %>% 
   dplyr::select(-c(component, group))
 write_csv(t, path = here::here("results", "dis", "2016fit.csv"))
 
@@ -366,7 +366,7 @@ abline(h = 0, lty = 2)
 ```{r}
 t1 <- broom.mixed::tidy(fit_rest, conf.int = TRUE)
 t1 <-  
-  filter(t1, effect != "ran_pars") %>% 
+  dplyr::filter(t1, effect != "ran_pars") %>% 
   dplyr::select(-c(component, group))
 
 write_csv(t1, path = here::here("results", "dis", "fit_rest.csv"))
@@ -556,6 +556,9 @@ ggsave(
   height = 3.7,
   dpi = 820
 )
+
+saveRDS(p_fin, file = here::here("results", "dis",  "dis_plot_fin.RDS"))
+
 rm(p_fin)
 ```
   

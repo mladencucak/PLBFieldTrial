@@ -99,41 +99,47 @@ cpus
 ```
 
 
-```{r dapc_var}
+```{r dapc_var, out.width='100%', fig.width = 6, fig.height=6}
 setPop(monpop) <- ~variety
 
 
 set.seed(999)
-system.time(pramx <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop),
-                              n.pca = 10:20, n.rep = 1000,
+system.time(pramx_var <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop),
+                              n.pca = 5:20, n.rep = 3000,
                               parallel = parallel_proc, 
                               ncpus = cpus))
-pramx[2:6]
-pramx[-1]
-pramx[-1]$`Number of PCs Achieving Highest Mean Success`
+
+pramx_var$DAPC$grp <- 
+  factor(pramx_var$DAPC$grp, levels = c("KE", "BQ", "RO", "SE", "CL", "SM"))
+
+saveRDS(pramx_var, file = here::here("results", "gen","dapc",  "dapc_var.RDS"))
+
+pramx_var[-1]
+pramx_var[-1]$`Number of PCs Achieving Highest Mean Success`
+
+#Reorder levels of the factor for plotting
+pramx_var$DAPC$grp <- 
+factor(pramx_var$DAPC$grp, levels = c("KE", "BQ", "RO", "SE", "CL", "SM"))
 
 
 scatter(
-  pramx$DAPC,
-  # col = other(monpop)$comparePal,
-  cex = 1.5 ,
-  pch=18:23,
+  pramx_var$DAPC,
   legend = TRUE,
-  clabel = TRUE,
-  posi.leg = "topright",
-  scree.pca = TRUE,
-  posi.da = "bottom",
-  posi.pca = "topleft",
-  cleg = .9,
+  cex = 3,
+  # pch=18:23,
+  posi.leg = "topleft",
+  scree.da = FALSE,
+  clab =2,
+  cleg = 2.1,
+  cell = 1, #zoom
   xax = 1,
   yax = 2,
   inset.solid = 1,
-  ratio.da = .2
+  cstar=0.5,
+  lwd=.1
 )
 
-dev.copy(png,filename=here::here("results", "gen","dapc", "var.png"),
-         width =600, height= 600);
-dev.off ()
+
 
 ```
    
@@ -196,86 +202,81 @@ monpop
 
 
 
-```{r dapc_trt}
+```{r dapc_trt, out.width='100%', fig.width = 6, fig.height=6}
 setPop(monpop) <- ~treatment
 
 set.seed(999)
-system.time(pramx <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop),
+system.time(pramx_trt <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop),
                               n.pca = 5:20, 
-                              n.rep = 1000,
+                              n.rep = 3000,
                               parallel = parallel_proc, 
                               ncpus = cpus))
-pramx[-1]
+
+pramx_trt$DAPC$grp <- 
+  factor(pramx_trt$DAPC$grp, levels = c("0", "100", "50", "IR", "BM", "MIR"))
+
+saveRDS(pramx_trt, file = here::here("results", "gen","dapc",  "dapc_trt.RDS"))
+
+pramx_trt[-1]
 
 scatter(
-  pramx$DAPC,
-  # col = other(monpop)$comparePal,
-  cex = 1.3 ,
+  pramx_trt$DAPC,
   legend = TRUE,
-  clabel = TRUE,
+  cex = 3,
+  # pch=18:23,
   posi.leg = "topleft",
-  scree.pca = TRUE,
-  posi.pca = "topright",
-  posi.da = "bottomright",
-  cleg = .9,
+  scree.da = FALSE,
+  clab =2,
+  cleg = 2.1,
+  cell = 1, #zoom
   xax = 1,
   yax = 2,
-  inset.solid = 1
+  inset.solid = 1,
+  cstar=0.5,
+  lwd=.1
 )
 
-dev.copy(png,filename=here::here("results", "gen","dapc", "treatment.png"),
-         width = 600, height= 600);
-dev.off ()
 
 ```
 
 ## Year effect
 
-```{r dapc_year}
+```{r dapc_year, out.width='100%', fig.width = 6, fig.height=6}
 setPop(monpop) <- ~year
 
 set.seed(999)
-system.time(pramx <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop),
+system.time(pramx_yr <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop),
                               n.pca = 5:20,
-                              n.rep = 1000,
+                              n.rep = 3000,
                               parallel = parallel_proc, 
                               ncpus = cpus))
-pramx[-1]
+pramx_yr$DAPC$grp <- 
+  factor(pramx_yr$DAPC$grp, levels = c("2016", "2017", "2018", "2019"))
+
+saveRDS(pramx_yr, file = here::here("results", "gen","dapc",  "dapc_yr.RDS"))
+
+pramx_yr[-1]
+
 
 scatter(
-  pramx$DAPC,
-  # col = other(monpop)$comparePal,
-  cex = 1.3 ,
+  pramx_yr$DAPC,
   legend = TRUE,
-  clabel = TRUE,
-  posi.leg = "bottomleft",
-  scree.pca = TRUE,
-  posi.pca = "topright",
-  posi.da = "topleft",
-  cleg = .9,
+  cex = 3,
+  # pch=18:23,
+  posi.leg = "topleft",
+  scree.da = FALSE,
+  clab =1.8,
+  cleg = 2,
+  cell = 1, #zoom
   xax = 1,
   yax = 2,
-  inset.solid = 1
+  inset.solid = 1,
+  cstar=0.5,
+  lwd=.1
 )
 
-dev.copy(png,filename=here::here("results", "gen","dapc", "year.png"),
-         width = 600, height= 600);
-dev.off ()
-
-
 ```
 
-
-
-```{r}
-
-```
-
-
-
-```{r}
-
-```
 
 
 
