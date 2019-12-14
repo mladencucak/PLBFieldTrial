@@ -128,14 +128,7 @@ splitStrata(monpop) <- ~variety/genotype/year
 
 monpop
 
- monpop$strata<-
-  monpop$strata %>% 
-mutate(genotype = ifelse(genotype ==  "6A1","EU_6_A1",
-                                          ifelse(genotype ==  "13A2","EU_13_A2",
-                                                 ifelse(genotype ==  "8A1","EU_8_A1","" ))))
- 
-
-monpop$strata$genotype <- factor( monpop$strata$genotype, levels = c("EU_8_A1", "EU_13_A2", "EU_6_A1"))
+monpop$strata$genotype <- factor( monpop$strata$genotype,  levels = c( "8A1","13A2","6A1" ))
 # imsn()
 
 monpop_sub <- popsub(monpop, blacklist = character(0))

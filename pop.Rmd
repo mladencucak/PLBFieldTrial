@@ -62,6 +62,12 @@ if (any(as.numeric(packages_load) == 0)) {
 }
 rm(list.of.packages, new.packages, packages_load)
 
+#Resolve conflicts
+if(c("MASS", "dplyr")%in% installed.packages())conflict_prefer("select", "dplyr")
+if(c("stats", "dplyr")%in% installed.packages()){
+  conflict_prefer("filter", "dplyr")
+  conflict_prefer("select", "dplyr")
+}
 
 #if instal is not working try 
 #install.packages("package_name", repos = c(CRAN="https://cran.r-project.org/"))
@@ -73,15 +79,14 @@ Import the data and set the levels of the treatment (3 fixed and 3 variable dose
 samples <-  
   readRDS(file = here::here("data", "gen data", "final", "gendata.rds") ) %>% 
   mutate(Genotype = factor(Genotype, levels = c( "8A1","13A2","6A1" )))
- 
+
 samples$date <- as.Date(samples$date, "%m/%d/%Y")
 
 paste( "The data set is consisted of", nrow(samples), "genotyped samples")
 
 #Prepare the poulation strata initials
 samples$treatment <- 
-  factor(samples$treatment, 
-         levels = c("0", "100","50","IR","BM" ,"MIR"))
+  factor(samples$treatment, levels = c("0", "100","50","IR","BM" ,"MIR"))
 
 
 samples <- 
@@ -188,8 +193,8 @@ dplyr::filter(dis_obs, treatment == "Control") %>%
 
 # remove tuber samples
 p_gen <- 
-dplyr::filter(samples, julian_day < 300) %>% 
-ggplot(.,aes(julian_day, fill = Genotype))+
+
+ggplot(samples,aes(julian_day, fill = Genotype))+
   # geom_col(aes(julian_day, plotID, fill = Genotype), width = 5, colour = "black", size = 0.1)+
   geom_bar(stat = "count", position = "stack", width = 6,colour = "black", size = line_size)+
   
@@ -207,8 +212,8 @@ ggplot(.,aes(julian_day, fill = Genotype))+
 
 
 p_var <- 
-dplyr::filter(samples, julian_day < 300) %>% 
-ggplot(aes(julian_day, fill = variety))+
+
+ggplot(samples,aes(julian_day, fill = variety))+
   geom_bar(stat = "count", position = "stack", width = 6,colour = "black", size = line_size)+
   facet_wrap(~year, ncol = 1)+
   xlab("Date")+
@@ -236,8 +241,8 @@ ggplot(aes(julian_day, fill = variety))+
 
 #plot samples per treatment/fixed reduced dose
  p_prog <- 
-  dplyr::filter(samples, julian_day < 300) %>% 
-  ggplot(.,aes(julian_day, fill = treatment))+
+  
+  ggplot(samples,aes(julian_day, fill = treatment))+
   geom_bar(stat = "count", position = "stack", width = 6,colour = "black", size = line_size)+
   facet_wrap(~year, ncol = 1)+
   xlab("Date")+
@@ -265,74 +270,6 @@ ggpubr::ggarrange(plotlist = plot_list,
 
 ```
 
-```{r dpc_MLG_chart, fig.width= 3, fig.height=7, foldcode=TRUE}
-cbbPalette <- c ( "#ffff33","#3399ff", "#ff33cc")
-
-dis_obs <- 
-  dplyr::filter(dis_obs, treatment == "Control") %>%
-  mutate(treatment = "Control plots") %>% 
-  group_by(treatment, variety, year, julian_day) %>%
-  summarise(rating = mean(obs))
-
-
-counts_df <- 
-  samples %>%
-  group_by(date) %>% 
-  count(counts =n()) 
-
-counts_df$labels <- 
-  sapply(counts_df[["counts"]],  function(x) paste0("n=", x )) %>% 
-  as.vector()
-
-samples_fig <- 
-  left_join(samples, counts_df, by = c("date"))
-
-ggplot() +
-  geom_bar(
-    data = samples_fig,
-    aes(julian_day, fill = Genotype),
-    stat = "count",
-    position = "fill",
-    width = 4,
-    colour = "black",
-    size = line_size
-  ) +
-  geom_text(data = samples_fig,
-            aes(x = julian_day, y = -0.1, label = labels),
-            size = 2.2) +
-  geom_line(
-    data = dis_obs,
-    aes(
-      x = as.numeric(julian_day),
-      y = rating / 100,
-      colour = variety,
-      group = variety
-    ),
-    size = .4,
-    alpha = .6,
-    linetype = "solid"
-  ) +
-  facet_wrap( ~ year, ncol = 1) +
-  xlab("Date")+
-  ylab("Proportion of foliar disease and MLGs")+
-  scale_y_continuous(limits = c(-0.11, 1),
-                     breaks = seq(0, 1, 0.2)) +
-  scale_fill_manual(values=cbbPalette)+
-  theme_article()+
-  labs(fill = "MLG all",
-       color = "Variety")+
-  scale_colour_brewer("Variety:",
-                      palette = "Dark2")+
-  theme( legend.position = "bottom",
-        legend.direction = "horizontal")+
-  guides(fill=guide_legend(nrow=3,byrow=TRUE,title.position = "top"),
-         color=guide_legend(nrow=3,byrow=TRUE,title.position = "top"))+
-  ggsave(filename= here::here("results", "gen", "freq", "Genotype and DPC per sampling vertical.png"), 
-         width = 3, height =7, dpi = 620)
-
-rm(samples_fig)
-
-```
 
 ```{r freq_charts, fig.width= 3, fig.height=9, foldcode=TRUE}
 
@@ -347,7 +284,7 @@ gen_prop <-
   rename(counts = n) %>%
   mutate(prop = prop.table(counts)) %>% 
   mutate(perc = round(prop * 100,1)) %>% 
-    arrange(desc(variety))
+  arrange(desc(variety))
 
 
 
@@ -536,13 +473,30 @@ gen_prop_year %>%
   spread(year, perc)  
 ```
 
+## Temporal structure
 Proportion og MLG per sampling date. 
-```{r}
-temporal_prop <-
+
+```{r temp_fig, out.width= '100%'}
+
+dis_obs <- 
+  filter(dis_obs, year != 2016)
+
+########################################
+#sus
+#####################################################
+
+
+sdf <- 
 samples %>%
+  dplyr::filter( variety %in% c("KE", "BQ","RO" )) %>% 
+  dplyr::filter( treatment %in% c( "IR","0")) %>% 
+  dplyr::filter( year != 2016)  
+
+temporal_prop_sus <-
+sdf %>% 
   group_by(date) %>% 
   count(Genotype) %>%
-  rename(counts = n) %>%
+  rename(counts = n) %>% 
   mutate(prop = prop.table(counts)) %>% 
   mutate(perc = round(prop * 100,1)) %>% 
   select(date, Genotype, perc) %>% 
@@ -556,18 +510,156 @@ samples %>%
          "13A2 (%)" = "13A2",
          "Sampling Date" = "date")
 
-counts_df <- 
-samples %>%
+
+
+counts_df_sus <- 
+sdf%>%
+  group_by(date)%>% 
+  count(counts =n())
+  
+temporal_prop_sus <- 
+  add_column( temporal_prop_sus, `No. of Samples` =counts_df_sus$counts, .before= "8A1 (%)")
+
+
+write_csv(temporal_prop_sus, here::here("results", "gen", "MLG per date sus.csv"))
+
+
+
+
+counts_df_sus$labels <- 
+  sapply(counts_df_sus[["counts"]],  function(x) paste0("n=", x )) %>% 
+  as.vector()
+
+sdf <- 
+left_join(sdf, counts_df_sus, by = c("date")) %>% 
+  mutate(set = "Subset")
+  
+########################################
+#all
+#####################################################
+
+
+adf <- 
+  samples %>%
+  # dplyr::filter( variety %in% c("KE", "BQ","RO" )) %>% 
+  dplyr::filter( year != 2016)  
+
+temporal_prop <-
+  adf %>% 
   group_by(date) %>% 
-  count(counts =n()) 
+  count(Genotype) %>%
+  rename(counts = n) %>% 
+  mutate(prop = prop.table(counts)) %>% 
+  mutate(perc = round(prop * 100,1)) %>% 
+  select(date, Genotype, perc) %>% 
+  spread(., Genotype, perc) %>% 
+  replace(is.na(.), 0) %>% 
+  arrange(date) %>% 
+  add_column( ., Year = format(.$date, "%Y"), .before= "date") %>% 
+  mutate("13A2+6A1 (%)" = `13A2` + `6A1`) %>% 
+  rename("8A1 (%)" = "8A1",
+         "6A1 (%)" = "6A1",
+         "13A2 (%)" = "13A2",
+         "Sampling Date" = "date")
+
+
+
+counts_df <- 
+  adf%>%
+  dplyr::filter( year != 2016) %>% 
+  group_by(date)%>% 
+  count(counts =n())
 
 temporal_prop <- 
-add_column( temporal_prop, `No. of Samples` =counts_df$counts, .before= "8A1 (%)")
+  add_column( temporal_prop, `No. of Samples` =counts_df$counts, .before= "8A1 (%)")
 
 
 write_csv(temporal_prop, here::here("results", "gen", "MLG per date.csv"))
 
-temporal_prop
+
+counts_df$labels <- 
+  sapply(counts_df[["counts"]],  function(x) paste0("n=", x )) %>% 
+  as.vector()
+
+adf <- 
+  left_join(adf, counts_df, by = c("date")) %>% 
+  mutate(set = "All Samples")
+
+#####################################################
+#plot
+#####################################################
+
+
+samples_fig <- 
+   bind_rows( adf, sdf)
+
+
+cbbPalette <- c ( "#ffff33","#3399ff", "#ff33cc")
+
+dis_obs <- 
+  dplyr::filter(dis_obs, treatment == "Control") %>%
+  mutate(treatment = "Control plots") %>% 
+  group_by(treatment, variety, year, julian_day) %>%
+  summarise(rating = mean(obs))
+
+ggplot() +
+  geom_bar(
+    data = samples_fig,
+    aes(julian_day, fill = Genotype),
+    stat = "count",
+    position = "fill",
+    width = 4,
+    colour = "black",
+    size = line_size
+  ) +
+  geom_line(
+    data = dis_obs,
+    aes(
+      x = as.numeric(julian_day),
+      y = rating / 100,
+      colour = variety,
+      group = variety
+    ),
+    size = .4,
+    alpha = .6,
+    linetype = "solid"
+  ) +
+  facet_grid( year~ set  ) +
+  xlab("Date")+
+  ylab("Proportion of foliar disease and MLGs")+
+  scale_y_continuous(limits = c(-0.11, 1),
+                     breaks = seq(0, 1, 0.2)) +
+  scale_fill_manual(values=cbbPalette)+
+  theme_article()+
+  labs(fill = "MLG:",
+       color = "Variety")+
+  scale_colour_brewer("Variety:",
+                      palette = "Dark2")+
+  # ## Uncomment for vertical plot
+    # geom_text(data = samples_fig,
+    #         aes(x = julian_day, y = -0.07, label = labels),
+    #         size = 2.2,
+    #         check_overlap = FALSE) +
+
+  # theme( legend.position = "bottom",
+  #        legend.direction = "horizontal")+
+  # guides(fill=guide_legend(nrow=1,byrow=TRUE,title.position = "top"),
+  #        color=guide_legend(nrow=2,byrow=TRUE,title.position = "top"))+
+  # ggsave(filename= here::here("results", "gen", "freq", "Genotype and DPC per sampling vertical.png"),
+  #        width = 5, height =7, dpi = 620)
+  # Uncomment for horisontal plot
+   facet_grid( set~ year  ) +
+  geom_text(data = samples_fig,
+            aes(x = julian_day, y = -0.1, label = labels),
+            size = 2.6,
+            angle = -35) +
+  guides(fill=guide_legend(nrow=3,byrow=TRUE,title.position = "top"),
+         color=guide_legend(nrow=6,byrow=TRUE,title.position = "top"))+
+
+  ggsave(filename= here::here("results", "gen", "freq", "Genotype and DPC per sampling horisontal.png"),
+         width = 10, height =4.2, dpi = 620)
+
+
 ```
 
 
