@@ -52,6 +52,13 @@ if (any(as.numeric(packages_load) == 0)) {
 }
 rm(list.of.packages, new.packages, packages_load)
 
+#Resolve conflicts
+if(c("stats", "dplyr")%in% installed.packages()){
+  conflict_prefer("lag", "dplyr")
+  conflict_prefer("filter", "dplyr")
+  conflict_prefer("select", "dplyr")
+}
+
 #if instal is not working try 
 #install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/"))
 ```
@@ -78,7 +85,7 @@ map(ls, function(x)
     mutate(julian_day = yday(as.Date(date))) %>% 
     group_by(variety) %>% 
     mutate(time = ifelse(is.na(dplyr::lag(julian_day)), 1,
-                         julian_day - dplyr::lag(julian_day))) %>%
+                         julian_day - lag(julian_day))) %>%
     mutate(time = cumsum(time))) 
 
    

@@ -86,7 +86,7 @@ monpop
 
 ## DAPC
 Very good tutorials are avaialble at [adegent page](https://github.com/thibautjombart/adegenet/wiki/Tutorials) and [Grünwald lab web page](https://grunwaldlab.github.io/Population_Genetics_in_R/DAPC.html).  
-Set paralel processing. This argument should be removed if the code is to be reproduced on machine which can not devote muliple cores, although that is probably not a good idea.   
+Seting the paralel processing. This argument should be removed if the code is to be reproduced on machine which can not devote muliple core.   
 We will also assign a number of cores to be used. We will set it to be one less than the maximum no. of cores, so we dont 'sufficate' the computer. 
 
 ```{r}
@@ -109,6 +109,7 @@ system.time(pramx_var <- xvalDapc(tab(monpop, NA.method = "mean"), pop(monpop),
                               parallel = parallel_proc, 
                               ncpus = cpus))
 
+#Reorder levels of the factor for plotting
 pramx_var$DAPC$grp <- 
   factor(pramx_var$DAPC$grp, levels = c("KE", "BQ", "RO", "SE", "CL", "SM"))
 
@@ -117,9 +118,7 @@ saveRDS(pramx_var, file = here::here("results", "gen","dapc",  "dapc_var.RDS"))
 pramx_var[-1]
 pramx_var[-1]$`Number of PCs Achieving Highest Mean Success`
 
-#Reorder levels of the factor for plotting
-pramx_var$DAPC$grp <- 
-factor(pramx_var$DAPC$grp, levels = c("KE", "BQ", "RO", "SE", "CL", "SM"))
+
 
 
 scatter(
