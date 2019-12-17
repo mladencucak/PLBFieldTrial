@@ -1,13 +1,41 @@
+% Pub figures
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+chooseCRANmirror(graphics=FALSE, ind=1)
+knitr::knit_hooks$set(
+  source = function(x, options) {
+    hook.r = function(x, options) {
+      fence <- "```"
+      language = tolower(options$engine)
+      if (language == 'node') language = 'javascript'
+      if (!options$highlight) language = 'text'
+      if(!is.null(options$foldcode)) {
+      paste0('\n\n', "<details><summary>The code</summary>\n", fence, language, '\n', x, fence,  '\n\n', "</details>\n")
+      } else {
+              paste0('\n\n', fence, language, '\n', x, fence,  '\n\n')
+      }
+    }
+    x = knitr:::hilight_source(x, 'markdown', options)
+    hook.r(
+      paste(c(
+        x, 
+        ''
+      ), collapse = '\n'), 
+      options
+    )
+  }
+)
 
-#' 
-#' 
-#'  Discriminant analysis of principal comonents will give us some more insights into possible clustering within the population.  
-#'  We would like to se eif there are effects of our treatments, variety and fungicide programmes.  
-#'  Another interesting thing to look at is year to year variation of the pathogen population structure. 
-#' 
-#' ## Load packages
-## ----libs, warning = FALSE, message= FALSE-------------------------------
+```
+
+Some of figures from different segments of the analysis were colated for the manuscript.  
+Here we present the process used to put them together. 
+## Treatments analysis
+Number of treatments and proportion of the total dose used in fungicide trials.    
+
+## Load packages
+```{r libs, warning = FALSE, message= FALSE}
 list.of.packages <-
   c(
     "tidyverse",
@@ -38,116 +66,14 @@ if (any(as.numeric(packages_load) == 0)) {
 rm(list.of.packages, new.packages, packages_load)
 
 #if instal is not working try 
-#install.packages("package_name", repos = c(CRAN="https://cran.r-project.org/"))
+#install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/"))
+```
+  
+## Population frequencies and DAPC analysis 
+GGplots from the frequency analysis wee colated using 'gpubr' and DAPC plots using 'magick'.  
 
-##############################################
-#Varieties  DPCA
-#############################################
-#Reorder levels of the factor for plotting
-
-pramx_var <- 
-  readRDS( file = here::here("results", "gen","dapc",  "dapc_var.RDS"))
-
-
-png(filename=here::here("results", "gen","dapc", "var.png"),
-    width = 600, height= 600)
-
-
-scatter(
-  pramx_var$DAPC,
-  legend = TRUE,
-  cex = 3,
-  # pch=18:23,
-  posi.leg = "bottomleft",
-  scree.da = FALSE,
-  clab =2.5,
-  cleg = 2.1,
-  cell = 1, #zoom
-  xax = 1,
-  yax = 2,
-  inset.solid = 1,
-  cstar=0.8,
-  lwd=.3
-)
-
-dev.off ()
-shell.exec(here::here("results", "gen","dapc", "var.png"))
-
-
-##############################################
-#Treatment  DPCA
-#############################################
-#Reorder levels of the factor for plotting
-
-pramx_trt <- 
-  readRDS( file = here::here("results", "gen","dapc",  "dapc_trt.RDS"))
-
-
-png(filename=here::here("results", "gen","dapc", "treatment.png"),
-    width = 600, height= 600)
-
-
-scatter(
-  pramx_trt$DAPC,
-  legend = TRUE,
-  cex = 3,
-  # pch=18:23,
-  posi.leg = "topleft",
-  scree.da = FALSE,
-  clab =2.5,
-  cleg = 2.1,
-  cell = 1, #zoom
-  xax = 1,
-  yax = 2,
-  inset.solid = 1,
-  cstar=0.8,
-  lwd=.1
-)
-
-dev.off ()
-shell.exec(here::here("results", "gen","dapc", "treatment.png"))
-
-
-
-
-##############################################
-#Year  DPCA
-#############################################
-#Reorder levels of the factor for plotting
-
-
-pramx_yr <- 
-  readRDS( file = here::here("results", "gen","dapc",  "dapc_yr.RDS"))
-
-
-png(filename=here::here("results", "gen","dapc", "year.png"),
-    width = 600, height= 600)
-
-
-scatter(
-  pramx_yr$DAPC,
-  legend = TRUE,
-  cex = 3,
-  # pch=18:23,
-  posi.leg = "topleft",
-  scree.da = FALSE,
-  clab =2.5,
-  cleg = 2.1,
-  cell = 1.2, #zoom
-  xax = 1,
-  yax = 2,
-  inset.solid = 1,
-  cstar=0.8,
-  lwd=.1
-)
-
-dev.off ()
-shell.exec(here::here("results", "gen","dapc", "year.png"))
-
-#########################################################
-#Publication figure
-############################################################
-
+  
+```{r}
 plotls <- readRDS(file = here::here("results", "gen", "freq","freq_plots.RDS"))
 
 plotls <- 
@@ -162,13 +88,7 @@ ggpubr::ggarrange(plotlist = plotls,
   ggsave(filename= here::here("results", "gen", "freq", "Freq_all.png"),
          width = 2.9, height =9, dpi = 820)
 
-
-
-
 # Read external images
-
-
-#check the photo
 #shell.exec(here::here("results", "gen","dapc", "treatment.png"))
 t = image_read(here::here("results", "gen","dapc", "treatment.png"))
 v = image_read(here::here("results", "gen","dapc", "var.png"))
@@ -177,8 +97,6 @@ imgs = c(v,t,y)
 
 # concatenate them left-to-right (use 'stack=T' to do it top-to-bottom)
 side_by_side = image_append(imgs, stack=T)
-
-
 
 # save 
 image_write(side_by_side, 
@@ -205,12 +123,17 @@ image_write(side_by_side,
             # height = 3700
 )
 
-shell.exec(here::here("results", "gen","dapc","dapcs", paste0(scale, "full.png")))
+#To open the figure in external viewer uncoment the following lines
+#shell.exec(here::here("results", "gen","dapc","dapcs", paste0(scale, "full.png")))
 
+side_by_side
+```
+![Final figure](`r here::here("results", "gen","dapc","dapcs", "x7380full.png")`)
 
-######################################################################
-# Yield and Disease plots
-######################################################################
+## Disease and yield 
+Results of the foliar disease controll yield analysis were colated in single figure using 'magick' package.  
+
+```{r}
 
 dp <- 
 readRDS( file = here::here("results", "dis",  "dis_plot_fin.RDS"))
@@ -218,7 +141,7 @@ lp <-
 readRDS( file = here::here("results", "yield",  "yld_plot_fin.RDS"))
 
 dp <- 
-  dp+
+  dp +
   theme(axis.title.x=element_blank())
   
 lp <- 
@@ -240,5 +163,9 @@ ggpubr::ggarrange(plotlist = plotls,
                   nrow = 2)+
   ggsave(filename= here::here("results", "dis", "dis_yld.png"),
          width = 7, height =6, dpi = 820)
-shell.exec(here::here("results", "dis", "dis_yld.png"))
+#To open the figure in external viewer uncoment the following lines
+#shell.exec(here::here("results", "dis", "dis_yld.png"))
+
+
+```
 

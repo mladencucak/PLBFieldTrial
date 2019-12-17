@@ -360,13 +360,6 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="dss.html">
-    <span class="fa fa fa fa fa fa-cog fa-spin fa-fw"></span>
-     
-    DSS
-  </a>
-</li>
-<li>
   <a href="disdata.html">
     <span class="fa fa fa fa fa fa-pagelines"></span>
      
@@ -406,6 +399,13 @@ div.tocify {
     <span class="fa fa fa fa-code-fork"></span>
      
     Pop DAPC
+  </a>
+</li>
+<li>
+  <a href="pub_plots.html">
+    <span class="fa fa fa fa-code"></span>
+     
+    Pub Figures
   </a>
 </li>
       </ul>
@@ -479,6 +479,13 @@ if (any(as.numeric(packages_load) == 0)) {
 <pre><code>## [1] &quot;All packages were successfully loaded.&quot;</code></pre>
 <pre class="r"><code>rm(list.of.packages, new.packages, packages_load)
 
+#Resolve conflicts
+if(c(&quot;stats&quot;, &quot;dplyr&quot;)%in% installed.packages()){
+  conflict_prefer(&quot;lag&quot;, &quot;dplyr&quot;)
+  conflict_prefer(&quot;filter&quot;, &quot;dplyr&quot;)
+  conflict_prefer(&quot;select&quot;, &quot;dplyr&quot;)
+}
+
 #if instal is not working try 
 #install.packages(&quot;ROCR&quot;, repos = c(CRAN=&quot;https://cran.r-project.org/&quot;))</code></pre>
 </div>
@@ -501,7 +508,7 @@ map(ls, function(x)
     mutate(julian_day = yday(as.Date(date))) %&gt;% 
     group_by(variety) %&gt;% 
     mutate(time = ifelse(is.na(dplyr::lag(julian_day)), 1,
-                         julian_day - dplyr::lag(julian_day))) %&gt;%
+                         julian_day - lag(julian_day))) %&gt;%
     mutate(time = cumsum(time))) 
 
    
@@ -862,15 +869,19 @@ dodging &lt;-  .8
 
 p_fin &lt;- 
 d1 %&gt;%
-  #Add vertical  lines for clarity
   mutate(
     line_positions = as.numeric(factor(variety, levels = unique(variety))),
     line_positions = line_positions + .5,
     line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
     line_positions = ifelse(year == 2016 &amp;
-                              variety == &quot;CL&quot;, 5.5, line_positions),
+                              variety == &quot;SM&quot;, 5.5, line_positions),
     line_positions = ifelse(year == 2016 &amp;
-                              variety == &quot;SE&quot;, 3.5, line_positions)
+                              variety == &quot;CL&quot;, 4.5, line_positions),
+    line_positions = ifelse(year == 2016 &amp;
+                              variety == &quot;SE&quot;, 3.5, line_positions),
+    line_positions = ifelse(year == 2016 &amp;
+                              variety == &quot;KE&quot;, 1.5, line_positions)
+    
   ) %&gt;%
   ggplot(data = ., aes(x = variety, y = prop)) +
   geom_errorbar(
@@ -930,7 +941,7 @@ rm(p_fin)</code></pre>
 ##  collate  English_United States.1252  
 ##  ctype    English_United States.1252  
 ##  tz       Europe/London               
-##  date     2019-12-10                  
+##  date     2019-12-16                  
 ## 
 ## - Packages --------------------------------------------------------------
 ##  ! package      * version  date       lib source        

@@ -227,62 +227,47 @@ par(op)
 dev.off()
 
 
-#########################################################
-#
-############################################################
-install.packages("Rcpp")
-require("Rcpp")
-require('magick')
-
-# Read external images
-
-t = image_read(here::here("results", "gen","dapc", "treatment.png"))
-v = image_read(here::here("results", "gen","dapc", "var.png"))
-y = image_read(here::here("results", "gen","dapc", "year.png"))
-imgs = c(v,t,y)
-
-# concatenate them left-to-right (use 'stack=T' to do it top-to-bottom)
-side_by_side = image_append(imgs, stack=T)
+samples %>%
+  mutate(Genotype = ifelse(Genotype == "8A1-1", "8A1", Genotype)) %>%
+  mutate(Genotype = factor(Genotype, levels = c( "8A1","13A2","6A1" ))) %>% 
+  group_by(date) %>% 
+  count(Genotype) %>%
+  rename(counts = n) %>%
+  mutate(prop = prop.table(counts)) %>% 
+  mutate(perc = round(prop * 100,1)) %>% 
+  select(date, Genotype, perc) %>% 
+  spread(., Genotype, perc) %>% 
+  replace(is.na(.), 0) %>% 
+  add_column(., Year = format(.$date, "%Y"), .before= date)
 
 
 
-# save 
-image_write(side_by_side, path = here::here("results", "gen","dapc","dapcs",  "full_dapc.png"), format = "png")
 
 
-#add the frequency plots
-f = image_read(here::here("results", "gen", "freq", "Freq_all.png"))
-dapcs = image_read(here::here("results", "gen","dapc","dapcs", "full_dapc.png"))
+png(filename=here::here("results", "gen","dapc", "year.png"),
+         width = 600, height= 600)
 
-for(i in seq(7000, 7500,50)) {
-  
-scale <- paste0("x", i)
-# concatenate them left-to-right (use 'stack=T' to do it top-to-bottom)
-side_by_side <-  image_append(c(f, image_scale(dapcs, scale)), stack = FALSE)
+scatter(
+  pramx_trt$DAPC,
+  legend = TRUE,
+  cex = 3,
+  # pch=18:23,
+  posi.leg = "topleft",
+  scree.da = FALSE,
+  clab =1.8,
+  cleg = 2,
+  cell = 1, #zoom
+  xax = 1,
+  yax = 2,
+  inset.solid = 1,
+  cstar=0.5,
+  lwd=.1
+)
 
-
-image_write(side_by_side, path = here::here("results", "gen","dapc","dapcs",  paste0(scale, "full.png")), 
-            format = "png",
-            width = 2000,
-            height = 3500)
-
-print(i)
-}
-
-for(i in seq(7000, 7500,50)) {
-  
-  scale <- paste0("x", i)
-  # concatenate them left-to-right (use 'stack=T' to do it top-to-bottom)
-  side_by_side <-  image_append(c(f, image_scale(dapcs, scale)), stack = FALSE)
-  
-  
-  image_write(side_by_side, 
-              path = here::here("results", "gen","dapc","dapcs_low",  paste0(scale, "full.png")), 
-              format = "png",
-              quality = 40)
-  print(i)
-  
-}
+# dev.copy(png,filename=here::here("results", "gen","dapc", "year.png"),
+#          width = 600, height= 600);
+dev.off ()
+shell.exec(here::here("results", "gen","dapc", "year.png"))
 
 #########################################################
 #Tuber Blight

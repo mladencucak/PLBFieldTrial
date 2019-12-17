@@ -41,7 +41,9 @@ list.of.packages <-
     "ggpubr",
     "zoo",
     "kableExtra",
-    "conflicted"
+    "conflicted",
+    "here",
+    "lubridate"
   )
 
 new.packages <-
@@ -61,6 +63,8 @@ if (any(as.numeric(packages_load) == 0)) {
   print("All packages were successfully loaded.")
 }
 rm(list.of.packages, new.packages, packages_load)
+conflict_prefer("year", "lubridate")
+conflict_prefer("filter", "dplyr")
 
 #if instal is not working try 
 #install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/"))
@@ -70,8 +74,6 @@ rm(list.of.packages, new.packages, packages_load)
 ## Load the data
  
 ```{r cars}
-
-library(lubridate)
 df <- 
 read_csv(
   here::here("data", "weather" , "hly375.csv"),

@@ -602,13 +602,14 @@ dis_obs <-
   group_by(treatment, variety, year, julian_day) %>%
   summarise(rating = mean(obs))
 
+ptemp <- 
 ggplot() +
   geom_bar(
     data = samples_fig,
     aes(julian_day, fill = Genotype),
     stat = "count",
     position = "fill",
-    width = 4,
+    width = 4.7,
     colour = "black",
     size = line_size
   ) +
@@ -627,7 +628,7 @@ ggplot() +
   facet_grid( year~ set  ) +
   xlab("Date")+
   ylab("Proportion of foliar disease and MLGs")+
-  scale_y_continuous(limits = c(-0.11, 1),
+  scale_y_continuous(limits = c(-0.132, 1),
                      breaks = seq(0, 1, 0.2)) +
   scale_fill_manual(values=cbbPalette)+
   theme_article()+
@@ -651,13 +652,16 @@ ggplot() +
    facet_grid( set~ year  ) +
   geom_text(data = samples_fig,
             aes(x = julian_day, y = -0.1, label = labels),
-            size = 2.6,
-            angle = -35) +
+            size = 3.1,
+            angle = -38) +
   guides(fill=guide_legend(nrow=3,byrow=TRUE,title.position = "top"),
          color=guide_legend(nrow=6,byrow=TRUE,title.position = "top"))+
+  theme(text = element_text(size = 14))
 
-  ggsave(filename= here::here("results", "gen", "freq", "Genotype and DPC per sampling horisontal.png"),
-         width = 10, height =4.2, dpi = 620)
+ptemp
+  ggsave(plot = ptemp, 
+         filename= here::here("results", "gen", "freq", "Genotype and DPC per sampling horisontal.png"),
+         width = 10, height =5, dpi = 620)
 
 
 ```

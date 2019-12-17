@@ -173,7 +173,7 @@ left_join(yldmean, yldsd, by = colnames(yldmean)[1:4])  %>%
 ## Model fitting
 ```{r}
 
-fit2016 <- lmer(marketable ~ 
+fit2016 <- lme4::lmer(marketable ~ 
               block +  treatment * variety + (1 | block:treatment),
             data=subset(yld, year==2016)
 )
@@ -185,7 +185,7 @@ car::Anova(fit2016)
 
 
 ```{r}
-fit <- lmer(marketable ~ 
+fit <- lme4::lmer(marketable ~ 
               block :year + year * treatment * variety +
               (1 | block:treatment:year),
             data=subset(yld, year!=2016)
@@ -301,16 +301,15 @@ d1 <-
 dodging <-  .8
 
  p_fin <- 
-  d1 %>%
-  #Add vertical  lines for clarity
+d1 %>%
   mutate(
-    line_positions = as.numeric(factor(variety, levels = unique(variety))),
-    line_positions = line_positions + .5,
-    line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
-    line_positions = ifelse(year == 2016 &
-                              variety == "CL", 5.5, line_positions),
-    line_positions = ifelse(year == 2016 &
-                              variety == "SE", 3.5, line_positions)
+  line_positions = as.numeric(factor(variety, levels = unique(variety))),
+  line_positions = line_positions + .5,
+  line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
+  line_positions = ifelse(year == 2016 &
+                            variety == "SM", 5.5, line_positions),
+  line_positions = ifelse(year == 2016 &
+                            variety == "SE", 4.5, line_positions)
   ) %>%
   ggplot(data = ., aes(x = variety, y = lsmean)) +
   geom_errorbar(
