@@ -212,15 +212,15 @@ shell.exec(here::here("results", "gen","dapc","dapcs", paste0(scale, "full.png")
 # Yield and Disease plots
 ######################################################################
 
-dp <- 
-readRDS( file = here::here("results", "dis",  "dis_plot_fin.RDS"))
-lp <- 
-readRDS( file = here::here("results", "yield",  "yld_plot_fin.RDS"))
+dd <- 
+  readRDS( file = here::here("results", "dis",  "dis_plot_fin.RDS"))
+yd <- 
+  readRDS( file = here::here("results", "yield",  "yld_plot_fin.RDS"))
 
 dp <- 
   dp+
   theme(axis.title.x=element_blank())
-  
+
 lp <- 
   lp+
   theme(legend.position = "none")
@@ -230,8 +230,8 @@ plotls <-
   lapply(plotls, function(x) 
     x <- x+
       theme(plot.background = element_rect(size=.3,linetype="solid",color="black"),
-              text = element_text(size= 11))
-    )
+            text = element_text(size= 11))
+  )
 
 ggpubr::ggarrange(plotlist = plotls, 
                   heights = c(2.1,1.85),
@@ -242,3 +242,183 @@ ggpubr::ggarrange(plotlist = plotls,
          width = 7, height =6, dpi = 820)
 shell.exec(here::here("results", "dis", "dis_yld.png"))
 
+
+dd <- 
+  readRDS( file = here::here("results", "dis",  "dis_plot_fin.RDS"))
+yd <- 
+  readRDS( file = here::here("results", "yield",  "yld_plot_fin.RDS"))
+
+
+######################################################################
+# Yield and Disease plots
+######################################################################
+
+dd <- 
+  readRDS( file = here::here("results", "dis",  "dis_plot_fin.RDS"))
+yd <- 
+  readRDS( file = here::here("results", "yield",  "yld_plot_fin.RDS"))
+
+
+pdfin <- 
+  dd %>%
+  mutate(
+    line_positions = as.numeric(factor(variety, levels = unique(variety))),
+    line_positions = line_positions + .5,
+    line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "SM", 5.5, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "CL", 4.5, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "SE", 3.5, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "KE", 1.5, line_positions)
+    
+  ) %>%
+  ggplot(data = ., aes(x = variety, y = prop)) +
+  geom_errorbar(
+    aes(
+      ymin = lower.CL,
+      ymax = upper.CL,
+      group = treatment,
+      color = treatment
+    ),
+    position = position_dodge(width = dodging),
+    width = .2
+  ) +
+  geom_point(
+    aes(y = prop, group = treatment, color = treatment),
+    size = 1,
+    shape = 2,
+    position = position_dodge(width = dodging)
+  )+ 
+  geom_point(
+    data = subset(audpc_data),
+    aes(y = rAUDPC_adj, color = treatment, group = treatment),
+    size = .2,
+    alpha = .5,
+    position = position_dodge(width = dodging)
+  ) +
+  scale_color_brewer("Programme:", palette = "Dark2") +
+  theme_article() +
+  theme(legend.position = "top") +
+  geom_vline(aes(xintercept = line_positions),
+             size  = .2,
+             alpha = .6) +
+  labs(colour = "Programme:",
+       x = "Variety",
+       y = "rAUDPC") 
+
+pdfin+
+  facet_wrap(~ year, ncol = 1)+
+  ggsave(
+    filename = here::here("results", "dis", "Effects final ver.png"),
+    width = 4,
+    height = 7,
+    dpi = 820
+  )
+
+shell.exec(here::here("results", "dis", "Effects final ver.png"))
+
+
+
+
+py_fin <- 
+  yd %>%
+  mutate(
+    line_positions = as.numeric(factor(variety, levels = unique(variety))),
+    line_positions = line_positions + .5,
+    line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "SM", 5.5, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "SE", 4.5, line_positions)
+  ) %>%
+  ggplot(data = ., aes(x = variety, y = lsmean)) +
+  geom_errorbar(
+    aes(
+      ymin = lower.CL,
+      ymax = upper.CL,
+      group = treatment,
+      color = treatment
+    ),
+    position = position_dodge(width = dodging),
+    width = .2
+  ) +
+  geom_point(
+    aes(y = lsmean, group = treatment, color = treatment),
+    size = 1,
+    shape = 2,
+    position = position_dodge(width = dodging)
+  ) +
+  geom_point(
+    data = yld,
+    aes(y = marketable, color = treatment, group = treatment),
+    size = .2,
+    alpha = .5,
+    position = position_dodge(width = dodging)
+  ) +
+  scale_color_brewer("Programme:", palette = "Dark2") +
+  theme_article() +
+  theme(legend.position = "top") +
+  geom_vline(aes(xintercept = line_positions),
+             size  = .2,
+             alpha = .6) +
+  labs(colour = "Programme:",
+       x = "Variety",
+       y = "Yield (t per ha)") 
+p_fin+
+  facet_wrap(~ year, ncol = 1) 
+
+
+ggsave(
+  p_fin,
+  filename = here::here("results", "yield", "Effects final ver.png"),
+  width = 7,
+  height = 3.7,
+  dpi = 820
+)
+
+shell.exec(here::here("results", "dis", "Effects final ver.png"))
+
+
+
+
+
+plotls <- list(dp,lp)
+plotls <- 
+  lapply(plotls, function(x) 
+    x <- x+
+      theme(plot.background = element_rect(size=.3,linetype="solid",color="black"),
+            text = element_text(size= 11))
+  )
+
+ggpubr::ggarrange(plotlist = plotls, 
+                  heights = c(2.1,1.85),
+                  widths = c(.5,.5),
+                  labels = c("a)","b)"),
+                  nrow = 2)+
+  ggsave(filename= here::here("results", "dis", "dis_yld.png"),
+         width = 7, height =6, dpi = 820)
+shell.exec(here::here("results", "dis", "dis_yld.png"))
+
+
+
+
+
+
+lsss <- 
+  map(list.files(here::here("data", "disease"), full.names = TRUE, pattern = "2019"), readRDS)
+
+write_csv(lsss[[1]], path = here::here("tmp", "2019.csv")) 
+
+dfs <- 
+  read_csv(here::here("tmp", "2019.csv"))
+
+dfs$bloc <- as.factor(dfs$bloc)
+dfs$variety <- as.factor(dfs$variety)
+dfs$time <-  
+  as.Date(dfs$time, format = "%m/%d/%y")
+
+ls[[4]][ ls[[4]]$variety == "Setanta"&
+           ls[[4]]$variety == "Setanta", "obs"]

@@ -68,6 +68,13 @@ if (any(as.numeric(packages_load) == 0)) {
 }
 rm(list.of.packages, new.packages, packages_load)
 
+#Resolve conflicts
+if(c("stats", "dplyr")%in% installed.packages()){
+  conflict_prefer("filter", "dplyr")
+  conflict_prefer("select", "dplyr")
+}
+
+
 #if instal is not working try 
 #install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/"))
 ```
@@ -116,6 +123,23 @@ tableHTML_to_image(
 ```{r import_data}
 dosedf  <- readRDS(file = here::here("data", "treat", "full_trt.rds") )
 dosedf <- rename(dosedf, dose = Dose)
+
+dosedf <- 
+  dosedf %>% 
+  ungroup() %>% 
+  mutate(treatment = ifelse(treatment == "Control", "Untreated Control",
+                            ifelse(treatment == "Full Dose" , "Full dose (100)",
+                                   ifelse(treatment == "Half Dose", "Half dose (50)",
+                                          ifelse(treatment == "Irish R.", "Irish Rules (IRp)",
+                                                 ifelse(treatment == "Blight Man. (DK)", "Blight Man. (BMp)",
+                                                        ifelse(treatment == "Mod. I. Rules", "Modified I. R. (MIRp)", ""))))))) 
+
+
+
+  dosedf$treatment <- 
+  factor(dosedf$treatment, 
+         levels = c("Untreated Control", "Full dose (100)","Half dose (50)","Irish Rules (IRp)","Blight Man. (BMp)" ,"Modified I. R. (MIRp)"))
+
 ```
 ## The charts
 ```{r fig1}

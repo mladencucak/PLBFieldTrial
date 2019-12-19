@@ -447,10 +447,10 @@ ggplot(d2016, aes(x=pairs, y = prop, colour = treatment))+
 posthoc<- emmeans:: lsmeans(fit_rest, ~treatment * variety *year, adjust="tukey", type = "response")
 
 drest <-  posthoc
-(drest <- 
+drest <- 
     cld(posthoc, 
         alpha = .05,
-        Letters=letters))
+        Letters=letters)
 
 drest <- 
   drest %>% 
@@ -494,12 +494,40 @@ d1 <-
   dplyr::bind_rows(d2016, drest)
 
 
+audpc_data <- 
+audpc_data %>% 
+  ungroup() %>% 
+  mutate(treatment = ifelse(treatment == "Control", "Untreated Control",
+                          ifelse(treatment == "Full Dose" , "Full dose (100)",
+                                 ifelse(treatment == "Half Dose", "Half dose (50)",
+                                        ifelse(treatment == "Irish Rules", "Irish Rules (IRp)",
+                                               ifelse(treatment == "Blight Man. (DK)", "Blight Man. (BMp)",
+                                                      ifelse(treatment == "Modified I. R.", "Modified I. R. (MIRp)", "")))))))
+
+audpc_data$treatment <- 
+  factor(audpc_data$treatment, 
+         levels = c("Untreated Control", "Full dose (100)","Half dose (50)","Irish Rules (IRp)","Blight Management (BMp)" ,"Modified I. R. (MIRp)"))
+
+
+ d1 <- 
+  d1 %>% 
+  ungroup() %>% 
+  mutate(treatment = ifelse(treatment == "Control", "Untreated Control",
+                          ifelse(treatment == "Full Dose" , "Full dose (100)",
+                                 ifelse(treatment == "Half Dose", "Half dose (50)",
+                                        ifelse(treatment == "Irish Rules", "Irish Rules (IRp)",
+                                               ifelse(treatment == "Blight Man. (DK)", "Blight Man. (BMp)",
+                                                      ifelse(treatment == "Modified I. R.", "Modified I. R. (MIRp)", "")))))))
+
+ d1$treatment <- 
+  factor(d1$treatment, 
+         levels = c("Untreated Control", "Full dose (100)","Half dose (50)","Irish Rules (IRp)","Blight Management (BMp)" ,"Modified I. R. (MIRp)"))
+
+
 d1 <- 
   d1 %>% 
   mutate(variety = factor(variety, levels =c("KE","BQ", "RO", "SE", "CL","SM")))  %>% 
-  mutate(year = factor(year, levels =c("2016","2017", "2018", "2019"))) %>% 
-  mutate(treatment = factor(treatment, levels = c("Control", "Full Dose","Half Dose","Irish Rules","Blight Man. (DK)" ,"Modified I. R.")))
-
+  mutate(year = factor(year, levels =c("2016","2017", "2018", "2019")))
 ```
   
  
@@ -509,7 +537,7 @@ d1 <-
 #Set the position dodge
 dodging <-  .8
 
-p_fin <- 
+# p_fin <- 
 d1 %>%
   mutate(
     line_positions = as.numeric(factor(variety, levels = unique(variety))),

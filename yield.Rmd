@@ -84,6 +84,7 @@ yld <-  yld %>%
 
 ```
 
+Initial visualisations. 
 
 ```{r}
 ggpubr:: ggboxplot(yld, x = "variety", y = "marketable",facet.by = "year",   color = "treatment",palette =  "Dark2")
@@ -242,11 +243,11 @@ ggplot(d2016, aes(x=pairs, y = lsmean, colour = treatment))+
 posthoc<- emmeans:: lsmeans(fit, ~treatment * variety *year, adjust="tukey", type = "response")
 
 drest <-  posthoc
-(drest <- 
+drest <- 
     cld(posthoc, 
         alpha = .05,
         Letters=letters,
-        adjust = "Bonferroni"))
+        adjust = "Bonferroni")
 
 drest <- 
   drest %>% 
@@ -280,16 +281,47 @@ ggplot(drest, aes(x=pairs, y = lsmean, colour = treatment))+
 
 
 ```{r}
-d2016$year <-  "2016"
+d2016$year <-  factor(2016)
 d1 <- 
   dplyr::bind_rows(d2016, drest)
+
+ yld <- 
+yld %>% 
+  ungroup() %>% 
+  mutate(treatment = ifelse(treatment == "Control", "Untreated Control",
+                          ifelse(treatment == "Full Dose" , "Full dose (100)",
+                                 ifelse(treatment == "Half Dose", "Half dose (50)",
+                                        ifelse(treatment == "Irish Rules", "Irish Rules (IRp)",
+                                               ifelse(treatment == "Blight Man. (DK)", "Blight Man. (BMp)",
+                                                      ifelse(treatment == "Modified I. R.", "Modified I. R. (MIRp)", "")))))))
+
+yld$treatment <- 
+  factor(yld$treatment, 
+         levels = c("Untreated Control", "Full dose (100)","Half dose (50)","Irish Rules (IRp)","Blight Man. (BMp)" ,"Modified I. R. (MIRp)"))
+
+
+ d1 <- 
+  d1 %>% 
+  ungroup() %>% 
+  mutate(treatment = ifelse(treatment == "Control", "Untreated Control",
+                          ifelse(treatment == "Full Dose" , "Full dose (100)",
+                                 ifelse(treatment == "Half Dose", "Half dose (50)",
+                                        ifelse(treatment == "Irish Rules", "Irish Rules (IRp)",
+                                               ifelse(treatment == "Blight Man. (DK)", "Blight Man. (BMp)",
+                                                      ifelse(treatment == "Modified I. R.", "Modified I. R. (MIRp)", "")))))))
+
+ d1$treatment <- 
+  factor(d1$treatment, 
+         levels = c("Untreated Control", "Full dose (100)","Half dose (50)","Irish Rules (IRp)","Blight Man. (BMp)" ,"Modified I. R. (MIRp)"))
 
 
 d1 <- 
   d1 %>% 
   mutate(variety = factor(variety, levels =c("KE","BQ", "RO", "SE", "CL","SM")))  %>% 
-  mutate(year = factor(year, levels =c("2016","2017", "2018", "2019"))) %>% 
-  mutate(treatment = factor(treatment, levels = c("Control", "Full Dose","Half Dose","Irish Rules","Blight Man. (DK)" ,"Modified I. R.")))
+  mutate(year = factor(year, levels =c("2016","2017", "2018", "2019")))
+
+saveRDS(d1, file = here::here("results", "yield",  "yld_fin.RDS"))
+saveRDS(yld, file = here::here("results", "yield",  "yld_dat_fin.RDS"))
 
 ```
 
@@ -355,7 +387,6 @@ ggsave(
   dpi = 820
 )
 
-saveRDS(p_fin, file = here::here("results", "yield",  "yld_plot_fin.RDS"))
 
 rm(p_fin)
 

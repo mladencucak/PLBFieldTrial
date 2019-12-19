@@ -1,0 +1,1153 @@
+year,bloc,treatment,plot,variety,time,obs
+2019,1,Full Dose,1,Rooster,7/26/2019,0
+2019,1,Full Dose,2,Sarpo Mira,7/26/2019,0
+2019,1,Full Dose,3,T5821/11,7/26/2019,0
+2019,1,Full Dose,4,Setanta,7/26/2019,0
+2019,1,Full Dose,5,British Queen,7/26/2019,0
+2019,1,Full Dose,6,King Edward,7/26/2019,0
+2019,1,Blight Man. (DK),12,British Queen,7/26/2019,0
+2019,2,Blight Man. (DK),72,British Queen,7/26/2019,0
+2019,3,Blight Man. (DK),106,British Queen,7/26/2019,0
+2019,4,Blight Man. (DK),164,British Queen,7/26/2019,0
+2019,1,Blight Man. (DK),9,King Edward,7/26/2019,0
+2019,2,Blight Man. (DK),71,King Edward,7/26/2019,0
+2019,1,Half Dose,16,British Queen,7/26/2019,0
+2019,2,Half Dose,53,British Queen,7/26/2019,0
+2019,3,Half Dose,117,British Queen,7/26/2019,0
+2019,4,Half Dose,136,British Queen,7/26/2019,0
+2019,1,Half Dose,17,King Edward,7/26/2019,0
+2019,2,Half Dose,50,King Edward,7/26/2019,0
+2019,1,Modified I. R.,22,British Queen,7/26/2019,0
+2019,1,Modified I. R.,22,British Queen,8/2/2019,0.001
+2019,1,Modified I. R.,22,British Queen,8/9/2019,0.01
+2019,1,Modified I. R.,22,British Queen,8/16/2019,0.5
+2019,1,Modified I. R.,22,British Queen,8/23/2019,0.001
+2019,1,Modified I. R.,22,British Queen,8/29/2019,1
+2019,1,Irish Rules,25,King Edward,7/26/2019,0.1
+2019,1,Irish Rules,26,Rooster,7/26/2019,0
+2019,1,Irish Rules,27,British Queen,7/26/2019,0.1
+2019,1,Irish Rules,28,Setanta,7/26/2019,0
+2019,1,Irish Rules,29,T5821/11,7/26/2019,0
+2019,1,Irish Rules,30,Sarpo Mira,7/26/2019,0
+2019,1,Control,37,Rooster,7/26/2019,0
+2019,1,Control,38,British Queen,7/26/2019,0
+2019,1,Control,39,Setanta,7/26/2019,0
+2019,1,Control,40,King Edward,7/26/2019,0
+2019,1,Control,41,T5821/11,7/26/2019,0
+2019,1,Control,42,Sarpo Mira,7/26/2019,0
+2019,2,Irish Rules,43,Sarpo Mira,7/26/2019,0
+2019,2,Irish Rules,44,Setanta,7/26/2019,0
+2019,2,Irish Rules,45,Rooster,7/26/2019,0.1
+2019,2,Irish Rules,46,King Edward,7/26/2019,0.1
+2019,2,Irish Rules,47,T5821/11,7/26/2019,0
+2019,2,Irish Rules,48,British Queen,7/26/2019,0.1
+2019,3,Half Dose,118,King Edward,7/26/2019,0.01
+2019,4,Half Dose,138,King Edward,7/26/2019,0
+2019,1,Half Dose,14,Rooster,7/26/2019,0
+2019,2,Half Dose,49,Rooster,7/26/2019,0
+2019,3,Half Dose,120,Rooster,7/26/2019,0
+2019,4,Half Dose,137,Rooster,7/26/2019,0
+2019,1,Modified I. R.,22,British Queen,9/6/2019,4
+2019,1,Modified I. R.,22,British Queen,9/13/2019,5
+2019,1,Modified I. R.,24,King Edward,7/26/2019,0
+2019,1,Modified I. R.,24,King Edward,8/2/2019,0
+2019,1,Modified I. R.,24,King Edward,8/9/2019,0
+2019,1,Modified I. R.,24,King Edward,8/16/2019,0.5
+2019,2,Full Dose,61,King Edward,7/26/2019,0
+2019,2,Full Dose,62,T5821/11,7/26/2019,0
+2019,2,Full Dose,63,Sarpo Mira,7/26/2019,0
+2019,2,Full Dose,64,Rooster,7/26/2019,0
+2019,2,Full Dose,65,British Queen,7/26/2019,0
+2019,2,Full Dose,66,Setanta,7/26/2019,0
+2019,3,Blight Man. (DK),104,King Edward,7/26/2019,0
+2019,4,Blight Man. (DK),163,King Edward,7/26/2019,0
+2019,1,Blight Man. (DK),10,Rooster,7/26/2019,0
+2019,2,Blight Man. (DK),69,Rooster,7/26/2019,0
+2019,3,Blight Man. (DK),105,Rooster,7/26/2019,0
+2019,4,Blight Man. (DK),168,Rooster,7/26/2019,0
+2019,2,Control,73,King Edward,7/26/2019,0
+2019,2,Control,74,Sarpo Mira,7/26/2019,0
+2019,2,Control,75,T5821/11,7/26/2019,0
+2019,2,Control,76,Setanta,7/26/2019,0
+2019,2,Control,77,British Queen,7/26/2019,0
+2019,2,Control,78,Rooster,7/26/2019,0
+2019,3,Control,85,Rooster,7/26/2019,0.001
+2019,3,Control,86,Setanta,7/26/2019,0
+2019,3,Control,87,King Edward,7/26/2019,0.01
+2019,3,Control,88,Sarpo Mira,7/26/2019,0
+2019,3,Control,89,T5821/11,7/26/2019,0
+2019,3,Control,90,British Queen,7/26/2019,0.01
+2019,1,Modified I. R.,24,King Edward,8/23/2019,0.5
+2019,1,Modified I. R.,24,King Edward,8/29/2019,1
+2019,1,Modified I. R.,24,King Edward,9/6/2019,6
+2019,1,Modified I. R.,24,King Edward,9/13/2019,7
+2019,1,Modified I. R.,21,Rooster,7/26/2019,0
+2019,1,Modified I. R.,21,Rooster,8/2/2019,0
+2019,3,Full Dose,97,King Edward,7/26/2019,0
+2019,3,Full Dose,98,T5821/11,7/26/2019,0
+2019,3,Full Dose,99,Setanta,7/26/2019,0
+2019,3,Full Dose,100,British Queen,7/26/2019,1
+2019,3,Full Dose,101,Sarpo Mira,7/26/2019,0
+2019,3,Full Dose,102,Rooster,7/26/2019,0.01
+2019,1,Blight Man. (DK),11,Sarpo Mira,7/26/2019,0
+2019,2,Blight Man. (DK),68,Sarpo Mira,7/26/2019,0
+2019,3,Blight Man. (DK),103,Sarpo Mira,7/26/2019,0
+2019,4,Blight Man. (DK),166,Sarpo Mira,7/26/2019,0
+2019,1,Blight Man. (DK),8,Setanta,7/26/2019,0
+2019,2,Blight Man. (DK),70,Setanta,7/26/2019,0
+2019,1,Half Dose,18,Sarpo Mira,7/26/2019,0
+2019,2,Half Dose,51,Sarpo Mira,7/26/2019,0
+2019,3,Half Dose,119,Sarpo Mira,7/26/2019,0
+2019,4,Half Dose,133,Sarpo Mira,7/26/2019,0
+2019,1,Half Dose,15,Setanta,7/26/2019,0
+2019,2,Half Dose,52,Setanta,7/26/2019,0
+2019,3,Irish Rules,121,King Edward,7/26/2019,0
+2019,3,Irish Rules,122,Setanta,7/26/2019,0
+2019,3,Irish Rules,123,British Queen,7/26/2019,0.01
+2019,3,Irish Rules,124,T5821/11,7/26/2019,0
+2019,3,Irish Rules,125,Sarpo Mira,7/26/2019,0
+2019,3,Irish Rules,126,Rooster,7/26/2019,0
+2019,4,Control,127,Sarpo Mira,7/26/2019,0
+2019,4,Control,128,T5821/11,7/26/2019,0
+2019,4,Control,129,King Edward,7/26/2019,0.01
+2019,4,Control,130,Setanta,7/26/2019,0
+2019,4,Control,131,British Queen,7/26/2019,0
+2019,4,Control,132,Rooster,7/26/2019,0
+2019,3,Half Dose,116,Setanta,7/26/2019,0
+2019,4,Half Dose,135,Setanta,7/26/2019,0
+2019,1,Half Dose,13,T5821/11,7/26/2019,0
+2019,2,Half Dose,54,T5821/11,7/26/2019,0
+2019,3,Half Dose,115,T5821/11,7/26/2019,0
+2019,4,Half Dose,134,T5821/11,7/26/2019,0
+2019,4,Full Dose,139,King Edward,7/26/2019,0
+2019,4,Full Dose,140,Sarpo Mira,7/26/2019,0
+2019,4,Full Dose,141,British Queen,7/26/2019,0
+2019,4,Full Dose,142,Setanta,7/26/2019,0
+2019,4,Full Dose,143,Rooster,7/26/2019,0
+2019,4,Full Dose,144,T5821/11,7/26/2019,0
+2019,1,Modified I. R.,21,Rooster,8/9/2019,0
+2019,1,Modified I. R.,21,Rooster,8/16/2019,0
+2019,1,Modified I. R.,21,Rooster,8/23/2019,0.5
+2019,1,Modified I. R.,21,Rooster,8/29/2019,2.5
+2019,1,Modified I. R.,21,Rooster,9/6/2019,3
+2019,1,Modified I. R.,21,Rooster,9/13/2019,4
+2019,4,Irish Rules,151,T5821/11,7/26/2019,0
+2019,4,Irish Rules,152,Rooster,7/26/2019,0
+2019,4,Irish Rules,153,King Edward,7/26/2019,0.01
+2019,4,Irish Rules,154,Setanta,7/26/2019,0
+2019,4,Irish Rules,155,British Queen,7/26/2019,0.01
+2019,4,Irish Rules,156,Sarpo Mira,7/26/2019,0
+2019,3,Blight Man. (DK),107,Setanta,7/26/2019,0
+2019,4,Blight Man. (DK),167,Setanta,7/26/2019,0
+2019,1,Blight Man. (DK),7,T5821/11,7/26/2019,0
+2019,2,Blight Man. (DK),67,T5821/11,7/26/2019,0
+2019,3,Blight Man. (DK),108,T5821/11,7/26/2019,0
+2019,4,Blight Man. (DK),165,T5821/11,7/26/2019,0
+2019,1,Full Dose,1,Rooster,8/2/2019,0
+2019,1,Full Dose,2,Sarpo Mira,8/2/2019,0
+2019,1,Full Dose,3,T5821/11,8/2/2019,0
+2019,1,Full Dose,4,Setanta,8/2/2019,0
+2019,1,Full Dose,5,British Queen,8/2/2019,0
+2019,1,Full Dose,6,King Edward,8/2/2019,0
+2019,1,Blight Man. (DK),12,British Queen,8/2/2019,0
+2019,2,Blight Man. (DK),72,British Queen,8/2/2019,0
+2019,3,Blight Man. (DK),106,British Queen,8/2/2019,0
+2019,4,Blight Man. (DK),164,British Queen,8/2/2019,0
+2019,1,Blight Man. (DK),9,King Edward,8/2/2019,0
+2019,2,Blight Man. (DK),71,King Edward,8/2/2019,0
+2019,1,Half Dose,16,British Queen,8/2/2019,0
+2019,2,Half Dose,53,British Queen,8/2/2019,0.1
+2019,3,Half Dose,117,British Queen,8/2/2019,0
+2019,4,Half Dose,136,British Queen,8/2/2019,0
+2019,1,Half Dose,17,King Edward,8/2/2019,0.001
+2019,2,Half Dose,50,King Edward,8/2/2019,0
+2019,1,Modified I. R.,20,Sarpo Mira,7/26/2019,0
+2019,1,Modified I. R.,20,Sarpo Mira,8/2/2019,0
+2019,1,Modified I. R.,20,Sarpo Mira,8/9/2019,0
+2019,1,Modified I. R.,20,Sarpo Mira,8/16/2019,0
+2019,1,Modified I. R.,20,Sarpo Mira,8/23/2019,0
+2019,1,Modified I. R.,20,Sarpo Mira,8/29/2019,0
+2019,1,Irish Rules,25,King Edward,8/2/2019,1
+2019,1,Irish Rules,26,Rooster,8/2/2019,0.1
+2019,1,Irish Rules,27,British Queen,8/2/2019,1
+2019,1,Irish Rules,28,Setanta,8/2/2019,0
+2019,1,Irish Rules,29,T5821/11,8/2/2019,0
+2019,1,Irish Rules,30,Sarpo Mira,8/2/2019,0
+2019,1,Control,37,Rooster,8/2/2019,0.1
+2019,1,Control,38,British Queen,8/2/2019,0.1
+2019,1,Control,39,Setanta,8/2/2019,0
+2019,1,Control,40,King Edward,8/2/2019,0.1
+2019,1,Control,41,T5821/11,8/2/2019,0
+2019,1,Control,42,Sarpo Mira,8/2/2019,0
+2019,2,Irish Rules,43,Sarpo Mira,8/2/2019,0
+2019,2,Irish Rules,44,Setanta,8/2/2019,0.1
+2019,2,Irish Rules,45,Rooster,8/2/2019,1
+2019,2,Irish Rules,46,King Edward,8/2/2019,1
+2019,2,Irish Rules,47,T5821/11,8/2/2019,0
+2019,2,Irish Rules,48,British Queen,8/2/2019,2
+2019,3,Half Dose,118,King Edward,8/2/2019,0.01
+2019,4,Half Dose,138,King Edward,8/2/2019,0
+2019,1,Half Dose,14,Rooster,8/2/2019,0
+2019,2,Half Dose,49,Rooster,8/2/2019,0
+2019,3,Half Dose,120,Rooster,8/2/2019,0
+2019,4,Half Dose,137,Rooster,8/2/2019,0
+2019,1,Modified I. R.,20,Sarpo Mira,9/6/2019,0
+2019,1,Modified I. R.,20,Sarpo Mira,9/13/2019,0
+2019,1,Modified I. R.,23,Setanta,7/26/2019,0
+2019,1,Modified I. R.,23,Setanta,8/2/2019,0
+2019,1,Modified I. R.,23,Setanta,8/9/2019,0
+2019,1,Modified I. R.,23,Setanta,8/16/2019,0
+2019,2,Full Dose,61,King Edward,8/2/2019,0
+2019,2,Full Dose,62,T5821/11,8/2/2019,0
+2019,2,Full Dose,63,Sarpo Mira,8/2/2019,0
+2019,2,Full Dose,64,Rooster,8/2/2019,0
+2019,2,Full Dose,65,British Queen,8/2/2019,0
+2019,2,Full Dose,66,Setanta,8/2/2019,0
+2019,3,Blight Man. (DK),104,King Edward,8/2/2019,0
+2019,4,Blight Man. (DK),163,King Edward,8/2/2019,0
+2019,1,Blight Man. (DK),10,Rooster,8/2/2019,0
+2019,2,Blight Man. (DK),69,Rooster,8/2/2019,0
+2019,3,Blight Man. (DK),105,Rooster,8/2/2019,0
+2019,4,Blight Man. (DK),168,Rooster,8/2/2019,0
+2019,2,Control,73,King Edward,8/2/2019,0
+2019,2,Control,74,Sarpo Mira,8/2/2019,0
+2019,2,Control,75,T5821/11,8/2/2019,0
+2019,2,Control,76,Setanta,8/2/2019,0
+2019,2,Control,77,British Queen,8/2/2019,0.1
+2019,2,Control,78,Rooster,8/2/2019,0.1
+2019,3,Control,85,Rooster,8/2/2019,0.1
+2019,3,Control,86,Setanta,8/2/2019,0
+2019,3,Control,87,King Edward,8/2/2019,1
+2019,3,Control,88,Sarpo Mira,8/2/2019,0
+2019,3,Control,89,T5821/11,8/2/2019,0
+2019,3,Control,90,British Queen,8/2/2019,0.1
+2019,1,Modified I. R.,23,Setanta,8/23/2019,1
+2019,1,Modified I. R.,23,Setanta,8/29/2019,1.5
+2019,1,Modified I. R.,23,Setanta,9/6/2019,4
+2019,1,Modified I. R.,23,Setanta,9/13/2019,5
+2019,1,Modified I. R.,19,T5821/11,7/26/2019,0
+2019,1,Modified I. R.,19,T5821/11,8/2/2019,0
+2019,3,Full Dose,97,King Edward,8/2/2019,0
+2019,3,Full Dose,98,T5821/11,8/2/2019,0
+2019,3,Full Dose,99,Setanta,8/2/2019,0
+2019,3,Full Dose,100,British Queen,8/2/2019,1
+2019,3,Full Dose,101,Sarpo Mira,8/2/2019,0
+2019,3,Full Dose,102,Rooster,8/2/2019,0.01
+2019,1,Blight Man. (DK),11,Sarpo Mira,8/2/2019,0
+2019,2,Blight Man. (DK),68,Sarpo Mira,8/2/2019,0
+2019,3,Blight Man. (DK),103,Sarpo Mira,8/2/2019,0
+2019,4,Blight Man. (DK),166,Sarpo Mira,8/2/2019,0
+2019,1,Blight Man. (DK),8,Setanta,8/2/2019,0
+2019,2,Blight Man. (DK),70,Setanta,8/2/2019,0
+2019,1,Half Dose,18,Sarpo Mira,8/2/2019,0
+2019,2,Half Dose,51,Sarpo Mira,8/2/2019,0
+2019,3,Half Dose,119,Sarpo Mira,8/2/2019,0
+2019,4,Half Dose,133,Sarpo Mira,8/2/2019,0
+2019,1,Half Dose,15,Setanta,8/2/2019,0
+2019,2,Half Dose,52,Setanta,8/2/2019,0
+2019,3,Irish Rules,121,King Edward,8/2/2019,0
+2019,3,Irish Rules,122,Setanta,8/2/2019,0
+2019,3,Irish Rules,123,British Queen,8/2/2019,0.1
+2019,3,Irish Rules,124,T5821/11,8/2/2019,0
+2019,3,Irish Rules,125,Sarpo Mira,8/2/2019,0
+2019,3,Irish Rules,126,Rooster,8/2/2019,0
+2019,4,Control,127,Sarpo Mira,8/2/2019,0
+2019,4,Control,128,T5821/11,8/2/2019,0
+2019,4,Control,129,King Edward,8/2/2019,0.1
+2019,4,Control,130,Setanta,8/2/2019,0
+2019,4,Control,131,British Queen,8/2/2019,0
+2019,4,Control,132,Rooster,8/2/2019,0.1
+2019,3,Half Dose,116,Setanta,8/2/2019,0
+2019,4,Half Dose,135,Setanta,8/2/2019,0
+2019,1,Half Dose,13,T5821/11,8/2/2019,0
+2019,2,Half Dose,54,T5821/11,8/2/2019,0
+2019,3,Half Dose,115,T5821/11,8/2/2019,0
+2019,4,Half Dose,134,T5821/11,8/2/2019,0
+2019,4,Full Dose,139,King Edward,8/2/2019,0
+2019,4,Full Dose,140,Sarpo Mira,8/2/2019,0
+2019,4,Full Dose,141,British Queen,8/2/2019,0
+2019,4,Full Dose,142,Setanta,8/2/2019,0
+2019,4,Full Dose,143,Rooster,8/2/2019,0
+2019,4,Full Dose,144,T5821/11,8/2/2019,0
+2019,1,Modified I. R.,19,T5821/11,8/9/2019,0
+2019,1,Modified I. R.,19,T5821/11,8/16/2019,0
+2019,1,Modified I. R.,19,T5821/11,8/23/2019,0
+2019,1,Modified I. R.,19,T5821/11,8/29/2019,0
+2019,1,Modified I. R.,19,T5821/11,9/6/2019,0.1
+2019,1,Modified I. R.,19,T5821/11,9/13/2019,0.2
+2019,4,Irish Rules,151,T5821/11,8/2/2019,0
+2019,4,Irish Rules,152,Rooster,8/2/2019,0.1
+2019,4,Irish Rules,153,King Edward,8/2/2019,1
+2019,4,Irish Rules,154,Setanta,8/2/2019,0
+2019,4,Irish Rules,155,British Queen,8/2/2019,1
+2019,4,Irish Rules,156,Sarpo Mira,8/2/2019,0
+2019,3,Blight Man. (DK),107,Setanta,8/2/2019,0
+2019,4,Blight Man. (DK),167,Setanta,8/2/2019,0
+2019,1,Blight Man. (DK),7,T5821/11,8/2/2019,0
+2019,2,Blight Man. (DK),67,T5821/11,8/2/2019,0
+2019,3,Blight Man. (DK),108,T5821/11,8/2/2019,0
+2019,4,Blight Man. (DK),165,T5821/11,8/2/2019,0
+2019,1,Full Dose,1,Rooster,8/9/2019,0
+2019,1,Full Dose,2,Sarpo Mira,8/9/2019,0
+2019,1,Full Dose,3,T5821/11,8/9/2019,0
+2019,1,Full Dose,4,Setanta,8/9/2019,0
+2019,1,Full Dose,5,British Queen,8/9/2019,0
+2019,1,Full Dose,6,King Edward,8/9/2019,0
+2019,1,Blight Man. (DK),12,British Queen,8/9/2019,0
+2019,2,Blight Man. (DK),72,British Queen,8/9/2019,0
+2019,3,Blight Man. (DK),106,British Queen,8/9/2019,0
+2019,4,Blight Man. (DK),164,British Queen,8/9/2019,0
+2019,1,Blight Man. (DK),9,King Edward,8/9/2019,0
+2019,2,Blight Man. (DK),71,King Edward,8/9/2019,0
+2019,1,Half Dose,16,British Queen,8/9/2019,0.01
+2019,2,Half Dose,53,British Queen,8/9/2019,0.1
+2019,3,Half Dose,117,British Queen,8/9/2019,0
+2019,4,Half Dose,136,British Queen,8/9/2019,0
+2019,1,Half Dose,17,King Edward,8/9/2019,0.01
+2019,2,Half Dose,50,King Edward,8/9/2019,0
+2019,2,Modified I. R.,59,British Queen,7/26/2019,0
+2019,2,Modified I. R.,59,British Queen,8/2/2019,0
+2019,2,Modified I. R.,59,British Queen,8/9/2019,0.001
+2019,2,Modified I. R.,59,British Queen,8/16/2019,0.1
+2019,2,Modified I. R.,59,British Queen,8/23/2019,0.01
+2019,2,Modified I. R.,59,British Queen,8/29/2019,0.7
+2019,1,Irish Rules,25,King Edward,8/9/2019,10
+2019,1,Irish Rules,26,Rooster,8/9/2019,1
+2019,1,Irish Rules,27,British Queen,8/9/2019,10
+2019,1,Irish Rules,28,Setanta,8/9/2019,0
+2019,1,Irish Rules,29,T5821/11,8/9/2019,0
+2019,1,Irish Rules,30,Sarpo Mira,8/9/2019,0
+2019,1,Control,37,Rooster,8/9/2019,1
+2019,1,Control,38,British Queen,8/9/2019,1.5
+2019,1,Control,39,Setanta,8/9/2019,0
+2019,1,Control,40,King Edward,8/9/2019,1
+2019,1,Control,41,T5821/11,8/9/2019,0
+2019,1,Control,42,Sarpo Mira,8/9/2019,0
+2019,2,Irish Rules,43,Sarpo Mira,8/9/2019,0
+2019,2,Irish Rules,44,Setanta,8/9/2019,0.5
+2019,2,Irish Rules,45,Rooster,8/9/2019,1.5
+2019,2,Irish Rules,46,King Edward,8/9/2019,3
+2019,2,Irish Rules,47,T5821/11,8/9/2019,0
+2019,2,Irish Rules,48,British Queen,8/9/2019,5
+2019,3,Half Dose,118,King Edward,8/9/2019,0.01
+2019,4,Half Dose,138,King Edward,8/9/2019,0
+2019,1,Half Dose,14,Rooster,8/9/2019,0
+2019,2,Half Dose,49,Rooster,8/9/2019,0
+2019,3,Half Dose,120,Rooster,8/9/2019,0
+2019,4,Half Dose,137,Rooster,8/9/2019,0
+2019,2,Modified I. R.,59,British Queen,9/6/2019,1.5
+2019,2,Modified I. R.,59,British Queen,9/13/2019,3
+2019,2,Modified I. R.,57,King Edward,7/26/2019,0
+2019,2,Modified I. R.,57,King Edward,8/2/2019,0.001
+2019,2,Modified I. R.,57,King Edward,8/9/2019,0.001
+2019,2,Modified I. R.,57,King Edward,8/16/2019,0.001
+2019,2,Full Dose,61,King Edward,8/9/2019,0
+2019,2,Full Dose,62,T5821/11,8/9/2019,0
+2019,2,Full Dose,63,Sarpo Mira,8/9/2019,0
+2019,2,Full Dose,64,Rooster,8/9/2019,0
+2019,2,Full Dose,65,British Queen,8/9/2019,0
+2019,2,Full Dose,66,Setanta,8/9/2019,0
+2019,3,Blight Man. (DK),104,King Edward,8/9/2019,0
+2019,4,Blight Man. (DK),163,King Edward,8/9/2019,0
+2019,1,Blight Man. (DK),10,Rooster,8/9/2019,0
+2019,2,Blight Man. (DK),69,Rooster,8/9/2019,0
+2019,3,Blight Man. (DK),105,Rooster,8/9/2019,0
+2019,4,Blight Man. (DK),168,Rooster,8/9/2019,0
+2019,2,Control,73,King Edward,8/9/2019,1
+2019,2,Control,74,Sarpo Mira,8/9/2019,0
+2019,2,Control,75,T5821/11,8/9/2019,0
+2019,2,Control,76,Setanta,8/9/2019,0
+2019,2,Control,77,British Queen,8/9/2019,1
+2019,2,Control,78,Rooster,8/9/2019,1
+2019,3,Control,85,Rooster,8/9/2019,3
+2019,3,Control,86,Setanta,8/9/2019,1
+2019,3,Control,87,King Edward,8/9/2019,4
+2019,3,Control,88,Sarpo Mira,8/9/2019,0
+2019,3,Control,89,T5821/11,8/9/2019,0
+2019,3,Control,90,British Queen,8/9/2019,2
+2019,2,Modified I. R.,57,King Edward,8/23/2019,0.1
+2019,2,Modified I. R.,57,King Edward,8/29/2019,0.7
+2019,2,Modified I. R.,57,King Edward,9/6/2019,2.5
+2019,2,Modified I. R.,57,King Edward,9/13/2019,3
+2019,2,Modified I. R.,55,Rooster,7/26/2019,0
+2019,2,Modified I. R.,55,Rooster,8/2/2019,0
+2019,3,Full Dose,97,King Edward,8/9/2019,0
+2019,3,Full Dose,98,T5821/11,8/9/2019,0
+2019,3,Full Dose,99,Setanta,8/9/2019,0
+2019,3,Full Dose,100,British Queen,8/9/2019,0
+2019,3,Full Dose,101,Sarpo Mira,8/9/2019,0
+2019,3,Full Dose,102,Rooster,8/9/2019,0.01
+2019,1,Blight Man. (DK),11,Sarpo Mira,8/9/2019,0
+2019,2,Blight Man. (DK),68,Sarpo Mira,8/9/2019,0
+2019,3,Blight Man. (DK),103,Sarpo Mira,8/9/2019,0
+2019,4,Blight Man. (DK),166,Sarpo Mira,8/9/2019,0
+2019,1,Blight Man. (DK),8,Setanta,8/9/2019,0
+2019,2,Blight Man. (DK),70,Setanta,8/9/2019,0
+2019,1,Half Dose,18,Sarpo Mira,8/9/2019,0
+2019,2,Half Dose,51,Sarpo Mira,8/9/2019,0
+2019,3,Half Dose,119,Sarpo Mira,8/9/2019,0
+2019,4,Half Dose,133,Sarpo Mira,8/9/2019,0
+2019,1,Half Dose,15,Setanta,8/9/2019,0
+2019,2,Half Dose,52,Setanta,8/9/2019,0
+2019,3,Irish Rules,121,King Edward,8/9/2019,0.1
+2019,3,Irish Rules,122,Setanta,8/9/2019,0
+2019,3,Irish Rules,123,British Queen,8/9/2019,1
+2019,3,Irish Rules,124,T5821/11,8/9/2019,0
+2019,3,Irish Rules,125,Sarpo Mira,8/9/2019,0
+2019,3,Irish Rules,126,Rooster,8/9/2019,1
+2019,4,Control,127,Sarpo Mira,8/9/2019,0
+2019,4,Control,128,T5821/11,8/9/2019,0
+2019,4,Control,129,King Edward,8/9/2019,2
+2019,4,Control,130,Setanta,8/9/2019,0.1
+2019,4,Control,131,British Queen,8/9/2019,0.5
+2019,4,Control,132,Rooster,8/9/2019,1
+2019,3,Half Dose,116,Setanta,8/9/2019,0
+2019,4,Half Dose,135,Setanta,8/9/2019,0
+2019,1,Half Dose,13,T5821/11,8/9/2019,0
+2019,2,Half Dose,54,T5821/11,8/9/2019,0
+2019,3,Half Dose,115,T5821/11,8/9/2019,0
+2019,4,Half Dose,134,T5821/11,8/9/2019,0
+2019,4,Full Dose,139,King Edward,8/9/2019,0
+2019,4,Full Dose,140,Sarpo Mira,8/9/2019,0
+2019,4,Full Dose,141,British Queen,8/9/2019,0
+2019,4,Full Dose,142,Setanta,8/9/2019,0
+2019,4,Full Dose,143,Rooster,8/9/2019,0
+2019,4,Full Dose,144,T5821/11,8/9/2019,0
+2019,2,Modified I. R.,55,Rooster,8/9/2019,0
+2019,2,Modified I. R.,55,Rooster,8/16/2019,0
+2019,2,Modified I. R.,55,Rooster,8/23/2019,0.01
+2019,2,Modified I. R.,55,Rooster,8/29/2019,1
+2019,2,Modified I. R.,55,Rooster,9/6/2019,3
+2019,2,Modified I. R.,55,Rooster,9/13/2019,4
+2019,4,Irish Rules,151,T5821/11,8/9/2019,0
+2019,4,Irish Rules,152,Rooster,8/9/2019,1
+2019,4,Irish Rules,153,King Edward,8/9/2019,2
+2019,4,Irish Rules,154,Setanta,8/9/2019,0
+2019,4,Irish Rules,155,British Queen,8/9/2019,2
+2019,4,Irish Rules,156,Sarpo Mira,8/9/2019,0
+2019,3,Blight Man. (DK),107,Setanta,8/9/2019,0
+2019,4,Blight Man. (DK),167,Setanta,8/9/2019,0
+2019,1,Blight Man. (DK),7,T5821/11,8/9/2019,0
+2019,2,Blight Man. (DK),67,T5821/11,8/9/2019,0
+2019,3,Blight Man. (DK),108,T5821/11,8/9/2019,0
+2019,4,Blight Man. (DK),165,T5821/11,8/9/2019,0
+2019,1,Full Dose,1,Rooster,8/16/2019,0
+2019,1,Full Dose,2,Sarpo Mira,8/16/2019,0
+2019,1,Full Dose,3,T5821/11,8/16/2019,0
+2019,1,Full Dose,4,Setanta,8/16/2019,0
+2019,1,Full Dose,5,British Queen,8/16/2019,0
+2019,1,Full Dose,6,King Edward,8/16/2019,0.01
+2019,1,Blight Man. (DK),12,British Queen,8/16/2019,0.001
+2019,2,Blight Man. (DK),72,British Queen,8/16/2019,0
+2019,3,Blight Man. (DK),106,British Queen,8/16/2019,0.01
+2019,4,Blight Man. (DK),164,British Queen,8/16/2019,1.00E-04
+2019,1,Blight Man. (DK),9,King Edward,8/16/2019,0.01
+2019,2,Blight Man. (DK),71,King Edward,8/16/2019,0.5
+2019,1,Half Dose,16,British Queen,8/16/2019,0.01
+2019,2,Half Dose,53,British Queen,8/16/2019,0.1
+2019,3,Half Dose,117,British Queen,8/16/2019,0
+2019,4,Half Dose,136,British Queen,8/16/2019,0
+2019,1,Half Dose,17,King Edward,8/16/2019,0.1
+2019,2,Half Dose,50,King Edward,8/16/2019,0
+2019,2,Modified I. R.,60,Sarpo Mira,7/26/2019,0
+2019,2,Modified I. R.,60,Sarpo Mira,8/2/2019,0
+2019,2,Modified I. R.,60,Sarpo Mira,8/9/2019,0
+2019,2,Modified I. R.,60,Sarpo Mira,8/16/2019,0
+2019,2,Modified I. R.,60,Sarpo Mira,8/23/2019,0
+2019,2,Modified I. R.,60,Sarpo Mira,8/29/2019,0
+2019,1,Irish Rules,25,King Edward,8/16/2019,35
+2019,1,Irish Rules,26,Rooster,8/16/2019,2
+2019,1,Irish Rules,27,British Queen,8/16/2019,40
+2019,1,Irish Rules,28,Setanta,8/16/2019,1
+2019,1,Irish Rules,29,T5821/11,8/16/2019,0
+2019,1,Irish Rules,30,Sarpo Mira,8/16/2019,0
+2019,1,Control,37,Rooster,8/16/2019,20
+2019,1,Control,38,British Queen,8/16/2019,40
+2019,1,Control,39,Setanta,8/16/2019,1
+2019,1,Control,40,King Edward,8/16/2019,20
+2019,1,Control,41,T5821/11,8/16/2019,0
+2019,1,Control,42,Sarpo Mira,8/16/2019,0
+2019,2,Irish Rules,43,Sarpo Mira,8/16/2019,0
+2019,2,Irish Rules,44,Setanta,8/16/2019,5
+2019,2,Irish Rules,45,Rooster,8/16/2019,2
+2019,2,Irish Rules,46,King Edward,8/16/2019,75
+2019,2,Irish Rules,47,T5821/11,8/16/2019,0
+2019,2,Irish Rules,48,British Queen,8/16/2019,20
+2019,3,Half Dose,118,King Edward,8/16/2019,0.1
+2019,4,Half Dose,138,King Edward,8/16/2019,0
+2019,1,Half Dose,14,Rooster,8/16/2019,0
+2019,2,Half Dose,49,Rooster,8/16/2019,0.01
+2019,3,Half Dose,120,Rooster,8/16/2019,0.01
+2019,4,Half Dose,137,Rooster,8/16/2019,0
+2019,2,Modified I. R.,60,Sarpo Mira,9/6/2019,0
+2019,2,Modified I. R.,60,Sarpo Mira,9/13/2019,0
+2019,2,Modified I. R.,56,Setanta,7/26/2019,0
+2019,2,Modified I. R.,56,Setanta,8/2/2019,0
+2019,2,Modified I. R.,56,Setanta,8/9/2019,0
+2019,2,Modified I. R.,56,Setanta,8/16/2019,0
+2019,2,Full Dose,61,King Edward,8/16/2019,0
+2019,2,Full Dose,62,T5821/11,8/16/2019,0
+2019,2,Full Dose,63,Sarpo Mira,8/16/2019,0
+2019,2,Full Dose,64,Rooster,8/16/2019,0
+2019,2,Full Dose,65,British Queen,8/16/2019,0.001
+2019,2,Full Dose,66,Setanta,8/16/2019,0
+2019,3,Blight Man. (DK),104,King Edward,8/16/2019,0
+2019,4,Blight Man. (DK),163,King Edward,8/16/2019,0.001
+2019,1,Blight Man. (DK),10,Rooster,8/16/2019,0
+2019,2,Blight Man. (DK),69,Rooster,8/16/2019,0
+2019,3,Blight Man. (DK),105,Rooster,8/16/2019,0
+2019,4,Blight Man. (DK),168,Rooster,8/16/2019,0
+2019,2,Control,73,King Edward,8/16/2019,20
+2019,2,Control,74,Sarpo Mira,8/16/2019,0
+2019,2,Control,75,T5821/11,8/16/2019,0
+2019,2,Control,76,Setanta,8/16/2019,0.01
+2019,2,Control,77,British Queen,8/16/2019,25
+2019,2,Control,78,Rooster,8/16/2019,8
+2019,3,Control,85,Rooster,8/16/2019,60
+2019,3,Control,86,Setanta,8/16/2019,5
+2019,3,Control,87,King Edward,8/16/2019,75
+2019,3,Control,88,Sarpo Mira,8/16/2019,0
+2019,3,Control,89,T5821/11,8/16/2019,0
+2019,3,Control,90,British Queen,8/16/2019,60
+2019,2,Modified I. R.,56,Setanta,8/23/2019,0
+2019,2,Modified I. R.,56,Setanta,8/29/2019,0.5
+2019,2,Modified I. R.,56,Setanta,9/6/2019,2.5
+2019,2,Modified I. R.,56,Setanta,9/13/2019,3
+2019,2,Modified I. R.,58,T5821/11,7/26/2019,0
+2019,2,Modified I. R.,58,T5821/11,8/2/2019,0
+2019,3,Full Dose,97,King Edward,8/16/2019,0
+2019,3,Full Dose,98,T5821/11,8/16/2019,0
+2019,3,Full Dose,99,Setanta,8/16/2019,0
+2019,3,Full Dose,100,British Queen,8/16/2019,0
+2019,3,Full Dose,101,Sarpo Mira,8/16/2019,0
+2019,3,Full Dose,102,Rooster,8/16/2019,0.01
+2019,1,Blight Man. (DK),11,Sarpo Mira,8/16/2019,0
+2019,2,Blight Man. (DK),68,Sarpo Mira,8/16/2019,0
+2019,3,Blight Man. (DK),103,Sarpo Mira,8/16/2019,0
+2019,4,Blight Man. (DK),166,Sarpo Mira,8/16/2019,0
+2019,1,Blight Man. (DK),8,Setanta,8/16/2019,0
+2019,2,Blight Man. (DK),70,Setanta,8/16/2019,0
+2019,1,Half Dose,18,Sarpo Mira,8/16/2019,0
+2019,2,Half Dose,51,Sarpo Mira,8/16/2019,0
+2019,3,Half Dose,119,Sarpo Mira,8/16/2019,0
+2019,4,Half Dose,133,Sarpo Mira,8/16/2019,0
+2019,1,Half Dose,15,Setanta,8/16/2019,0
+2019,2,Half Dose,52,Setanta,8/16/2019,0
+2019,3,Irish Rules,121,King Edward,8/16/2019,2
+2019,3,Irish Rules,122,Setanta,8/16/2019,0.001
+2019,3,Irish Rules,123,British Queen,8/16/2019,25
+2019,3,Irish Rules,124,T5821/11,8/16/2019,0
+2019,3,Irish Rules,125,Sarpo Mira,8/16/2019,0
+2019,3,Irish Rules,126,Rooster,8/16/2019,10
+2019,4,Control,127,Sarpo Mira,8/16/2019,0
+2019,4,Control,128,T5821/11,8/16/2019,0
+2019,4,Control,129,King Edward,8/16/2019,40
+2019,4,Control,130,Setanta,8/16/2019,3
+2019,4,Control,131,British Queen,8/16/2019,5
+2019,4,Control,132,Rooster,8/16/2019,5
+2019,3,Half Dose,116,Setanta,8/16/2019,0.001
+2019,4,Half Dose,135,Setanta,8/16/2019,0
+2019,1,Half Dose,13,T5821/11,8/16/2019,0
+2019,2,Half Dose,54,T5821/11,8/16/2019,0
+2019,3,Half Dose,115,T5821/11,8/16/2019,0
+2019,4,Half Dose,134,T5821/11,8/16/2019,0
+2019,4,Full Dose,139,King Edward,8/16/2019,0
+2019,4,Full Dose,140,Sarpo Mira,8/16/2019,0
+2019,4,Full Dose,141,British Queen,8/16/2019,0.001
+2019,4,Full Dose,142,Setanta,8/16/2019,0
+2019,4,Full Dose,143,Rooster,8/16/2019,0.001
+2019,4,Full Dose,144,T5821/11,8/16/2019,0
+2019,2,Modified I. R.,58,T5821/11,8/9/2019,0
+2019,2,Modified I. R.,58,T5821/11,8/16/2019,0
+2019,2,Modified I. R.,58,T5821/11,8/23/2019,0
+2019,2,Modified I. R.,58,T5821/11,8/29/2019,0.1
+2019,2,Modified I. R.,58,T5821/11,9/6/2019,0.5
+2019,2,Modified I. R.,58,T5821/11,9/13/2019,0.5
+2019,4,Irish Rules,151,T5821/11,8/16/2019,0
+2019,4,Irish Rules,152,Rooster,8/16/2019,7
+2019,4,Irish Rules,153,King Edward,8/16/2019,5
+2019,4,Irish Rules,154,Setanta,8/16/2019,0
+2019,4,Irish Rules,155,British Queen,8/16/2019,15
+2019,4,Irish Rules,156,Sarpo Mira,8/16/2019,0
+2019,3,Blight Man. (DK),107,Setanta,8/16/2019,0
+2019,4,Blight Man. (DK),167,Setanta,8/16/2019,0
+2019,1,Blight Man. (DK),7,T5821/11,8/16/2019,0
+2019,2,Blight Man. (DK),67,T5821/11,8/16/2019,0
+2019,3,Blight Man. (DK),108,T5821/11,8/16/2019,0
+2019,4,Blight Man. (DK),165,T5821/11,8/16/2019,0
+2019,1,Full Dose,1,Rooster,8/23/2019,0
+2019,1,Full Dose,2,Sarpo Mira,8/23/2019,0
+2019,1,Full Dose,3,T5821/11,8/23/2019,0
+2019,1,Full Dose,4,Setanta,8/23/2019,0
+2019,1,Full Dose,5,British Queen,8/23/2019,0.001
+2019,1,Full Dose,6,King Edward,8/23/2019,0.001
+2019,1,Blight Man. (DK),12,British Queen,8/23/2019,0.01
+2019,2,Blight Man. (DK),72,British Queen,8/23/2019,0
+2019,3,Blight Man. (DK),106,British Queen,8/23/2019,0.1
+2019,4,Blight Man. (DK),164,British Queen,8/23/2019,1.00E-04
+2019,1,Blight Man. (DK),9,King Edward,8/23/2019,0.01
+2019,2,Blight Man. (DK),71,King Edward,8/23/2019,0.5
+2019,1,Half Dose,16,British Queen,8/23/2019,0.1
+2019,2,Half Dose,53,British Queen,8/23/2019,0.01
+2019,3,Half Dose,117,British Queen,8/23/2019,0.01
+2019,4,Half Dose,136,British Queen,8/23/2019,0
+2019,1,Half Dose,17,King Edward,8/23/2019,1
+2019,2,Half Dose,50,King Edward,8/23/2019,0.01
+2019,3,Modified I. R.,95,British Queen,7/26/2019,0
+2019,3,Modified I. R.,95,British Queen,8/2/2019,0
+2019,3,Modified I. R.,95,British Queen,8/9/2019,0.001
+2019,3,Modified I. R.,95,British Queen,8/16/2019,0.1
+2019,3,Modified I. R.,95,British Queen,8/23/2019,0.8
+2019,3,Modified I. R.,95,British Queen,8/29/2019,3
+2019,1,Irish Rules,25,King Edward,8/23/2019,80
+2019,1,Irish Rules,26,Rooster,8/23/2019,3
+2019,1,Irish Rules,27,British Queen,8/23/2019,80
+2019,1,Irish Rules,28,Setanta,8/23/2019,2
+2019,1,Irish Rules,29,T5821/11,8/23/2019,0
+2019,1,Irish Rules,30,Sarpo Mira,8/23/2019,0
+2019,1,Control,37,Rooster,8/23/2019,30
+2019,1,Control,38,British Queen,8/23/2019,90
+2019,1,Control,39,Setanta,8/23/2019,5
+2019,1,Control,40,King Edward,8/23/2019,80
+2019,1,Control,41,T5821/11,8/23/2019,0
+2019,1,Control,42,Sarpo Mira,8/23/2019,0
+2019,2,Irish Rules,43,Sarpo Mira,8/23/2019,0
+2019,2,Irish Rules,44,Setanta,8/23/2019,35
+2019,2,Irish Rules,45,Rooster,8/23/2019,40
+2019,2,Irish Rules,46,King Edward,8/23/2019,80
+2019,2,Irish Rules,47,T5821/11,8/23/2019,0
+2019,2,Irish Rules,48,British Queen,8/23/2019,70
+2019,3,Half Dose,118,King Edward,8/23/2019,0.1
+2019,4,Half Dose,138,King Edward,8/23/2019,0
+2019,1,Half Dose,14,Rooster,8/23/2019,0
+2019,2,Half Dose,49,Rooster,8/23/2019,0.05
+2019,3,Half Dose,120,Rooster,8/23/2019,0.01
+2019,4,Half Dose,137,Rooster,8/23/2019,0.1
+2019,3,Modified I. R.,95,British Queen,9/6/2019,5
+2019,3,Modified I. R.,95,British Queen,9/13/2019,6
+2019,3,Modified I. R.,91,King Edward,7/26/2019,0.01
+2019,3,Modified I. R.,91,King Edward,8/2/2019,0.1
+2019,3,Modified I. R.,91,King Edward,8/9/2019,0.1
+2019,3,Modified I. R.,91,King Edward,8/16/2019,0.1
+2019,2,Full Dose,61,King Edward,8/23/2019,0
+2019,2,Full Dose,62,T5821/11,8/23/2019,0
+2019,2,Full Dose,63,Sarpo Mira,8/23/2019,0
+2019,2,Full Dose,64,Rooster,8/23/2019,0.01
+2019,2,Full Dose,65,British Queen,8/23/2019,0.01
+2019,2,Full Dose,66,Setanta,8/23/2019,0
+2019,3,Blight Man. (DK),104,King Edward,8/23/2019,0.01
+2019,4,Blight Man. (DK),163,King Edward,8/23/2019,0.001
+2019,1,Blight Man. (DK),10,Rooster,8/23/2019,0.01
+2019,2,Blight Man. (DK),69,Rooster,8/23/2019,0
+2019,3,Blight Man. (DK),105,Rooster,8/23/2019,0.01
+2019,4,Blight Man. (DK),168,Rooster,8/23/2019,0
+2019,2,Control,73,King Edward,8/23/2019,70
+2019,2,Control,74,Sarpo Mira,8/23/2019,0
+2019,2,Control,75,T5821/11,8/23/2019,0
+2019,2,Control,76,Setanta,8/23/2019,3
+2019,2,Control,77,British Queen,8/23/2019,80
+2019,2,Control,78,Rooster,8/23/2019,25
+2019,3,Control,85,Rooster,8/23/2019,90
+2019,3,Control,86,Setanta,8/23/2019,20
+2019,3,Control,87,King Edward,8/23/2019,95
+2019,3,Control,88,Sarpo Mira,8/23/2019,0
+2019,3,Control,89,T5821/11,8/23/2019,0.1
+2019,3,Control,90,British Queen,8/23/2019,90
+2019,3,Modified I. R.,91,King Edward,8/23/2019,0.1
+2019,3,Modified I. R.,91,King Edward,8/29/2019,2
+2019,3,Modified I. R.,91,King Edward,9/6/2019,5
+2019,3,Modified I. R.,91,King Edward,9/13/2019,6
+2019,3,Modified I. R.,92,Rooster,7/26/2019,0
+2019,3,Modified I. R.,92,Rooster,8/2/2019,0
+2019,3,Full Dose,97,King Edward,8/23/2019,0.001
+2019,3,Full Dose,98,T5821/11,8/23/2019,0
+2019,3,Full Dose,99,Setanta,8/23/2019,0.001
+2019,3,Full Dose,100,British Queen,8/23/2019,0
+2019,3,Full Dose,101,Sarpo Mira,8/23/2019,0
+2019,3,Full Dose,102,Rooster,8/23/2019,0.1
+2019,1,Blight Man. (DK),11,Sarpo Mira,8/23/2019,0
+2019,2,Blight Man. (DK),68,Sarpo Mira,8/23/2019,0
+2019,3,Blight Man. (DK),103,Sarpo Mira,8/23/2019,0
+2019,4,Blight Man. (DK),166,Sarpo Mira,8/23/2019,0
+2019,1,Blight Man. (DK),8,Setanta,8/23/2019,0
+2019,2,Blight Man. (DK),70,Setanta,8/23/2019,0
+2019,1,Half Dose,18,Sarpo Mira,8/23/2019,0
+2019,2,Half Dose,51,Sarpo Mira,8/23/2019,0
+2019,3,Half Dose,119,Sarpo Mira,8/23/2019,0
+2019,4,Half Dose,133,Sarpo Mira,8/23/2019,0
+2019,1,Half Dose,15,Setanta,8/23/2019,0.1
+2019,2,Half Dose,52,Setanta,8/23/2019,0.01
+2019,3,Irish Rules,121,King Edward,8/23/2019,10
+2019,3,Irish Rules,122,Setanta,8/23/2019,0.1
+2019,3,Irish Rules,123,British Queen,8/23/2019,40
+2019,3,Irish Rules,124,T5821/11,8/23/2019,0
+2019,3,Irish Rules,125,Sarpo Mira,8/23/2019,0
+2019,3,Irish Rules,126,Rooster,8/23/2019,15
+2019,4,Control,127,Sarpo Mira,8/23/2019,0
+2019,4,Control,128,T5821/11,8/23/2019,0
+2019,4,Control,129,King Edward,8/23/2019,90
+2019,4,Control,130,Setanta,8/23/2019,15
+2019,4,Control,131,British Queen,8/23/2019,35
+2019,4,Control,132,Rooster,8/23/2019,25
+2019,3,Half Dose,116,Setanta,8/23/2019,0.001
+2019,4,Half Dose,135,Setanta,8/23/2019,0
+2019,1,Half Dose,13,T5821/11,8/23/2019,0.01
+2019,2,Half Dose,54,T5821/11,8/23/2019,0
+2019,3,Half Dose,115,T5821/11,8/23/2019,0
+2019,4,Half Dose,134,T5821/11,8/23/2019,0
+2019,4,Full Dose,139,King Edward,8/23/2019,0
+2019,4,Full Dose,140,Sarpo Mira,8/23/2019,0
+2019,4,Full Dose,141,British Queen,8/23/2019,0.05
+2019,4,Full Dose,142,Setanta,8/23/2019,0
+2019,4,Full Dose,143,Rooster,8/23/2019,0.01
+2019,4,Full Dose,144,T5821/11,8/23/2019,0
+2019,3,Modified I. R.,92,Rooster,8/9/2019,0
+2019,3,Modified I. R.,92,Rooster,8/16/2019,0.01
+2019,3,Modified I. R.,92,Rooster,8/23/2019,0.01
+2019,3,Modified I. R.,92,Rooster,8/29/2019,2
+2019,3,Modified I. R.,92,Rooster,9/6/2019,4
+2019,3,Modified I. R.,92,Rooster,9/13/2019,4
+2019,4,Irish Rules,151,T5821/11,8/23/2019,0
+2019,4,Irish Rules,152,Rooster,8/23/2019,20
+2019,4,Irish Rules,153,King Edward,8/23/2019,40
+2019,4,Irish Rules,154,Setanta,8/23/2019,0
+2019,4,Irish Rules,155,British Queen,8/23/2019,50
+2019,4,Irish Rules,156,Sarpo Mira,8/23/2019,0
+2019,3,Blight Man. (DK),107,Setanta,8/23/2019,0.01
+2019,4,Blight Man. (DK),167,Setanta,8/23/2019,0
+2019,1,Blight Man. (DK),7,T5821/11,8/23/2019,0
+2019,2,Blight Man. (DK),67,T5821/11,8/23/2019,0
+2019,3,Blight Man. (DK),108,T5821/11,8/23/2019,0
+2019,4,Blight Man. (DK),165,T5821/11,8/23/2019,0
+2019,1,Full Dose,1,Rooster,8/29/2019,0.1
+2019,1,Full Dose,2,Sarpo Mira,8/29/2019,0
+2019,1,Full Dose,3,T5821/11,8/29/2019,0
+2019,1,Full Dose,4,Setanta,8/29/2019,0.1
+2019,1,Full Dose,5,British Queen,8/29/2019,0
+2019,1,Full Dose,6,King Edward,8/29/2019,0.5
+2019,1,Blight Man. (DK),12,British Queen,8/29/2019,0.1
+2019,2,Blight Man. (DK),72,British Queen,8/29/2019,0.5
+2019,3,Blight Man. (DK),106,British Queen,8/29/2019,0.5
+2019,4,Blight Man. (DK),164,British Queen,8/29/2019,0
+2019,1,Blight Man. (DK),9,King Edward,8/29/2019,1
+2019,2,Blight Man. (DK),71,King Edward,8/29/2019,0.5
+2019,1,Half Dose,16,British Queen,8/29/2019,0.5
+2019,2,Half Dose,53,British Queen,8/29/2019,0.2
+2019,3,Half Dose,117,British Queen,8/29/2019,1
+2019,4,Half Dose,136,British Queen,8/29/2019,1
+2019,1,Half Dose,17,King Edward,8/29/2019,3
+2019,2,Half Dose,50,King Edward,8/29/2019,0.3
+2019,3,Modified I. R.,96,Sarpo Mira,7/26/2019,0
+2019,3,Modified I. R.,96,Sarpo Mira,8/2/2019,0
+2019,3,Modified I. R.,96,Sarpo Mira,8/9/2019,0
+2019,3,Modified I. R.,96,Sarpo Mira,8/16/2019,0
+2019,3,Modified I. R.,96,Sarpo Mira,8/23/2019,0
+2019,3,Modified I. R.,96,Sarpo Mira,8/29/2019,0.1
+2019,1,Irish Rules,25,King Edward,8/29/2019,95
+2019,1,Irish Rules,26,Rooster,8/29/2019,5
+2019,1,Irish Rules,27,British Queen,8/29/2019,95
+2019,1,Irish Rules,28,Setanta,8/29/2019,3
+2019,1,Irish Rules,29,T5821/11,8/29/2019,0
+2019,1,Irish Rules,30,Sarpo Mira,8/29/2019,0
+2019,1,Control,37,Rooster,8/29/2019,97
+2019,1,Control,38,British Queen,8/29/2019,97
+2019,1,Control,39,Setanta,8/29/2019,35
+2019,1,Control,40,King Edward,8/29/2019,95
+2019,1,Control,41,T5821/11,8/29/2019,0
+2019,1,Control,42,Sarpo Mira,8/29/2019,0
+2019,2,Irish Rules,43,Sarpo Mira,8/29/2019,0
+2019,2,Irish Rules,44,Setanta,8/29/2019,55
+2019,2,Irish Rules,45,Rooster,8/29/2019,60
+2019,2,Irish Rules,46,King Edward,8/29/2019,95
+2019,2,Irish Rules,47,T5821/11,8/29/2019,0.01
+2019,2,Irish Rules,48,British Queen,8/29/2019,95
+2019,3,Half Dose,118,King Edward,8/29/2019,1
+2019,4,Half Dose,138,King Edward,8/29/2019,1.5
+2019,1,Half Dose,14,Rooster,8/29/2019,1
+2019,2,Half Dose,49,Rooster,8/29/2019,0.2
+2019,3,Half Dose,120,Rooster,8/29/2019,0.5
+2019,4,Half Dose,137,Rooster,8/29/2019,1
+2019,3,Modified I. R.,96,Sarpo Mira,9/6/2019,0
+2019,3,Modified I. R.,96,Sarpo Mira,9/13/2019,0
+2019,3,Modified I. R.,94,Setanta,7/26/2019,0
+2019,3,Modified I. R.,94,Setanta,8/2/2019,0
+2019,3,Modified I. R.,94,Setanta,8/9/2019,0
+2019,3,Modified I. R.,94,Setanta,8/16/2019,0
+2019,2,Full Dose,61,King Edward,8/29/2019,0.1
+2019,2,Full Dose,62,T5821/11,8/29/2019,0.1
+2019,2,Full Dose,63,Sarpo Mira,8/29/2019,0
+2019,2,Full Dose,64,Rooster,8/29/2019,0.5
+2019,2,Full Dose,65,British Queen,8/29/2019,0.01
+2019,2,Full Dose,66,Setanta,8/29/2019,0.5
+2019,3,Blight Man. (DK),104,King Edward,8/29/2019,1
+2019,4,Blight Man. (DK),163,King Edward,8/29/2019,0.001
+2019,1,Blight Man. (DK),10,Rooster,8/29/2019,0.5
+2019,2,Blight Man. (DK),69,Rooster,8/29/2019,2
+2019,3,Blight Man. (DK),105,Rooster,8/29/2019,3
+2019,4,Blight Man. (DK),168,Rooster,8/29/2019,0.5
+2019,2,Control,73,King Edward,8/29/2019,97
+2019,2,Control,74,Sarpo Mira,8/29/2019,0
+2019,2,Control,75,T5821/11,8/29/2019,0
+2019,2,Control,76,Setanta,8/29/2019,35
+2019,2,Control,77,British Queen,8/29/2019,95
+2019,2,Control,78,Rooster,8/29/2019,50
+2019,3,Control,85,Rooster,8/29/2019,99
+2019,3,Control,86,Setanta,8/29/2019,75
+2019,3,Control,87,King Edward,8/29/2019,99
+2019,3,Control,88,Sarpo Mira,8/29/2019,0.001
+2019,3,Control,89,T5821/11,8/29/2019,0.01
+2019,3,Control,90,British Queen,8/29/2019,98
+2019,3,Modified I. R.,94,Setanta,8/23/2019,0.01
+2019,3,Modified I. R.,94,Setanta,8/29/2019,2
+2019,3,Modified I. R.,94,Setanta,9/6/2019,5
+2019,3,Modified I. R.,94,Setanta,9/13/2019,6.5
+2019,3,Modified I. R.,93,T5821/11,7/26/2019,0
+2019,3,Modified I. R.,93,T5821/11,8/2/2019,0
+2019,3,Full Dose,97,King Edward,8/29/2019,1
+2019,3,Full Dose,98,T5821/11,8/29/2019,1
+2019,3,Full Dose,99,Setanta,8/29/2019,3
+2019,3,Full Dose,100,British Queen,8/29/2019,0.5
+2019,3,Full Dose,101,Sarpo Mira,8/29/2019,0
+2019,3,Full Dose,102,Rooster,8/29/2019,0.1
+2019,1,Blight Man. (DK),11,Sarpo Mira,8/29/2019,0
+2019,2,Blight Man. (DK),68,Sarpo Mira,8/29/2019,0
+2019,3,Blight Man. (DK),103,Sarpo Mira,8/29/2019,0
+2019,4,Blight Man. (DK),166,Sarpo Mira,8/29/2019,0.01
+2019,1,Blight Man. (DK),8,Setanta,8/29/2019,4
+2019,2,Blight Man. (DK),70,Setanta,8/29/2019,1.5
+2019,1,Half Dose,18,Sarpo Mira,8/29/2019,0
+2019,2,Half Dose,51,Sarpo Mira,8/29/2019,0
+2019,3,Half Dose,119,Sarpo Mira,8/29/2019,0
+2019,4,Half Dose,133,Sarpo Mira,8/29/2019,0
+2019,1,Half Dose,15,Setanta,8/29/2019,2
+2019,2,Half Dose,52,Setanta,8/29/2019,0.1
+2019,3,Irish Rules,121,King Edward,8/29/2019,15
+2019,3,Irish Rules,122,Setanta,8/29/2019,2
+2019,3,Irish Rules,123,British Queen,8/29/2019,75
+2019,3,Irish Rules,124,T5821/11,8/29/2019,0
+2019,3,Irish Rules,125,Sarpo Mira,8/29/2019,0
+2019,3,Irish Rules,126,Rooster,8/29/2019,15
+2019,4,Control,127,Sarpo Mira,8/29/2019,0
+2019,4,Control,128,T5821/11,8/29/2019,0.01
+2019,4,Control,129,King Edward,8/29/2019,97
+2019,4,Control,130,Setanta,8/29/2019,35
+2019,4,Control,131,British Queen,8/29/2019,60
+2019,4,Control,132,Rooster,8/29/2019,50
+2019,3,Half Dose,116,Setanta,8/29/2019,0.1
+2019,4,Half Dose,135,Setanta,8/29/2019,2
+2019,1,Half Dose,13,T5821/11,8/29/2019,0.1
+2019,2,Half Dose,54,T5821/11,8/29/2019,0.01
+2019,3,Half Dose,115,T5821/11,8/29/2019,0.1
+2019,4,Half Dose,134,T5821/11,8/29/2019,0
+2019,4,Full Dose,139,King Edward,8/29/2019,0.5
+2019,4,Full Dose,140,Sarpo Mira,8/29/2019,0
+2019,4,Full Dose,141,British Queen,8/29/2019,0.5
+2019,4,Full Dose,142,Setanta,8/29/2019,0
+2019,4,Full Dose,143,Rooster,8/29/2019,0.05
+2019,4,Full Dose,144,T5821/11,8/29/2019,0
+2019,3,Modified I. R.,93,T5821/11,8/9/2019,0
+2019,3,Modified I. R.,93,T5821/11,8/16/2019,0
+2019,3,Modified I. R.,93,T5821/11,8/23/2019,0
+2019,3,Modified I. R.,93,T5821/11,8/29/2019,0
+2019,3,Modified I. R.,93,T5821/11,9/6/2019,0.1
+2019,3,Modified I. R.,93,T5821/11,9/13/2019,0.1
+2019,4,Irish Rules,151,T5821/11,8/29/2019,0.01
+2019,4,Irish Rules,152,Rooster,8/29/2019,15
+2019,4,Irish Rules,153,King Edward,8/29/2019,75
+2019,4,Irish Rules,154,Setanta,8/29/2019,5
+2019,4,Irish Rules,155,British Queen,8/29/2019,75
+2019,4,Irish Rules,156,Sarpo Mira,8/29/2019,0
+2019,3,Blight Man. (DK),107,Setanta,8/29/2019,5
+2019,4,Blight Man. (DK),167,Setanta,8/29/2019,1
+2019,1,Blight Man. (DK),7,T5821/11,8/29/2019,0
+2019,2,Blight Man. (DK),67,T5821/11,8/29/2019,0
+2019,3,Blight Man. (DK),108,T5821/11,8/29/2019,0.01
+2019,4,Blight Man. (DK),165,T5821/11,8/29/2019,0
+2019,1,Full Dose,1,Rooster,9/6/2019,1
+2019,1,Full Dose,2,Sarpo Mira,9/6/2019,0
+2019,1,Full Dose,3,T5821/11,9/6/2019,0.1
+2019,1,Full Dose,4,Setanta,9/6/2019,2
+2019,1,Full Dose,5,British Queen,9/6/2019,1
+2019,1,Full Dose,6,King Edward,9/6/2019,2
+2019,1,Blight Man. (DK),12,British Queen,9/6/2019,0.5
+2019,2,Blight Man. (DK),72,British Queen,9/6/2019,3
+2019,3,Blight Man. (DK),106,British Queen,9/6/2019,1
+2019,4,Blight Man. (DK),164,British Queen,9/6/2019,1
+2019,1,Blight Man. (DK),9,King Edward,9/6/2019,5
+2019,2,Blight Man. (DK),71,King Edward,9/6/2019,3
+2019,1,Half Dose,16,British Queen,9/6/2019,0.5
+2019,2,Half Dose,53,British Queen,9/6/2019,1
+2019,3,Half Dose,117,British Queen,9/6/2019,3
+2019,4,Half Dose,136,British Queen,9/6/2019,2
+2019,1,Half Dose,17,King Edward,9/6/2019,6
+2019,2,Half Dose,50,King Edward,9/6/2019,5
+2019,4,Modified I. R.,145,British Queen,7/26/2019,0
+2019,4,Modified I. R.,145,British Queen,8/2/2019,0
+2019,4,Modified I. R.,145,British Queen,8/9/2019,0
+2019,4,Modified I. R.,145,British Queen,8/16/2019,0.1
+2019,4,Modified I. R.,145,British Queen,8/23/2019,0.3
+2019,4,Modified I. R.,145,British Queen,8/29/2019,2
+2019,1,Irish Rules,25,King Edward,9/6/2019,99
+2019,1,Irish Rules,26,Rooster,9/6/2019,20
+2019,1,Irish Rules,27,British Queen,9/6/2019,98
+2019,1,Irish Rules,28,Setanta,9/6/2019,7
+2019,1,Irish Rules,29,T5821/11,9/6/2019,0.1
+2019,1,Irish Rules,30,Sarpo Mira,9/6/2019,0
+2019,1,Control,37,Rooster,9/6/2019,99
+2019,1,Control,38,British Queen,9/6/2019,100
+2019,1,Control,39,Setanta,9/6/2019,60
+2019,1,Control,40,King Edward,9/6/2019,99
+2019,1,Control,41,T5821/11,9/6/2019,0.5
+2019,1,Control,42,Sarpo Mira,9/6/2019,0
+2019,2,Irish Rules,43,Sarpo Mira,9/6/2019,0
+2019,2,Irish Rules,44,Setanta,9/6/2019,90
+2019,2,Irish Rules,45,Rooster,9/6/2019,80
+2019,2,Irish Rules,46,King Edward,9/6/2019,98
+2019,2,Irish Rules,47,T5821/11,9/6/2019,0.5
+2019,2,Irish Rules,48,British Queen,9/6/2019,95
+2019,3,Half Dose,118,King Edward,9/6/2019,4
+2019,4,Half Dose,138,King Edward,9/6/2019,3
+2019,1,Half Dose,14,Rooster,9/6/2019,3
+2019,2,Half Dose,49,Rooster,9/6/2019,4
+2019,3,Half Dose,120,Rooster,9/6/2019,1
+2019,4,Half Dose,137,Rooster,9/6/2019,1.5
+2019,4,Modified I. R.,145,British Queen,9/6/2019,3
+2019,4,Modified I. R.,145,British Queen,9/13/2019,3.5
+2019,4,Modified I. R.,147,King Edward,7/26/2019,0
+2019,4,Modified I. R.,147,King Edward,8/2/2019,0.01
+2019,4,Modified I. R.,147,King Edward,8/9/2019,0.01
+2019,4,Modified I. R.,147,King Edward,8/16/2019,0.1
+2019,2,Full Dose,61,King Edward,9/6/2019,1
+2019,2,Full Dose,62,T5821/11,9/6/2019,0.5
+2019,2,Full Dose,63,Sarpo Mira,9/6/2019,0
+2019,2,Full Dose,64,Rooster,9/6/2019,1.5
+2019,2,Full Dose,65,British Queen,9/6/2019,0.1
+2019,2,Full Dose,66,Setanta,9/6/2019,2
+2019,3,Blight Man. (DK),104,King Edward,9/6/2019,5
+2019,4,Blight Man. (DK),163,King Edward,9/6/2019,0.5
+2019,1,Blight Man. (DK),10,Rooster,9/6/2019,5
+2019,2,Blight Man. (DK),69,Rooster,9/6/2019,4
+2019,3,Blight Man. (DK),105,Rooster,9/6/2019,5
+2019,4,Blight Man. (DK),168,Rooster,9/6/2019,1.6
+2019,2,Control,73,King Edward,9/6/2019,100
+2019,2,Control,74,Sarpo Mira,9/6/2019,0
+2019,2,Control,75,T5821/11,9/6/2019,0
+2019,2,Control,76,Setanta,9/6/2019,75
+2019,2,Control,77,British Queen,9/6/2019,99
+2019,2,Control,78,Rooster,9/6/2019,90
+2019,3,Control,85,Rooster,9/6/2019,100
+2019,3,Control,86,Setanta,9/6/2019,96
+2019,3,Control,87,King Edward,9/6/2019,100
+2019,3,Control,88,Sarpo Mira,9/6/2019,0.01
+2019,3,Control,89,T5821/11,9/6/2019,0.1
+2019,3,Control,90,British Queen,9/6/2019,100
+2019,4,Modified I. R.,147,King Edward,8/23/2019,0.1
+2019,4,Modified I. R.,147,King Edward,8/29/2019,2
+2019,4,Modified I. R.,147,King Edward,9/6/2019,5
+2019,4,Modified I. R.,147,King Edward,9/13/2019,7
+2019,4,Modified I. R.,146,Rooster,7/26/2019,0
+2019,4,Modified I. R.,146,Rooster,8/2/2019,0
+2019,3,Full Dose,97,King Edward,9/6/2019,4
+2019,3,Full Dose,98,T5821/11,9/6/2019,0
+2019,3,Full Dose,99,Setanta,9/6/2019,6
+2019,3,Full Dose,100,British Queen,9/6/2019,0
+2019,3,Full Dose,101,Sarpo Mira,9/6/2019,0
+2019,3,Full Dose,102,Rooster,9/6/2019,1
+2019,1,Blight Man. (DK),11,Sarpo Mira,9/6/2019,0
+2019,2,Blight Man. (DK),68,Sarpo Mira,9/6/2019,0
+2019,3,Blight Man. (DK),103,Sarpo Mira,9/6/2019,0
+2019,4,Blight Man. (DK),166,Sarpo Mira,9/6/2019,0.01
+2019,1,Blight Man. (DK),8,Setanta,9/6/2019,7
+2019,2,Blight Man. (DK),70,Setanta,9/6/2019,5
+2019,1,Half Dose,18,Sarpo Mira,9/6/2019,0
+2019,2,Half Dose,51,Sarpo Mira,9/6/2019,0
+2019,3,Half Dose,119,Sarpo Mira,9/6/2019,0
+2019,4,Half Dose,133,Sarpo Mira,9/6/2019,0
+2019,1,Half Dose,15,Setanta,9/6/2019,6
+2019,2,Half Dose,52,Setanta,9/6/2019,2
+2019,3,Irish Rules,121,King Edward,9/6/2019,50
+2019,3,Irish Rules,122,Setanta,9/6/2019,5
+2019,3,Irish Rules,123,British Queen,9/6/2019,98
+2019,3,Irish Rules,124,T5821/11,9/6/2019,0
+2019,3,Irish Rules,125,Sarpo Mira,9/6/2019,0
+2019,3,Irish Rules,126,Rooster,9/6/2019,15
+2019,4,Control,127,Sarpo Mira,9/6/2019,0
+2019,4,Control,128,T5821/11,9/6/2019,0.5
+2019,4,Control,129,King Edward,9/6/2019,100
+2019,4,Control,130,Setanta,9/6/2019,90
+2019,4,Control,131,British Queen,9/6/2019,99
+2019,4,Control,132,Rooster,9/6/2019,90
+2019,3,Half Dose,116,Setanta,9/6/2019,1
+2019,4,Half Dose,135,Setanta,9/6/2019,3
+2019,1,Half Dose,13,T5821/11,9/6/2019,0.1
+2019,2,Half Dose,54,T5821/11,9/6/2019,0.1
+2019,3,Half Dose,115,T5821/11,9/6/2019,0.1
+2019,4,Half Dose,134,T5821/11,9/6/2019,0.1
+2019,4,Full Dose,139,King Edward,9/6/2019,1
+2019,4,Full Dose,140,Sarpo Mira,9/6/2019,0
+2019,4,Full Dose,141,British Queen,9/6/2019,0.5
+2019,4,Full Dose,142,Setanta,9/6/2019,0
+2019,4,Full Dose,143,Rooster,9/6/2019,1
+2019,4,Full Dose,144,T5821/11,9/6/2019,0
+2019,4,Modified I. R.,146,Rooster,8/9/2019,0
+2019,4,Modified I. R.,146,Rooster,8/16/2019,0
+2019,4,Modified I. R.,146,Rooster,8/23/2019,0
+2019,4,Modified I. R.,146,Rooster,8/29/2019,1
+2019,4,Modified I. R.,146,Rooster,9/6/2019,2
+2019,4,Modified I. R.,146,Rooster,9/13/2019,3.5
+2019,4,Irish Rules,151,T5821/11,9/6/2019,0.1
+2019,4,Irish Rules,152,Rooster,9/6/2019,40
+2019,4,Irish Rules,153,King Edward,9/6/2019,95
+2019,4,Irish Rules,154,Setanta,9/6/2019,8
+2019,4,Irish Rules,155,British Queen,9/6/2019,95
+2019,4,Irish Rules,156,Sarpo Mira,9/6/2019,0
+2019,3,Blight Man. (DK),107,Setanta,9/6/2019,10
+2019,4,Blight Man. (DK),167,Setanta,9/6/2019,2.5
+2019,1,Blight Man. (DK),7,T5821/11,9/6/2019,0.5
+2019,2,Blight Man. (DK),67,T5821/11,9/6/2019,0.1
+2019,3,Blight Man. (DK),108,T5821/11,9/6/2019,0.5
+2019,4,Blight Man. (DK),165,T5821/11,9/6/2019,0
+2019,1,Full Dose,1,Rooster,9/13/2019,1
+2019,1,Full Dose,2,Sarpo Mira,9/13/2019,0
+2019,1,Full Dose,3,T5821/11,9/13/2019,0.1
+2019,1,Full Dose,4,Setanta,9/13/2019,4
+2019,1,Full Dose,5,British Queen,9/13/2019,2
+2019,1,Full Dose,6,King Edward,9/13/2019,3
+2019,1,Blight Man. (DK),12,British Queen,9/13/2019,1
+2019,2,Blight Man. (DK),72,British Queen,9/13/2019,4
+2019,3,Blight Man. (DK),106,British Queen,9/13/2019,1.5
+2019,4,Blight Man. (DK),164,British Queen,9/13/2019,0.5
+2019,1,Blight Man. (DK),9,King Edward,9/13/2019,12
+2019,2,Blight Man. (DK),71,King Edward,9/13/2019,5
+2019,1,Half Dose,16,British Queen,9/13/2019,1
+2019,2,Half Dose,53,British Queen,9/13/2019,2
+2019,3,Half Dose,117,British Queen,9/13/2019,4
+2019,4,Half Dose,136,British Queen,9/13/2019,3
+2019,1,Half Dose,17,King Edward,9/13/2019,7
+2019,2,Half Dose,50,King Edward,9/13/2019,7
+2019,4,Modified I. R.,149,Sarpo Mira,7/26/2019,0
+2019,4,Modified I. R.,149,Sarpo Mira,8/2/2019,0
+2019,4,Modified I. R.,149,Sarpo Mira,8/9/2019,0
+2019,4,Modified I. R.,149,Sarpo Mira,8/16/2019,0
+2019,4,Modified I. R.,149,Sarpo Mira,8/23/2019,0
+2019,4,Modified I. R.,149,Sarpo Mira,8/29/2019,0.001
+2019,1,Irish Rules,25,King Edward,9/13/2019,99
+2019,1,Irish Rules,26,Rooster,9/13/2019,40
+2019,1,Irish Rules,27,British Queen,9/13/2019,99
+2019,1,Irish Rules,28,Setanta,9/13/2019,12
+2019,1,Irish Rules,29,T5821/11,9/13/2019,0.5
+2019,1,Irish Rules,30,Sarpo Mira,9/13/2019,0
+2019,1,Control,37,Rooster,9/13/2019,100
+2019,1,Control,38,British Queen,9/13/2019,100
+2019,1,Control,39,Setanta,9/13/2019,85
+2019,1,Control,40,King Edward,9/13/2019,100
+2019,1,Control,41,T5821/11,9/13/2019,1
+2019,1,Control,42,Sarpo Mira,9/13/2019,0
+2019,2,Irish Rules,43,Sarpo Mira,9/13/2019,0
+2019,2,Irish Rules,44,Setanta,9/13/2019,96
+2019,2,Irish Rules,45,Rooster,9/13/2019,85
+2019,2,Irish Rules,46,King Edward,9/13/2019,99
+2019,2,Irish Rules,47,T5821/11,9/13/2019,0.5
+2019,2,Irish Rules,48,British Queen,9/13/2019,99
+2019,3,Half Dose,118,King Edward,9/13/2019,6
+2019,4,Half Dose,138,King Edward,9/13/2019,4.5
+2019,1,Half Dose,14,Rooster,9/13/2019,4
+2019,2,Half Dose,49,Rooster,9/13/2019,5
+2019,3,Half Dose,120,Rooster,9/13/2019,1.5
+2019,4,Half Dose,137,Rooster,9/13/2019,1.5
+2019,4,Modified I. R.,149,Sarpo Mira,9/6/2019,0
+2019,4,Modified I. R.,149,Sarpo Mira,9/13/2019,0
+2019,4,Modified I. R.,148,Setanta,7/26/2019,0
+2019,4,Modified I. R.,148,Setanta,8/2/2019,0
+2019,4,Modified I. R.,148,Setanta,8/9/2019,0
+2019,4,Modified I. R.,148,Setanta,8/16/2019,0
+2019,2,Full Dose,61,King Edward,9/13/2019,2
+2019,2,Full Dose,62,T5821/11,9/13/2019,0.5
+2019,2,Full Dose,63,Sarpo Mira,9/13/2019,0
+2019,2,Full Dose,64,Rooster,9/13/2019,1.5
+2019,2,Full Dose,65,British Queen,9/13/2019,0.5
+2019,2,Full Dose,66,Setanta,9/13/2019,3
+2019,3,Blight Man. (DK),104,King Edward,9/13/2019,6
+2019,4,Blight Man. (DK),163,King Edward,9/13/2019,1
+2019,1,Blight Man. (DK),10,Rooster,9/13/2019,5
+2019,2,Blight Man. (DK),69,Rooster,9/13/2019,4
+2019,3,Blight Man. (DK),105,Rooster,9/13/2019,5
+2019,4,Blight Man. (DK),168,Rooster,9/13/2019,2
+2019,2,Control,73,King Edward,9/13/2019,100
+2019,2,Control,74,Sarpo Mira,9/13/2019,0
+2019,2,Control,75,T5821/11,9/13/2019,0
+2019,2,Control,76,Setanta,9/13/2019,85
+2019,2,Control,77,British Queen,9/13/2019,100
+2019,2,Control,78,Rooster,9/13/2019,96
+2019,3,Control,85,Rooster,9/13/2019,100
+2019,3,Control,86,Setanta,9/13/2019,99
+2019,3,Control,87,King Edward,9/13/2019,100
+2019,3,Control,88,Sarpo Mira,9/13/2019,0
+2019,3,Control,89,T5821/11,9/13/2019,0.1
+2019,3,Control,90,British Queen,9/13/2019,100
+2019,4,Modified I. R.,148,Setanta,8/23/2019,0
+2019,4,Modified I. R.,148,Setanta,8/29/2019,1
+2019,4,Modified I. R.,148,Setanta,9/6/2019,5
+2019,4,Modified I. R.,148,Setanta,9/13/2019,6.5
+2019,4,Modified I. R.,150,T5821/11,7/26/2019,0
+2019,4,Modified I. R.,150,T5821/11,8/2/2019,0
+2019,3,Full Dose,97,King Edward,9/13/2019,5
+2019,3,Full Dose,98,T5821/11,9/13/2019,0
+2019,3,Full Dose,99,Setanta,9/13/2019,6
+2019,3,Full Dose,100,British Queen,9/13/2019,0.5
+2019,3,Full Dose,101,Sarpo Mira,9/13/2019,0
+2019,3,Full Dose,102,Rooster,9/13/2019,1.5
+2019,1,Blight Man. (DK),11,Sarpo Mira,9/13/2019,0
+2019,2,Blight Man. (DK),68,Sarpo Mira,9/13/2019,0
+2019,3,Blight Man. (DK),103,Sarpo Mira,9/13/2019,0
+2019,4,Blight Man. (DK),166,Sarpo Mira,9/13/2019,0.05
+2019,1,Blight Man. (DK),8,Setanta,9/13/2019,10
+2019,2,Blight Man. (DK),70,Setanta,9/13/2019,6
+2019,1,Half Dose,18,Sarpo Mira,9/13/2019,0
+2019,2,Half Dose,51,Sarpo Mira,9/13/2019,0
+2019,3,Half Dose,119,Sarpo Mira,9/13/2019,0
+2019,4,Half Dose,133,Sarpo Mira,9/13/2019,0
+2019,1,Half Dose,15,Setanta,9/13/2019,10
+2019,2,Half Dose,52,Setanta,9/13/2019,3.5
+2019,3,Irish Rules,121,King Edward,9/13/2019,70
+2019,3,Irish Rules,122,Setanta,9/13/2019,8
+2019,3,Irish Rules,123,British Queen,9/13/2019,100
+2019,3,Irish Rules,124,T5821/11,9/13/2019,0
+2019,3,Irish Rules,125,Sarpo Mira,9/13/2019,0
+2019,3,Irish Rules,126,Rooster,9/13/2019,20
+2019,4,Control,127,Sarpo Mira,9/13/2019,0
+2019,4,Control,128,T5821/11,9/13/2019,0.5
+2019,4,Control,129,King Edward,9/13/2019,100
+2019,4,Control,130,Setanta,9/13/2019,97
+2019,4,Control,131,British Queen,9/13/2019,100
+2019,4,Control,132,Rooster,9/13/2019,100
+2019,3,Half Dose,116,Setanta,9/13/2019,1.5
+2019,4,Half Dose,135,Setanta,9/13/2019,3.5
+2019,1,Half Dose,13,T5821/11,9/13/2019,0.1
+2019,2,Half Dose,54,T5821/11,9/13/2019,0.1
+2019,3,Half Dose,115,T5821/11,9/13/2019,0.1
+2019,4,Half Dose,134,T5821/11,9/13/2019,0.1
+2019,4,Full Dose,139,King Edward,9/13/2019,3
+2019,4,Full Dose,140,Sarpo Mira,9/13/2019,0
+2019,4,Full Dose,141,British Queen,9/13/2019,0.5
+2019,4,Full Dose,142,Setanta,9/13/2019,0
+2019,4,Full Dose,143,Rooster,9/13/2019,1.5
+2019,4,Full Dose,144,T5821/11,9/13/2019,0
+2019,4,Modified I. R.,150,T5821/11,8/9/2019,0
+2019,4,Modified I. R.,150,T5821/11,8/16/2019,0
+2019,4,Modified I. R.,150,T5821/11,8/23/2019,0
+2019,4,Modified I. R.,150,T5821/11,8/29/2019,0
+2019,4,Modified I. R.,150,T5821/11,9/6/2019,0.1
+2019,4,Modified I. R.,150,T5821/11,9/13/2019,0.1
+2019,4,Irish Rules,151,T5821/11,9/13/2019,0.1
+2019,4,Irish Rules,152,Rooster,9/13/2019,55
+2019,4,Irish Rules,153,King Edward,9/13/2019,99
+2019,4,Irish Rules,154,Setanta,9/13/2019,10
+2019,4,Irish Rules,155,British Queen,9/13/2019,99
+2019,4,Irish Rules,156,Sarpo Mira,9/13/2019,0
+2019,3,Blight Man. (DK),107,Setanta,9/13/2019,12
+2019,4,Blight Man. (DK),167,Setanta,9/13/2019,3
+2019,1,Blight Man. (DK),7,T5821/11,9/13/2019,1
+2019,2,Blight Man. (DK),67,T5821/11,9/13/2019,0.1
+2019,3,Blight Man. (DK),108,T5821/11,9/13/2019,0.5
+2019,4,Blight Man. (DK),165,T5821/11,9/13/2019,0

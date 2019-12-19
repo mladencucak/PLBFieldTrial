@@ -859,11 +859,24 @@ d1 &lt;-
   dplyr::bind_rows(d2016, drest)
 
 
+ d1 &lt;- 
+  d1 %&gt;% 
+  ungroup() %&gt;% 
+  mutate(treatment = ifelse(treatment == &quot;Control&quot;, &quot;Untreated Control&quot;,
+                          ifelse(treatment == &quot;Full Dose&quot; , &quot;Full dose (100)&quot;,
+                                 ifelse(treatment == &quot;Half Dose&quot;, &quot;Half dose (50)&quot;,
+                                        ifelse(treatment == &quot;Irish Rules&quot;, &quot;Irish Rules (IRp)&quot;,
+                                               ifelse(treatment == &quot;Blight Man. (DK)&quot;, &quot;Blight Man. (BMp)&quot;,
+                                                      ifelse(treatment == &quot;Modified I. R.&quot;, &quot;Modified I. R. (MIRp)&quot;, &quot;&quot;)))))))
+dis_obs$treatment &lt;- 
+  factor(dis_obs$treatment, 
+         levels = c(&quot;Control&quot;, &quot;Full Dose&quot;,&quot;Half Dose&quot;,&quot;Irish Rules (IRp)&quot;,&quot;Blight Management (BMp)&quot; ,&quot;Modified I. R. (MIRp)&quot;))
+
+
 d1 &lt;- 
   d1 %&gt;% 
   mutate(variety = factor(variety, levels =c(&quot;KE&quot;,&quot;BQ&quot;, &quot;RO&quot;, &quot;SE&quot;, &quot;CL&quot;,&quot;SM&quot;)))  %&gt;% 
-  mutate(year = factor(year, levels =c(&quot;2016&quot;,&quot;2017&quot;, &quot;2018&quot;, &quot;2019&quot;))) %&gt;% 
-  mutate(treatment = factor(treatment, levels = c(&quot;Control&quot;, &quot;Full Dose&quot;,&quot;Half Dose&quot;,&quot;Irish Rules&quot;,&quot;Blight Man. (DK)&quot; ,&quot;Modified I. R.&quot;)))</code></pre>
+  mutate(year = factor(year, levels =c(&quot;2016&quot;,&quot;2017&quot;, &quot;2018&quot;, &quot;2019&quot;)))</code></pre>
 <pre class="r"><code>#Set the position dodge
 dodging &lt;-  .8
 
@@ -941,7 +954,7 @@ rm(p_fin)</code></pre>
 ##  collate  English_United States.1252  
 ##  ctype    English_United States.1252  
 ##  tz       Europe/London               
-##  date     2019-12-16                  
+##  date     2019-12-18                  
 ## 
 ## - Packages --------------------------------------------------------------
 ##  ! package      * version  date       lib source        
