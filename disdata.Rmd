@@ -490,7 +490,7 @@ rm(p_rest)
 
 ```{r}
 d2016$year <- factor(2016)
-d1 <- 
+ddis <- 
   dplyr::bind_rows(d2016, drest)
 
 
@@ -506,11 +506,11 @@ audpc_data %>%
 
 audpc_data$treatment <- 
   factor(audpc_data$treatment, 
-         levels = c("Untreated Control", "Full dose (100)","Half dose (50)","Irish Rules (IRp)","Blight Management (BMp)" ,"Modified I. R. (MIRp)"))
+         levels = c("Untreated Control", "Full dose (100)","Half dose (50)","Irish Rules (IRp)","Blight Man. (BMp)" ,"Modified I. R. (MIRp)"))
 
 
- d1 <- 
-  d1 %>% 
+ ddis <- 
+  ddis %>% 
   ungroup() %>% 
   mutate(treatment = ifelse(treatment == "Control", "Untreated Control",
                           ifelse(treatment == "Full Dose" , "Full dose (100)",
@@ -519,15 +519,19 @@ audpc_data$treatment <-
                                                ifelse(treatment == "Blight Man. (DK)", "Blight Man. (BMp)",
                                                       ifelse(treatment == "Modified I. R.", "Modified I. R. (MIRp)", "")))))))
 
- d1$treatment <- 
-  factor(d1$treatment, 
-         levels = c("Untreated Control", "Full dose (100)","Half dose (50)","Irish Rules (IRp)","Blight Management (BMp)" ,"Modified I. R. (MIRp)"))
+ ddis$treatment <- 
+  factor(ddis$treatment, 
+         levels = c("Untreated Control", "Full dose (100)","Half dose (50)","Irish Rules (IRp)","Blight Man. (BMp)" ,"Modified I. R. (MIRp)"))
 
 
-d1 <- 
-  d1 %>% 
+ddis <- 
+  ddis %>% 
   mutate(variety = factor(variety, levels =c("KE","BQ", "RO", "SE", "CL","SM")))  %>% 
   mutate(year = factor(year, levels =c("2016","2017", "2018", "2019")))
+
+saveRDS(ddis, file = here::here("results", "dis",  "dis_fin.RDS"))
+saveRDS(audpc_data, file = here::here("results", "dis",  "dis_audpc_fin.RDS"))
+
 ```
   
  
@@ -537,8 +541,8 @@ d1 <-
 #Set the position dodge
 dodging <-  .8
 
-# p_fin <- 
-d1 %>%
+p_fin <- 
+ddis %>%
   mutate(
     line_positions = as.numeric(factor(variety, levels = unique(variety))),
     line_positions = line_positions + .5,
@@ -596,7 +600,6 @@ ggsave(
   dpi = 820
 )
 
-saveRDS(p_fin, file = here::here("results", "dis",  "dis_plot_fin.RDS"))
 
 rm(p_fin)
 ```
