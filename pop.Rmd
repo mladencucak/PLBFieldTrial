@@ -476,7 +476,7 @@ gen_prop_year %>%
 ## Temporal structure
 Proportion og MLG per sampling date. 
 
-```{r temp_fig, out.width= '100%'}
+```{r temp_fig, fig.width= 9.5, fig.height=6.4 }
 
 dis_obs <- 
   filter(dis_obs, year != 2016)
@@ -652,16 +652,17 @@ ggplot() +
    facet_grid( set~ year  ) +
   geom_text(data = samples_fig,
             aes(x = julian_day, y = -0.1, label = labels),
-            size = 3.1,
-            angle = -38) +
-  guides(fill=guide_legend(nrow=3,byrow=TRUE,title.position = "top"),
-         color=guide_legend(nrow=6,byrow=TRUE,title.position = "top"))+
-  theme(text = element_text(size = 14))
+            size = 3.4,
+            angle = -40) +
+  guides(fill=guide_legend(nrow=1,byrow=TRUE,title.position = "top"),
+         color=guide_legend(nrow=1,byrow=TRUE,title.position = "top"))+
+  theme(text = element_text(size = 15),
+        legend.position = "bottom")
 
 ptemp
   ggsave(plot = ptemp, 
          filename= here::here("results", "gen", "freq", "Genotype and DPC per sampling horisontal.png"),
-         width = 10, height =5, dpi = 620)
+         width = 10, height =6.5, dpi = 620)
 
 
 ```
