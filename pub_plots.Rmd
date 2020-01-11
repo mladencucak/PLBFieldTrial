@@ -69,6 +69,7 @@ rm(list.of.packages, new.packages, packages_load)
 #install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/"))
 ```
   
+  
 ## Population frequencies and DAPC analysis 
 GGplots from the frequency analysis wee colated using 'gpubr' and DAPC plots using 'magick'.  
 
@@ -81,12 +82,21 @@ plotls <-
     x <- x+
       theme(plot.background = element_rect(size=.3,linetype="solid",color="black")))
 
+plotf <- 
 ggpubr::ggarrange(plotlist = plotls, 
                   heights = c(1,1,1),
                   # labels = c("r","rr"),
-                  nrow = 3)+
-  ggsave(filename= here::here("results", "gen", "freq", "Freq_all.png"),
-         width = 2.9, height =9, dpi = 820)
+                  nrow = 3)
+
+ggsave(
+  plot = plotf,
+  filename = here::here("results", "gen", "freq", "Freq_all.png"),
+  width = 2.9,
+  height = 9,
+  dpi = 820
+)
+
+
 
 # Read external images
 #shell.exec(here::here("results", "gen","dapc", "treatment.png"))
@@ -126,7 +136,7 @@ image_write(side_by_side,
 #To open the figure in external viewer uncoment the following lines
 #shell.exec(here::here("results", "gen","dapc","dapcs", paste0(scale, "full.png")))
 
-side_by_side
+
 ```
 ![Final figure](`r here::here("results", "gen","dapc","dapcs", "x7380full.png")`)
 
