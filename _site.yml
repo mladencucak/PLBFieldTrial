@@ -31,7 +31,7 @@ navbar:
   - text: Yield
     icon: fa fa-archive
     href: yield.html
-  - text: Population Data
+  - text: Population
     icon: fa fa-code-fork
     href: pop.html
   - text: Pop Bruvo

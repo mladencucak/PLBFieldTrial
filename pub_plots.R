@@ -254,13 +254,17 @@ yd <-
 ######################################################################
 
 dd <- 
-  readRDS( file = here::here("results", "dis",  "dis_plot_fin.RDS"))
+  readRDS( file = here::here("results", "dis",  "dis_fin.RDS"))
 yd <- 
-  readRDS( file = here::here("results", "yield",  "yld_plot_fin.RDS"))
+  readRDS( file = here::here("results", "yield",  "yld_fin.RDS"))
+yld <- 
+  readRDS( file = here::here("results", "yield",  "yld_dat_fin.RDS"))
+audpc_data <- 
+  readRDS( file = here::here("results", "yield",  "dis_audpc_fin.RDS"))
 
 
 pdfin <- 
-  dd %>%
+dd %>% 
   mutate(
     line_positions = as.numeric(factor(variety, levels = unique(variety))),
     line_positions = line_positions + .5,
@@ -299,10 +303,12 @@ pdfin <-
     alpha = .5,
     position = position_dodge(width = dodging)
   ) +
+  facet_wrap(~ year, ncol = 1)+
   scale_color_brewer("Programme:", palette = "Dark2") +
   theme_article() +
-  theme(legend.position = "top") +
-  geom_vline(aes(xintercept = line_positions),
+  theme(legend.position = "bottom",
+        text = element_text(size = 13)) +
+    geom_vline(aes(xintercept = line_positions),
              size  = .2,
              alpha = .6) +
   labs(colour = "Programme:",
@@ -310,7 +316,6 @@ pdfin <-
        y = "rAUDPC") 
 
 pdfin+
-  facet_wrap(~ year, ncol = 1)+
   ggsave(
     filename = here::here("results", "dis", "Effects final ver.png"),
     width = 4,
@@ -323,7 +328,7 @@ shell.exec(here::here("results", "dis", "Effects final ver.png"))
 
 
 
-py_fin <- 
+ py_fin <- 
   yd %>%
   mutate(
     line_positions = as.numeric(factor(variety, levels = unique(variety))),
@@ -358,34 +363,38 @@ py_fin <-
     alpha = .5,
     position = position_dodge(width = dodging)
   ) +
+  facet_wrap(~ year, ncol = 1) +
   scale_color_brewer("Programme:", palette = "Dark2") +
   theme_article() +
-  theme(legend.position = "top") +
+  theme(legend.position = "bottom",
+        text = element_text(size = 13)) +
   geom_vline(aes(xintercept = line_positions),
              size  = .2,
              alpha = .6) +
   labs(colour = "Programme:",
        x = "Variety",
        y = "Yield (t per ha)") 
-p_fin+
+
+py_fin <- 
+py_fin+
   facet_wrap(~ year, ncol = 1) 
 
 
 ggsave(
-  p_fin,
+  py_fin,
   filename = here::here("results", "yield", "Effects final ver.png"),
-  width = 7,
-  height = 3.7,
+  width = 3.5,
+  height = 7,
   dpi = 820
 )
 
-shell.exec(here::here("results", "dis", "Effects final ver.png"))
+shell.exec(here::here("results", "yield", "Effects final ver.png"))
 
 
 
 
 
-plotls <- list(dp,lp)
+plotls <- list(pdfin,py_fin)
 plotls <- 
   lapply(plotls, function(x) 
     x <- x+
@@ -394,31 +403,15 @@ plotls <-
   )
 
 ggpubr::ggarrange(plotlist = plotls, 
-                  heights = c(2.1,1.85),
-                  widths = c(.5,.5),
+                  widths = c(2.5,2.5),
+                  heights = c(.5,.5),
                   labels = c("a)","b)"),
-                  nrow = 2)+
+                  nrow = 1,
+                  common.legend = TRUE,
+                  legend = "bottom")+
   ggsave(filename= here::here("results", "dis", "dis_yld.png"),
-         width = 7, height =6, dpi = 820)
+         width = 7.5, height =10, dpi = 820)
 shell.exec(here::here("results", "dis", "dis_yld.png"))
 
 
 
-
-
-
-lsss <- 
-  map(list.files(here::here("data", "disease"), full.names = TRUE, pattern = "2019"), readRDS)
-
-write_csv(lsss[[1]], path = here::here("tmp", "2019.csv")) 
-
-dfs <- 
-  read_csv(here::here("tmp", "2019.csv"))
-
-dfs$bloc <- as.factor(dfs$bloc)
-dfs$variety <- as.factor(dfs$variety)
-dfs$time <-  
-  as.Date(dfs$time, format = "%m/%d/%y")
-
-ls[[4]][ ls[[4]]$variety == "Setanta"&
-           ls[[4]]$variety == "Setanta", "obs"]
