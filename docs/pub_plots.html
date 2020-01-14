@@ -384,7 +384,7 @@ div.tocify {
   <a href="pop.html">
     <span class="fa fa fa fa-code-fork"></span>
      
-    Population Data
+    Population
   </a>
 </li>
 <li>
@@ -478,14 +478,23 @@ plotls &lt;-
     x &lt;- x+
       theme(plot.background = element_rect(size=.3,linetype=&quot;solid&quot;,color=&quot;black&quot;)))
 
+plotf &lt;- 
 ggpubr::ggarrange(plotlist = plotls, 
                   heights = c(1,1,1),
                   # labels = c(&quot;r&quot;,&quot;rr&quot;),
-                  nrow = 3)+
-  ggsave(filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Freq_all.png&quot;),
-         width = 2.9, height =9, dpi = 820)</code></pre>
-<p><img src="pub_plots_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
-<pre class="r"><code># Read external images
+                  nrow = 3)
+
+ggsave(
+  plot = plotf,
+  filename = here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Freq_all.png&quot;),
+  width = 2.9,
+  height = 9,
+  dpi = 820
+)
+
+
+
+# Read external images
 #shell.exec(here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;, &quot;treatment.png&quot;))
 t = image_read(here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;, &quot;treatment.png&quot;))
 v = image_read(here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;, &quot;var.png&quot;))
@@ -521,45 +530,167 @@ image_write(side_by_side,
 )
 
 #To open the figure in external viewer uncoment the following lines
-#shell.exec(here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;,&quot;dapcs&quot;, paste0(scale, &quot;full.png&quot;)))
-
-side_by_side</code></pre>
-<p><img src="pub_plots_files/figure-html/unnamed-chunk-1-1.png" width="2419" /> <img src="results/gen/dapc/dapcs/x7380full.png" alt="Final figure" /></p>
+#shell.exec(here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;,&quot;dapcs&quot;, paste0(scale, &quot;full.png&quot;)))</code></pre>
+<div class="figure">
+<img src="results/gen/dapc/dapcs/x7380full.png" alt="Final figure" />
+<p class="caption">Final figure</p>
+</div>
 </div>
 <div id="disease-and-yield" class="section level2">
 <h2>Disease and yield</h2>
 <p>Results of the foliar disease controll yield analysis were colated in single figure using ‘magick’ package.</p>
-<pre class="r"><code>dp &lt;- 
-readRDS( file = here::here(&quot;results&quot;, &quot;dis&quot;,  &quot;dis_plot_fin.RDS&quot;))
-lp &lt;- 
-readRDS( file = here::here(&quot;results&quot;, &quot;yield&quot;,  &quot;yld_plot_fin.RDS&quot;))
+<pre class="r"><code>dd &lt;- 
+  readRDS( file = here::here(&quot;results&quot;, &quot;dis&quot;,  &quot;dis_fin.RDS&quot;))
+yd &lt;- 
+  readRDS( file = here::here(&quot;results&quot;, &quot;yield&quot;,  &quot;yld_fin.RDS&quot;))
+yld &lt;- 
+  readRDS( file = here::here(&quot;results&quot;, &quot;yield&quot;,  &quot;yld_dat_fin.RDS&quot;))
+audpc_data &lt;- 
+  readRDS( file = here::here(&quot;results&quot;, &quot;dis&quot;,  &quot;dis_audpc_fin.RDS&quot;))
 
-dp &lt;- 
-  dp +
-  theme(axis.title.x=element_blank())
-  
-lp &lt;- 
-  lp+
-  theme(legend.position = &quot;none&quot;)
+dodging &lt;-  .8
 
-plotls &lt;- list(dp,lp)
+pdfin &lt;- 
+dd %&gt;% 
+  mutate(
+    line_positions = as.numeric(factor(variety, levels = unique(variety))),
+    line_positions = line_positions + .5,
+    line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
+    line_positions = ifelse(year == 2016 &amp;
+                              variety == &quot;SM&quot;, 5.5, line_positions),
+    line_positions = ifelse(year == 2016 &amp;
+                              variety == &quot;CL&quot;, 4.5, line_positions),
+    line_positions = ifelse(year == 2016 &amp;
+                              variety == &quot;SE&quot;, 3.5, line_positions),
+    line_positions = ifelse(year == 2016 &amp;
+                              variety == &quot;KE&quot;, 1.5, line_positions)
+    
+  ) %&gt;%
+  ggplot(data = ., aes(x = variety, y = prop)) +
+  geom_errorbar(
+    aes(
+      ymin = lower.CL,
+      ymax = upper.CL,
+      group = treatment,
+      color = treatment
+    ),
+    position = position_dodge(width = dodging),
+    width = .2
+  ) +
+  geom_point(
+    aes(y = prop, group = treatment, color = treatment),
+    size = 1,
+    shape = 2,
+    position = position_dodge(width = dodging)
+  )+ 
+  geom_point(
+    data = subset(audpc_data),
+    aes(y = rAUDPC_adj, color = treatment, group = treatment),
+    size = .2,
+    alpha = .5,
+    position = position_dodge(width = dodging)
+  ) +
+  facet_wrap(~ year, ncol = 1)+
+  scale_color_brewer(&quot;Programme:&quot;, palette = &quot;Dark2&quot;) +
+  theme_article() +
+  theme(legend.position = &quot;bottom&quot;,
+        text = element_text(size = 13)) +
+    geom_vline(aes(xintercept = line_positions),
+             size  = .2,
+             alpha = .6) +
+  labs(colour = &quot;Programme:&quot;,
+       x = &quot;Variety&quot;,
+       y = &quot;rAUDPC&quot;) 
+
+pdfin+
+  ggsave(
+    filename = here::here(&quot;results&quot;, &quot;dis&quot;, &quot;Effects final ver.png&quot;),
+    width = 4,
+    height = 7,
+    dpi = 820
+  )</code></pre>
+<p><img src="pub_plots_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code> py_fin &lt;- 
+  yd %&gt;%
+  mutate(
+    line_positions = as.numeric(factor(variety, levels = unique(variety))),
+    line_positions = line_positions + .5,
+    line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
+    line_positions = ifelse(year == 2016 &amp;
+                              variety == &quot;SM&quot;, 5.5, line_positions),
+    line_positions = ifelse(year == 2016 &amp;
+                              variety == &quot;SE&quot;, 4.5, line_positions)
+  ) %&gt;%
+  ggplot(data = ., aes(x = variety, y = lsmean)) +
+  geom_errorbar(
+    aes(
+      ymin = lower.CL,
+      ymax = upper.CL,
+      group = treatment,
+      color = treatment
+    ),
+    position = position_dodge(width = dodging),
+    width = .2
+  ) +
+  geom_point(
+    aes(y = lsmean, group = treatment, color = treatment),
+    size = 1,
+    shape = 2,
+    position = position_dodge(width = dodging)
+  ) +
+  geom_point(
+    data = yld,
+    aes(y = marketable, color = treatment, group = treatment),
+    size = .2,
+    alpha = .5,
+    position = position_dodge(width = dodging)
+  ) +
+  facet_wrap(~ year, ncol = 1) +
+  scale_color_brewer(&quot;Programme:&quot;, palette = &quot;Dark2&quot;) +
+  theme_article() +
+  theme(legend.position = &quot;bottom&quot;,
+        text = element_text(size = 13)) +
+  geom_vline(aes(xintercept = line_positions),
+             size  = .2,
+             alpha = .6) +
+  labs(colour = &quot;Programme:&quot;,
+       x = &quot;Variety&quot;,
+       y = &quot;Yield (t per ha)&quot;) 
+
+py_fin &lt;- 
+py_fin+
+  facet_wrap(~ year, ncol = 1) 
+
+
+ggsave(
+  py_fin,
+  filename = here::here(&quot;results&quot;, &quot;yield&quot;, &quot;Effects final ver.png&quot;),
+  width = 3.5,
+  height = 7,
+  dpi = 820
+)
+
+
+
+
+plotls &lt;- list(pdfin,py_fin)
 plotls &lt;- 
   lapply(plotls, function(x) 
     x &lt;- x+
       theme(plot.background = element_rect(size=.3,linetype=&quot;solid&quot;,color=&quot;black&quot;),
-              text = element_text(size= 11))
-    )
+            text = element_text(size= 11))
+  )
 
 ggpubr::ggarrange(plotlist = plotls, 
-                  heights = c(2.1,1.85),
-                  widths = c(.5,.5),
+                  widths = c(2.5,2.5),
+                  heights = c(.5,.5),
                   labels = c(&quot;a)&quot;,&quot;b)&quot;),
-                  nrow = 2)+
+                  nrow = 1,
+                  common.legend = TRUE,
+                  legend = &quot;bottom&quot;)+
   ggsave(filename= here::here(&quot;results&quot;, &quot;dis&quot;, &quot;dis_yld.png&quot;),
-         width = 7, height =6, dpi = 820)</code></pre>
-<p><img src="pub_plots_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<pre class="r"><code>#To open the figure in external viewer uncoment the following lines
-#shell.exec(here::here(&quot;results&quot;, &quot;dis&quot;, &quot;dis_yld.png&quot;))</code></pre>
+         width = 7.5, height =10, dpi = 620)</code></pre>
+<p><img src="pub_plots_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
 </div>
 
 

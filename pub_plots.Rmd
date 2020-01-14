@@ -144,38 +144,158 @@ image_write(side_by_side,
 Results of the foliar disease controll yield analysis were colated in single figure using 'magick' package.  
 
 ```{r}
+dd <- 
+  readRDS( file = here::here("results", "dis",  "dis_fin.RDS"))
+yd <- 
+  readRDS( file = here::here("results", "yield",  "yld_fin.RDS"))
+yld <- 
+  readRDS( file = here::here("results", "yield",  "yld_dat_fin.RDS"))
+audpc_data <- 
+  readRDS( file = here::here("results", "dis",  "dis_audpc_fin.RDS"))
 
-dp <- 
-readRDS( file = here::here("results", "dis",  "dis_plot_fin.RDS"))
-lp <- 
-readRDS( file = here::here("results", "yield",  "yld_plot_fin.RDS"))
+dodging <-  .8
 
-dp <- 
-  dp +
-  theme(axis.title.x=element_blank())
-  
-lp <- 
-  lp+
-  theme(legend.position = "none")
+pdfin <- 
+dd %>% 
+  mutate(
+    line_positions = as.numeric(factor(variety, levels = unique(variety))),
+    line_positions = line_positions + .5,
+    line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "SM", 5.5, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "CL", 4.5, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "SE", 3.5, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "KE", 1.5, line_positions)
+    
+  ) %>%
+  ggplot(data = ., aes(x = variety, y = prop)) +
+  geom_errorbar(
+    aes(
+      ymin = lower.CL,
+      ymax = upper.CL,
+      group = treatment,
+      color = treatment
+    ),
+    position = position_dodge(width = dodging),
+    width = .2
+  ) +
+  geom_point(
+    aes(y = prop, group = treatment, color = treatment),
+    size = 1,
+    shape = 2,
+    position = position_dodge(width = dodging)
+  )+ 
+  geom_point(
+    data = subset(audpc_data),
+    aes(y = rAUDPC_adj, color = treatment, group = treatment),
+    size = .2,
+    alpha = .5,
+    position = position_dodge(width = dodging)
+  ) +
+  facet_wrap(~ year, ncol = 1)+
+  scale_color_brewer("Programme:", palette = "Dark2") +
+  theme_article() +
+  theme(legend.position = "bottom",
+        text = element_text(size = 13)) +
+    geom_vline(aes(xintercept = line_positions),
+             size  = .2,
+             alpha = .6) +
+  labs(colour = "Programme:",
+       x = "Variety",
+       y = "rAUDPC") 
 
-plotls <- list(dp,lp)
+pdfin+
+  ggsave(
+    filename = here::here("results", "dis", "Effects final ver.png"),
+    width = 4,
+    height = 7,
+    dpi = 820
+  )
+
+
+ py_fin <- 
+  yd %>%
+  mutate(
+    line_positions = as.numeric(factor(variety, levels = unique(variety))),
+    line_positions = line_positions + .5,
+    line_positions = ifelse(line_positions == max(line_positions), NA, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "SM", 5.5, line_positions),
+    line_positions = ifelse(year == 2016 &
+                              variety == "SE", 4.5, line_positions)
+  ) %>%
+  ggplot(data = ., aes(x = variety, y = lsmean)) +
+  geom_errorbar(
+    aes(
+      ymin = lower.CL,
+      ymax = upper.CL,
+      group = treatment,
+      color = treatment
+    ),
+    position = position_dodge(width = dodging),
+    width = .2
+  ) +
+  geom_point(
+    aes(y = lsmean, group = treatment, color = treatment),
+    size = 1,
+    shape = 2,
+    position = position_dodge(width = dodging)
+  ) +
+  geom_point(
+    data = yld,
+    aes(y = marketable, color = treatment, group = treatment),
+    size = .2,
+    alpha = .5,
+    position = position_dodge(width = dodging)
+  ) +
+  facet_wrap(~ year, ncol = 1) +
+  scale_color_brewer("Programme:", palette = "Dark2") +
+  theme_article() +
+  theme(legend.position = "bottom",
+        text = element_text(size = 13)) +
+  geom_vline(aes(xintercept = line_positions),
+             size  = .2,
+             alpha = .6) +
+  labs(colour = "Programme:",
+       x = "Variety",
+       y = "Yield (t per ha)") 
+
+py_fin <- 
+py_fin+
+  facet_wrap(~ year, ncol = 1) 
+
+
+ggsave(
+  py_fin,
+  filename = here::here("results", "yield", "Effects final ver.png"),
+  width = 3.5,
+  height = 7,
+  dpi = 820
+)
+
+
+
+
+plotls <- list(pdfin,py_fin)
 plotls <- 
   lapply(plotls, function(x) 
     x <- x+
       theme(plot.background = element_rect(size=.3,linetype="solid",color="black"),
-              text = element_text(size= 11))
-    )
+            text = element_text(size= 11))
+  )
 
 ggpubr::ggarrange(plotlist = plotls, 
-                  heights = c(2.1,1.85),
-                  widths = c(.5,.5),
+                  widths = c(2.5,2.5),
+                  heights = c(.5,.5),
                   labels = c("a)","b)"),
-                  nrow = 2)+
+                  nrow = 1,
+                  common.legend = TRUE,
+                  legend = "bottom")+
   ggsave(filename= here::here("results", "dis", "dis_yld.png"),
-         width = 7, height =6, dpi = 820)
-#To open the figure in external viewer uncoment the following lines
-#shell.exec(here::here("results", "dis", "dis_yld.png"))
-
+         width = 7.5, height =10, dpi = 620)
 
 ```
 
