@@ -62,10 +62,6 @@ Teagasc:
 Met Eirean:
 - [Keith Lambkin](https://www.researchgate.net/profile/Keith_Lambkin)
 
-University of Southern Queensland:
-- [Adam Sparks](https://adamhsparks.netlify.com/)
-
-
 <!-- ## Citation -->
 
 <!-- Please cite this research compendium as: -->
