@@ -556,6 +556,7 @@ df %&gt;%
   mutate(rain = ifelse(rain == 0, NA, rain)) %&gt;% 
   rename(date = short_date) %&gt;% 
   ggplot() +
+  # geom_hline(aes())
   geom_line(
     aes(
       x = date,
@@ -599,7 +600,13 @@ df %&gt;%
   ) +
   scale_linetype_manual(name = &quot;Risk Limits&quot;,
                         values = c(1, 2, 3)) +
-  theme_article() +
+  scale_y_continuous( breaks = seq(0,100,20))+
+  # theme_article() +
+  scale_x_date(date_labels = &quot;%b&quot;, date_breaks = &quot;1 month&quot;)+
+  facet_wrap( ~ year, scales = &quot;free&quot;, ncol = 1,strip.position=&quot;right&quot;) +
+  guides(fill=guide_legend(nrow=1,byrow=TRUE,title.position = &quot;top&quot;),
+         color=guide_legend(nrow=1,byrow=TRUE,title.position = &quot;top&quot;))+
+    theme_bw()+
   theme(
     text = element_text(size=13),
     # axis.text.x = element_blank(),
@@ -608,12 +615,13 @@ df %&gt;%
      axis.title.x = element_blank(),
     # axis.text.y = element_blank(),
     # axis.ticks.y = element_blank(),
-    legend.position = &quot;top&quot;
+    legend.position = &quot;top&quot;,
+    strip.background = element_blank(), 
+    strip.placement = &quot;outside&quot;
+    # panel.grid.minor =   element_blank(),
+        # panel.grid.major =   element_line(colour = &quot;white&quot;,size=0.75)
   ) +
-  scale_x_date(date_labels = &quot;%b&quot;, date_breaks = &quot;1 month&quot;)+
-  facet_wrap( ~ year, scales = &quot;free_x&quot;, ncol = 1,strip.position=&quot;right&quot;) +
-  guides(fill=guide_legend(nrow=1,byrow=TRUE,title.position = &quot;top&quot;),
-         color=guide_legend(nrow=1,byrow=TRUE,title.position = &quot;top&quot;))+
+
 ggsave(filename= here::here(&quot;results&quot;, &quot;wth&quot;, &quot;all_wth.png&quot;), 
        width = 7, height =6.5, dpi = 620)</code></pre>
 <p><img src="wth_files/figure-html/cars-1.png" width="672" /></p>

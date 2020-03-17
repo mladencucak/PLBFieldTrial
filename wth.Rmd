@@ -134,6 +134,7 @@ df %>%
   mutate(rain = ifelse(rain == 0, NA, rain)) %>% 
   rename(date = short_date) %>% 
   ggplot() +
+  # geom_hline(aes())
   geom_line(
     aes(
       x = date,
@@ -177,7 +178,13 @@ df %>%
   ) +
   scale_linetype_manual(name = "Risk Limits",
                         values = c(1, 2, 3)) +
-  theme_article() +
+  scale_y_continuous( breaks = seq(0,100,20))+
+  # theme_article() +
+  scale_x_date(date_labels = "%b", date_breaks = "1 month")+
+  facet_wrap( ~ year, scales = "free", ncol = 1,strip.position="right") +
+  guides(fill=guide_legend(nrow=1,byrow=TRUE,title.position = "top"),
+         color=guide_legend(nrow=1,byrow=TRUE,title.position = "top"))+
+    theme_bw()+
   theme(
     text = element_text(size=13),
     # axis.text.x = element_blank(),
@@ -186,12 +193,13 @@ df %>%
      axis.title.x = element_blank(),
     # axis.text.y = element_blank(),
     # axis.ticks.y = element_blank(),
-    legend.position = "top"
+    legend.position = "top",
+    strip.background = element_blank(), 
+    strip.placement = "outside"
+    # panel.grid.minor =   element_blank(),
+        # panel.grid.major =   element_line(colour = "white",size=0.75)
   ) +
-  scale_x_date(date_labels = "%b", date_breaks = "1 month")+
-  facet_wrap( ~ year, scales = "free_x", ncol = 1,strip.position="right") +
-  guides(fill=guide_legend(nrow=1,byrow=TRUE,title.position = "top"),
-         color=guide_legend(nrow=1,byrow=TRUE,title.position = "top"))+
+
 ggsave(filename= here::here("results", "wth", "all_wth.png"), 
        width = 7, height =6.5, dpi = 620)
 

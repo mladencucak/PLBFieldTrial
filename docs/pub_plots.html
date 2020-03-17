@@ -28,6 +28,7 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -405,7 +406,7 @@ div.tocify {
   <a href="pub_plots.html">
     <span class="fa fa fa fa-code"></span>
      
-    Pub Figures
+    Pub Fig
   </a>
 </li>
       </ul>
@@ -414,7 +415,7 @@ div.tocify {
   <a href="https://github.com/mladencucak/PLBFieldTrial">
     <span class="fa fa-github-square"></span>
      
-    source
+    code
   </a>
 </li>
       </ul>
@@ -438,12 +439,19 @@ Here we present the process used to put them together. ## Treatments analysis Nu
 <pre class="r"><code>list.of.packages &lt;-
   c(
     &quot;tidyverse&quot;,
+    &quot;readxl&quot;,
     &quot;devtools&quot;,
+    &quot;ggpubr&quot;,
+    &quot;zoo&quot;,
+    &quot;kableExtra&quot;,
+    &quot;conflicted&quot;,
     &quot;here&quot;,
+    &quot;lubridate&quot;,
     &quot;magick&quot;,
     &quot;egg&quot;,
     &quot;conflicted&quot;,
-    &quot;poppr&quot;
+    &quot;poppr&quot;,
+    &quot;magick&quot;
   )
 
 new.packages &lt;-
@@ -465,12 +473,172 @@ if (any(as.numeric(packages_load) == 0)) {
 <pre><code>## [1] &quot;All packages were successfully loaded.&quot;</code></pre>
 <pre class="r"><code>rm(list.of.packages, new.packages, packages_load)
 
+conflict_prefer(&quot;filter&quot;, &quot;dplyr&quot;)
+
 #if instal is not working try 
 #install.packages(&quot;ROCR&quot;, repos = c(CRAN=&quot;https://cran.r-project.org/&quot;))</code></pre>
 </div>
+<div id="weather" class="section level2">
+<h2>Weather</h2>
+<pre class="r"><code>df &lt;- 
+read_csv(
+  here::here(&quot;data&quot;, &quot;weather&quot; , &quot;hly375.csv&quot;),
+  col_types = cols(
+    clamt = col_skip(),
+    clht = col_skip(),
+    vis = col_skip(),
+    w = col_skip(),
+    ww = col_skip()
+  ),
+  skip = 17
+)
+
+df$date &lt;-
+  lubridate::dmy_hm(df$date)
+df&lt;- add_column(df, short_date = as.Date(df$date), .after=1)
+df&lt;- add_column(df, year = year(df$date), .after=2)
+df&lt;- add_column(df, month = month(df$date), .after=3)
+df&lt;- add_column(df, day = day(df$date), .after=4)
+
+
+infil_gap &lt;- 8 #Maximum length of the infill gap
+df$temp &lt;-
+  round(na.spline(df$temp, na.rm = FALSE, maxgap = infil_gap), 1)
+df$rhum &lt;-
+  round(na.spline(df$rhum, na.rm = FALSE, maxgap = infil_gap), 0)
+df$rhum  &lt;- sapply(df$rhum, function(x)
+  ifelse(x &gt; 100, x &lt;- 100, x))
+
+df &lt;- 
+df %&gt;% 
+  filter(year %in% 2016:2019)%&gt;%
+  filter(month %in% c(4:9)) 
+
+#Check if the imputation worked
+df %&gt;%
+  summarize(
+    NA_rain = sum(is.na(rain)),
+    NA_temp = sum(is.na(temp)),
+    NA_rhum = sum(is.na(rhum))
+  )%&gt;% 
+  kable(format = &quot;html&quot;) %&gt;% 
+  kableExtra::kable_styling(latex_options = &quot;striped&quot;,full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+NA_rain
+</th>
+<th style="text-align:right;">
+NA_temp
+</th>
+<th style="text-align:right;">
+NA_rhum
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>#Only two missing values for rain should not be a problem, so we will just do a linear interpolation
+df$rain &lt;- 
+  round(na.approx(df$rain, na.rm = FALSE, maxgap = infil_gap), 1)
+
+
+df %&gt;%
+  group_by(year, month, short_date) %&gt;% 
+  summarize(temp = round(mean(temp),1),
+            rain = sum(rain),
+            rhum = round(mean(rhum),1)
+            
+  ) %&gt;%
+  mutate(rain = ifelse(rain == 0, NA, rain)) %&gt;% 
+  rename(date = short_date) %&gt;% 
+  ggplot() +
+  # geom_hline(aes())
+  geom_line(
+    aes(
+      x = date,
+      y = rhum,
+      color = &quot;Average relative humidity (%)&quot;,
+      fill = &quot;Average relative humidity (%)&quot;
+    ),
+    size = 0.25
+  ) +
+  geom_line(aes(
+    x = date,
+    y = temp,
+    colour = &quot;Average temperature (˚C)&quot;,
+    fill = &quot;Average temperature (˚C)&quot;,
+  ),
+  size = 0.25) +
+  geom_col(
+    aes(date,
+        rain,
+        colour = &quot;Total precipitation (mm/day)&quot;,
+        fill = &quot;Total precipitation (mm/day)&quot;),
+    size = .8 ,
+    inherit.aes = TRUE,
+    width = 0.03
+  ) +
+  scale_colour_manual(
+    &quot;Daily weather:&quot;,
+    values = c(
+      &quot;Average relative humidity (%)&quot; = &quot;#0EBFE9&quot;,
+      &quot;Average temperature (˚C)&quot; = &quot;#ED2939&quot;,
+      &quot;Total precipitation (mm/day)&quot; = &quot;blue&quot;
+    )
+  ) +
+  scale_fill_manual(
+    &quot;Daily weather:&quot;,
+    values = c(
+      &quot;Average relative humidity (%)&quot; =  &quot;#0EBFE9&quot;,
+      &quot;Average temperature (˚C)&quot; = &quot;#ED2939&quot;,
+      &quot;Total precipitation (mm/day)&quot; = &quot;blue&quot;
+    )
+  ) +
+  scale_linetype_manual(name = &quot;Risk Limits&quot;,
+                        values = c(1, 2, 3)) +
+  scale_y_continuous( breaks = seq(0,100,20))+
+  # theme_article() +
+  scale_x_date(date_labels = &quot;%b&quot;, date_breaks = &quot;1 month&quot;)+
+  facet_wrap( ~ year, scales = &quot;free&quot;, ncol = 1,strip.position=&quot;right&quot;) +
+  guides(fill=guide_legend(nrow=1,byrow=TRUE,title.position = &quot;top&quot;),
+         color=guide_legend(nrow=1,byrow=TRUE,title.position = &quot;top&quot;))+
+    theme_bw()+
+  theme(
+    text = element_text(size=13),
+    # axis.text.x = element_blank(),
+    # axis.ticks.x = element_blank(),
+     axis.title.y = element_blank(),
+     axis.title.x = element_blank(),
+    # axis.text.y = element_blank(),
+    # axis.ticks.y = element_blank(),
+    legend.position = &quot;top&quot;,
+    strip.background = element_blank(), 
+    strip.placement = &quot;outside&quot;
+    # panel.grid.minor =   element_blank(),
+        # panel.grid.major =   element_line(colour = &quot;white&quot;,size=0.75)
+  ) +
+
+ggsave(filename= here::here(&quot;results&quot;, &quot;wth&quot;, &quot;all_wth.png&quot;), 
+       width = 7, height =6.5, dpi = 620)</code></pre>
+<p><img src="pub_plots_files/figure-html/wth_charts-1.png" width="672" /></p>
+</div>
 <div id="population-frequencies-and-dapc-analysis" class="section level2">
 <h2>Population frequencies and DAPC analysis</h2>
-<p>GGplots from the frequency analysis wee colated using ‘gpubr’ and DAPC plots using ‘magick’.</p>
+<p>GGplots from the frequency analysis wee colated using ‘ggpubr’ and DAPC plots using ‘magick’.</p>
 <pre class="r"><code>plotls &lt;- readRDS(file = here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;,&quot;freq_plots.RDS&quot;))
 
 plotls &lt;- 
@@ -497,7 +665,7 @@ ggsave(
 # Read external images
 #shell.exec(here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;, &quot;treatment.png&quot;))
 t = image_read(here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;, &quot;treatment.png&quot;))
-v = image_read(here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;, &quot;var.png&quot;))
+v = image_read(here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;, &quot;variety.png&quot;))
 y = image_read(here::here(&quot;results&quot;, &quot;gen&quot;,&quot;dapc&quot;, &quot;year.png&quot;))
 imgs = c(v,t,y)
 
@@ -602,15 +770,16 @@ dd %&gt;%
        x = &quot;Variety&quot;,
        y = &quot;rAUDPC&quot;) 
 
-pdfin+
-  ggsave(
+
+  ggsave(plot = pdfin,
     filename = here::here(&quot;results&quot;, &quot;dis&quot;, &quot;Effects final ver.png&quot;),
     width = 4,
     height = 7,
-    dpi = 820
-  )</code></pre>
-<p><img src="pub_plots_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<pre class="r"><code> py_fin &lt;- 
+    dpi = 620
+  )
+
+
+ py_fin &lt;- 
   yd %&gt;%
   mutate(
     line_positions = as.numeric(factor(variety, levels = unique(variety))),
@@ -667,7 +836,7 @@ ggsave(
   filename = here::here(&quot;results&quot;, &quot;yield&quot;, &quot;Effects final ver.png&quot;),
   width = 3.5,
   height = 7,
-  dpi = 820
+  dpi = 620
 )
 
 
@@ -690,7 +859,7 @@ ggpubr::ggarrange(plotlist = plotls,
                   legend = &quot;bottom&quot;)+
   ggsave(filename= here::here(&quot;results&quot;, &quot;dis&quot;, &quot;dis_yld.png&quot;),
          width = 7.5, height =10, dpi = 620)</code></pre>
-<p><img src="pub_plots_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<p><img src="pub_plots_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 </div>
 
 
