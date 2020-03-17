@@ -74,10 +74,19 @@ if(c("stats", "dplyr")%in% installed.packages()){
 ```
 
 ## Data import
-Import the data and set the levels of the treatment (3 fixed and 3 variable doses) and variety (susceptible to resistant).
+Import the data and set the levels of the treatment (3 fixed and 3 variable doses) and variety (susceptible to resistant).  
+A single isolate belonging to 36A2 was excluded from further analysis due to 
+low sample size. 
 ```{r summary_table}
 samples <-  
-  readRDS(file = here::here("data", "gen data", "final", "gendata.rds") ) %>% 
+  readRDS(file = here::here("data", "gen data", "final", "gendata.rds") )
+
+samples <-  
+samples %>% 
+  filter(Genotype != "36A2") 
+
+samples <-  
+samples %>% 
   mutate(Genotype = factor(Genotype, levels = c( "8A1","13A2","6A1" )))
 
 samples$date <- as.Date(samples$date, "%m/%d/%Y")

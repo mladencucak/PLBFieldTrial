@@ -30,7 +30,8 @@ knitr::knit_hooks$set(
 ```
 
 Some of figures from different segments of the analysis were colated for the manuscript.  
-Here we present the process used to put them together. 
+Here we present the code/process used to put them together.   
+  
 ## Treatments analysis
 Number of treatments and proportion of the total dose used in fungicide trials.    
 
@@ -82,7 +83,7 @@ conflict_prefer("filter", "dplyr")
 
 ## Weather 
  
-```{r wth_charts}
+```{r wth_charts, out.width= '100%'}
 df <- 
 read_csv(
   here::here("data", "weather" , "hly375.csv"),
@@ -289,7 +290,7 @@ image_write(side_by_side,
 ## Disease and yield 
 Results of the foliar disease controll yield analysis were colated in single figure using 'magick' package.  
 
-```{r}
+```{r dis_yld_fig, out.width= '100%', fig.height=7}
 dd <- 
   readRDS( file = here::here("results", "dis",  "dis_fin.RDS"))
 yd <- 

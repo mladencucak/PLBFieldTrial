@@ -433,7 +433,11 @@ div.tocify {
 
 
 <p>Some of figures from different segments of the analysis were colated for the manuscript.<br />
-Here we present the process used to put them together. ## Treatments analysis Number of treatments and proportion of the total dose used in fungicide trials.</p>
+Here we present the code/process used to put them together.</p>
+<div id="treatments-analysis" class="section level2">
+<h2>Treatments analysis</h2>
+<p>Number of treatments and proportion of the total dose used in fungicide trials.</p>
+</div>
 <div id="load-packages" class="section level2">
 <h2>Load packages</h2>
 <pre class="r"><code>list.of.packages &lt;-
@@ -634,7 +638,7 @@ df %&gt;%
 
 ggsave(filename= here::here(&quot;results&quot;, &quot;wth&quot;, &quot;all_wth.png&quot;), 
        width = 7, height =6.5, dpi = 620)</code></pre>
-<p><img src="pub_plots_files/figure-html/wth_charts-1.png" width="672" /></p>
+<p><img src="pub_plots_files/figure-html/wth_charts-1.png" width="100%" /></p>
 </div>
 <div id="population-frequencies-and-dapc-analysis" class="section level2">
 <h2>Population frequencies and DAPC analysis</h2>
@@ -859,7 +863,7 @@ ggpubr::ggarrange(plotlist = plotls,
                   legend = &quot;bottom&quot;)+
   ggsave(filename= here::here(&quot;results&quot;, &quot;dis&quot;, &quot;dis_yld.png&quot;),
          width = 7.5, height =10, dpi = 620)</code></pre>
-<p><img src="pub_plots_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="pub_plots_files/figure-html/dis_yld_fig-1.png" width="100%" /></p>
 </div>
 
 

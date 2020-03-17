@@ -384,7 +384,7 @@ div.tocify {
   <a href="pop.html">
     <span class="fa fa fa fa-code-fork"></span>
      
-    Population Data
+    Population
   </a>
 </li>
 <li>
@@ -405,7 +405,7 @@ div.tocify {
   <a href="pub_plots.html">
     <span class="fa fa fa fa-code"></span>
      
-    Pub Figures
+    Pub Fig
   </a>
 </li>
       </ul>
@@ -414,7 +414,7 @@ div.tocify {
   <a href="https://github.com/mladencucak/PLBFieldTrial">
     <span class="fa fa-github-square"></span>
      
-    source
+    code
   </a>
 </li>
       </ul>
@@ -478,15 +478,23 @@ if(c(&quot;stats&quot;, &quot;dplyr&quot;)%in% installed.packages()){
 </div>
 <div id="data-import" class="section level2">
 <h2>Data import</h2>
-<p>Import the data and set the levels of the treatment (3 fixed and 3 variable doses) and variety (susceptible to resistant).</p>
+<p>Import the data and set the levels of the treatment (3 fixed and 3 variable doses) and variety (susceptible to resistant).<br />
+A single isolate belonging to 36A2 was excluded from further analysis due to low sample size.</p>
 <pre class="r"><code>samples &lt;-  
-  readRDS(file = here::here(&quot;data&quot;, &quot;gen data&quot;, &quot;final&quot;, &quot;gendata.rds&quot;) ) %&gt;% 
+  readRDS(file = here::here(&quot;data&quot;, &quot;gen data&quot;, &quot;final&quot;, &quot;gendata.rds&quot;) )
+
+samples &lt;-  
+samples %&gt;% 
+  filter(Genotype != &quot;36A2&quot;) 
+
+samples &lt;-  
+samples %&gt;% 
   mutate(Genotype = factor(Genotype, levels = c( &quot;8A1&quot;,&quot;13A2&quot;,&quot;6A1&quot; )))
 
 samples$date &lt;- as.Date(samples$date, &quot;%m/%d/%Y&quot;)
 
 paste( &quot;The data set is consisted of&quot;, nrow(samples), &quot;genotyped samples&quot;)</code></pre>
-<pre><code>## [1] &quot;The data set is consisted of 1287 genotyped samples&quot;</code></pre>
+<pre><code>## [1] &quot;The data set is consisted of 1286 genotyped samples&quot;</code></pre>
 <pre class="r"><code>#Prepare the poulation strata initials
 samples$treatment &lt;- 
   factor(samples$treatment, levels = c(&quot;0&quot;, &quot;100&quot;,&quot;50&quot;,&quot;IR&quot;,&quot;BM&quot; ,&quot;MIR&quot;))
@@ -672,7 +680,7 @@ No. of Samples
 2019-08-27
 </td>
 <td style="text-align:right;">
-198
+197
 </td>
 </tr>
 </tbody>
@@ -1029,7 +1037,7 @@ ggpubr::ggarrange(plotlist = plotls,
 ## factor level, NA generated</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["KE"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["BQ"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["RO"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["SE"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["CL"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["SM"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"67.3","3":"64.9","4":"66.2","5":"19.0","6":"17.1","7":"0"},{"1":"13A2","2":"7.3","3":"8.8","4":"8.4","5":"35.1","6":"71.4","7":"88"},{"1":"6A1","2":"25.3","3":"26.3","4":"25.3","5":"46.0","6":"11.4","7":"12"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["KE"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["BQ"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["RO"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["SE"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["CL"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["SM"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"67.4","3":"64.9","4":"66.2","5":"19.0","6":"17.1","7":"0"},{"1":"13A2","2":"7.2","3":"8.8","4":"8.4","5":"35.1","6":"71.4","7":"88"},{"1":"6A1","2":"25.4","3":"26.3","4":"25.3","5":"46.0","6":"11.4","7":"12"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <pre class="r"><code>gen_prop_trt %&gt;% 
@@ -1037,7 +1045,7 @@ ggpubr::ggarrange(plotlist = plotls,
   spread(treatment, perc) </code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["0"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["100"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["50"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["IR"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BM"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MIR"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"57.2","3":"45.1","4":"48.5","5":"60.8","6":"55.3","7":"65.3"},{"1":"13A2","2":"16.0","3":"24.8","4":"23.9","5":"15.6","6":"8.8","7":"11.3"},{"1":"6A1","2":"26.8","3":"30.1","4":"27.6","5":"23.6","6":"35.8","7":"23.3"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["0"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["100"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["50"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["IR"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BM"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MIR"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"57.2","3":"45.1","4":"48.5","5":"60.8","6":"55.3","7":"65.8"},{"1":"13A2","2":"16.0","3":"24.8","4":"23.9","5":"15.6","6":"8.8","7":"10.7"},{"1":"6A1","2":"26.8","3":"30.1","4":"27.6","5":"23.6","6":"35.8","7":"23.5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <pre class="r"><code>gen_prop_year %&gt;% 
@@ -1045,7 +1053,7 @@ ggpubr::ggarrange(plotlist = plotls,
   spread(year, perc)  </code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["2016"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["2017"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["2018"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["2019"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"34.2","3":"51.8","4":"90.3","5":"53.6"},{"1":"13A2","2":"46.8","3":"4.2","4":"1.0","5":"25.7"},{"1":"6A1","2":"19.0","3":"44.0","4":"8.7","5":"20.8"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["2016"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["2017"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["2018"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["2019"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"34.2","3":"51.8","4":"90.3","5":"53.7"},{"1":"13A2","2":"46.8","3":"4.2","4":"1.0","5":"25.5"},{"1":"6A1","2":"19.0","3":"44.0","4":"8.7","5":"20.8"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -1241,7 +1249,7 @@ ptemp</code></pre>
 <pre class="r"><code>session_info()</code></pre>
 <pre><code>## - Session info ----------------------------------------------------------
 ##  setting  value                       
-##  version  R version 3.6.1 (2019-07-05)
+##  version  R version 3.6.3 (2020-02-29)
 ##  os       Windows 10 x64              
 ##  system   x86_64, mingw32             
 ##  ui       RTerm                       
@@ -1249,34 +1257,35 @@ ptemp</code></pre>
 ##  collate  English_United States.1252  
 ##  ctype    English_United States.1252  
 ##  tz       Europe/London               
-##  date     2019-12-19                  
+##  date     2020-03-17                  
 ## 
 ## - Packages --------------------------------------------------------------
 ##  package      * version date       lib source        
 ##  assertthat     0.2.1   2019-03-21 [1] CRAN (R 3.6.1)
 ##  backports      1.1.5   2019-10-02 [1] CRAN (R 3.6.1)
-##  broom          0.5.2   2019-04-07 [1] CRAN (R 3.6.1)
-##  callr          3.3.2   2019-09-22 [1] CRAN (R 3.6.1)
+##  broom          0.5.5   2020-02-29 [1] CRAN (R 3.6.3)
+##  callr          3.4.2   2020-02-12 [1] CRAN (R 3.6.3)
 ##  cellranger     1.1.0   2016-07-27 [1] CRAN (R 3.6.1)
-##  cli            1.1.0   2019-03-19 [1] CRAN (R 3.6.1)
+##  cli            2.0.2   2020-02-28 [1] CRAN (R 3.6.3)
 ##  colorspace     1.4-1   2019-03-18 [1] CRAN (R 3.6.1)
 ##  conflicted   * 1.0.4   2019-06-21 [1] CRAN (R 3.6.1)
 ##  cowplot        1.0.0   2019-07-11 [1] CRAN (R 3.6.1)
 ##  crayon         1.3.4   2017-09-16 [1] CRAN (R 3.6.1)
 ##  desc           1.2.0   2018-05-01 [1] CRAN (R 3.6.1)
-##  devtools     * 2.2.1   2019-09-24 [1] CRAN (R 3.6.1)
-##  digest         0.6.22  2019-10-21 [1] CRAN (R 3.6.1)
-##  dplyr        * 0.8.3   2019-07-04 [1] CRAN (R 3.6.1)
+##  devtools     * 2.2.2   2020-02-17 [1] CRAN (R 3.6.3)
+##  digest         0.6.25  2020-02-23 [1] CRAN (R 3.6.3)
+##  dplyr        * 0.8.5   2020-03-07 [1] CRAN (R 3.6.3)
 ##  egg          * 0.4.5   2019-07-13 [1] CRAN (R 3.6.1)
 ##  ellipsis       0.3.0   2019-09-20 [1] CRAN (R 3.6.1)
 ##  evaluate       0.14    2019-05-28 [1] CRAN (R 3.6.1)
+##  fansi          0.4.1   2020-01-08 [1] CRAN (R 3.6.3)
 ##  forcats      * 0.4.0   2019-02-17 [1] CRAN (R 3.6.1)
 ##  fs             1.3.1   2019-05-06 [1] CRAN (R 3.6.1)
 ##  generics       0.0.2   2018-11-29 [1] CRAN (R 3.6.1)
 ##  ggplot2      * 3.2.1   2019-08-10 [1] CRAN (R 3.6.1)
-##  ggpubr         0.2.3   2019-09-03 [1] CRAN (R 3.6.1)
+##  ggpubr         0.2.4   2019-11-14 [1] CRAN (R 3.6.2)
 ##  ggsignif       0.6.0   2019-08-08 [1] CRAN (R 3.6.1)
-##  glue           1.3.1   2019-03-12 [1] CRAN (R 3.6.1)
+##  glue           1.3.1   2019-03-12 [1] CRAN (R 3.6.3)
 ##  gridExtra    * 2.3     2017-09-09 [1] CRAN (R 3.6.1)
 ##  gtable         0.3.0   2019-03-25 [1] CRAN (R 3.6.1)
 ##  haven          2.1.1   2019-07-04 [1] CRAN (R 3.6.1)
@@ -1285,11 +1294,11 @@ ptemp</code></pre>
 ##  hms            0.5.2   2019-10-30 [1] CRAN (R 3.6.1)
 ##  htmltools      0.4.0   2019-10-04 [1] CRAN (R 3.6.1)
 ##  httr           1.4.1   2019-08-05 [1] CRAN (R 3.6.1)
-##  jsonlite       1.6     2018-12-07 [1] CRAN (R 3.6.1)
+##  jsonlite       1.6.1   2020-02-02 [1] CRAN (R 3.6.3)
 ##  kableExtra   * 1.1.0   2019-03-16 [1] CRAN (R 3.6.1)
 ##  knitr          1.25    2019-09-18 [1] CRAN (R 3.6.1)
 ##  labeling       0.3     2014-08-23 [1] CRAN (R 3.6.0)
-##  lattice        0.20-38 2018-11-04 [2] CRAN (R 3.6.1)
+##  lattice        0.20-38 2018-11-04 [2] CRAN (R 3.6.3)
 ##  lazyeval       0.2.2   2019-03-15 [1] CRAN (R 3.6.1)
 ##  lifecycle      0.1.0   2019-08-01 [1] CRAN (R 3.6.1)
 ##  lubridate      1.7.4   2018-04-11 [1] CRAN (R 3.6.1)
@@ -1297,7 +1306,7 @@ ptemp</code></pre>
 ##  memoise        1.1.0   2017-04-21 [1] CRAN (R 3.6.1)
 ##  modelr         0.1.5   2019-08-08 [1] CRAN (R 3.6.1)
 ##  munsell        0.5.0   2018-06-12 [1] CRAN (R 3.6.1)
-##  nlme           3.1-140 2019-05-12 [2] CRAN (R 3.6.1)
+##  nlme           3.1-144 2020-02-06 [2] CRAN (R 3.6.3)
 ##  pillar         1.4.2   2019-06-29 [1] CRAN (R 3.6.1)
 ##  pkgbuild       1.0.6   2019-10-09 [1] CRAN (R 3.6.1)
 ##  pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 3.6.1)
@@ -1307,21 +1316,21 @@ ptemp</code></pre>
 ##  processx       3.4.1   2019-07-18 [1] CRAN (R 3.6.1)
 ##  ps             1.3.0   2018-12-21 [1] CRAN (R 3.6.1)
 ##  purrr        * 0.3.3   2019-10-18 [1] CRAN (R 3.6.1)
-##  R6             2.4.0   2019-02-14 [1] CRAN (R 3.6.1)
+##  R6             2.4.1   2019-11-12 [1] CRAN (R 3.6.3)
 ##  RColorBrewer   1.1-2   2014-12-07 [1] CRAN (R 3.6.0)
 ##  Rcpp           1.0.2   2019-07-25 [1] CRAN (R 3.6.1)
 ##  readr        * 1.3.1   2018-12-21 [1] CRAN (R 3.6.1)
 ##  readxl         1.3.1   2019-03-13 [1] CRAN (R 3.6.1)
-##  remotes        2.1.0   2019-06-24 [1] CRAN (R 3.6.1)
+##  remotes        2.1.1   2020-02-15 [1] CRAN (R 3.6.3)
 ##  reshape2       1.4.3   2017-12-11 [1] CRAN (R 3.6.1)
-##  rlang          0.4.1   2019-10-24 [1] CRAN (R 3.6.1)
+##  rlang          0.4.5   2020-03-01 [1] CRAN (R 3.6.3)
 ##  rmarkdown      1.16    2019-10-01 [1] CRAN (R 3.6.1)
 ##  rprojroot      1.3-2   2018-01-03 [1] CRAN (R 3.6.1)
-##  rstudioapi     0.10    2019-03-19 [1] CRAN (R 3.6.1)
+##  rstudioapi     0.11    2020-02-07 [1] CRAN (R 3.6.3)
 ##  rvest          0.3.4   2019-05-15 [1] CRAN (R 3.6.1)
 ##  scales         1.0.0   2018-08-09 [1] CRAN (R 3.6.1)
 ##  sessioninfo    1.1.1   2018-11-05 [1] CRAN (R 3.6.1)
-##  stringi        1.4.3   2019-03-12 [1] CRAN (R 3.6.0)
+##  stringi        1.4.6   2020-02-17 [1] CRAN (R 3.6.2)
 ##  stringr      * 1.4.0   2019-02-10 [1] CRAN (R 3.6.1)
 ##  tableHTML    * 2.0.0   2019-03-16 [1] CRAN (R 3.6.1)
 ##  testthat       2.2.1   2019-07-25 [1] CRAN (R 3.6.1)
@@ -1340,7 +1349,7 @@ ptemp</code></pre>
 ##  zeallot        0.1.0   2018-01-28 [1] CRAN (R 3.6.1)
 ## 
 ## [1] C:/Users/mlade/Documents/R/win-library/3.6
-## [2] C:/Program Files/R/R-3.6.1/library</code></pre>
+## [2] C:/Program Files/R/R-3.6.3/library</code></pre>
 </div>
 
 
