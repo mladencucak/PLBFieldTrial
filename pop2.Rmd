@@ -128,7 +128,7 @@ splitStrata(monpop) <- ~variety/genotype/year
 
 monpop
 
-monpop$strata$genotype <- factor( monpop$strata$genotype,  levels = c( "8A1","13A2","6A1" ))
+monpop$strata$genotype <- factor( monpop$strata$genotype,  levels = c( "8A1","13A2","6A1", "36A2"))
 # imsn()
 
 monpop_sub <- popsub(monpop, blacklist = character(0))
@@ -144,14 +144,23 @@ set.seed(1000)
 
 cbbPalette <- c (  "#ff33cc", # pink 6
                    "#ffff33", # yellow 8
-                   "#3399ff"#blue 13
+                   "#3399ff",#blue 13
+                   "#ffcccc"
                    )
 
 ```
 
 ## Bruvo genotypes
 ```{r bruvo1}
-min_span_net <- bruvo.msn(monpop, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+min_span_net <-
+  bruvo.msn(
+    monpop,
+    replen = c(1, 2, 3),
+    add = TRUE,
+    loss = TRUE,
+    showplot = FALSE,
+    include.ties = TRUE
+  )
 plot_poppr_msn(monpop,
                min_span_net,
                mlg = FALSE,

@@ -384,7 +384,7 @@ div.tocify {
   <a href="pop.html">
     <span class="fa fa fa fa-code-fork"></span>
      
-    Population Data
+    Population
   </a>
 </li>
 <li>
@@ -496,7 +496,7 @@ data.frame(ssr = c(12,&quot;PInf_Ireland&quot;),
            pop =  length(unique(fin$Pop)))</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["ssr"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["samples"],"name":[2],"type":["int"],"align":["right"]},{"label":["pop"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"12","2":"1287","3":"51"},{"1":"PInf_Ireland","2":"1287","3":"51"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["ssr"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["samples"],"name":[2],"type":["int"],"align":["right"]},{"label":["pop"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"12","2":"1287","3":"52"},{"1":"PInf_Ireland","2":"1287","3":"52"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <pre class="r"><code>write.table(data.frame(ssr = 12, samples = nrow(gen), pop =  length(unique(fin$Pop))),
@@ -535,9 +535,9 @@ monpop</code></pre>
 ## Population information:
 ## 
 ##       3 strata - variety, genotype, year
-##      51 populations defined - 
-## KE_6A1_2016, KE_8A1_2016, SE_6A1_2016, ..., CL_8A1_2019, SM_13A2_2019, SM_6A1_2019</code></pre>
-<pre class="r"><code>monpop$strata$genotype &lt;- factor( monpop$strata$genotype,  levels = c( &quot;8A1&quot;,&quot;13A2&quot;,&quot;6A1&quot; ))
+##      52 populations defined - 
+## KE_6A1_2016, KE_8A1_2016, SE_6A1_2016, ..., KE_36A2_2019, SM_13A2_2019, SM_6A1_2019</code></pre>
+<pre class="r"><code>monpop$strata$genotype &lt;- factor( monpop$strata$genotype,  levels = c( &quot;8A1&quot;,&quot;13A2&quot;,&quot;6A1&quot;, &quot;36A2&quot;))
 # imsn()
 
 monpop_sub &lt;- popsub(monpop, blacklist = character(0))
@@ -553,12 +553,21 @@ set.seed(1000)
 
 cbbPalette &lt;- c (  &quot;#ff33cc&quot;, # pink 6
                    &quot;#ffff33&quot;, # yellow 8
-                   &quot;#3399ff&quot;#blue 13
+                   &quot;#3399ff&quot;,#blue 13
+                   &quot;#ffcccc&quot;
                    )</code></pre>
 </div>
 <div id="bruvo-genotypes" class="section level2">
 <h2>Bruvo genotypes</h2>
-<pre class="r"><code>min_span_net &lt;- bruvo.msn(monpop, replen = c(1, 2, 3), add = TRUE, loss = TRUE, showplot = FALSE, include.ties = TRUE)
+<pre class="r"><code>min_span_net &lt;-
+  bruvo.msn(
+    monpop,
+    replen = c(1, 2, 3),
+    add = TRUE,
+    loss = TRUE,
+    showplot = FALSE,
+    include.ties = TRUE
+  )
 plot_poppr_msn(monpop,
                min_span_net,
                mlg = FALSE,
@@ -694,7 +703,7 @@ plot_poppr_msn(monpop,
 ##  collate  English_United States.1252  
 ##  ctype    English_United States.1252  
 ##  tz       Europe/London               
-##  date     2019-12-19                  
+##  date     2020-03-06                  
 ## 
 ## - Packages --------------------------------------------------------------
 ##  package     * version  date       lib source        
@@ -719,7 +728,7 @@ plot_poppr_msn(monpop,
 ##  deldir        0.1-23   2019-07-31 [1] CRAN (R 3.6.1)
 ##  desc          1.2.0    2018-05-01 [1] CRAN (R 3.6.1)
 ##  devtools    * 2.2.1    2019-09-24 [1] CRAN (R 3.6.1)
-##  digest        0.6.22   2019-10-21 [1] CRAN (R 3.6.1)
+##  digest        0.6.23   2019-11-23 [1] CRAN (R 3.6.2)
 ##  dplyr       * 0.8.3    2019-07-04 [1] CRAN (R 3.6.1)
 ##  e1071         1.7-2    2019-06-05 [1] CRAN (R 3.6.1)
 ##  egg         * 0.4.5    2019-07-13 [1] CRAN (R 3.6.1)

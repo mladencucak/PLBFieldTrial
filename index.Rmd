@@ -9,11 +9,12 @@ The presentation is split into following sections:
 3. Treatment: Number of treatments and proportion of the total dose used in fungicide trials.  
 4. Yield: The effects of the fungicide programme, varietal resistance on marketable yield over the evaluated period.  
 5. Population data: Presentation of the sampling and a descriptive analysis of the samples collected.   
-6. Population analysis: The analysis of the population data.
+6. Pop(ulation) Bruvo: Bruvo charts for population data.  
+7. Pop(ulation) DAPC: Discriminant analysis of principal components (DAPC) analysis of the population data.
 
  The funding for this project comes from [DAFM (Department of Agriculture, Food and Marine)](https://www.agriculture.gov.ie).  
    
-The repository is built on the example research compendium provided by Emerson Del Ponte [here](https://github.com/emdelponte/research-compendium-website).
+The repository is built on the example research compendium provided by Emerson Del Ponte [here](https://github.com/emdelponte/research-compendium-website). 
   
 ### Previous work
 **The open-access publication of the manuscript where we have presented the preceding work on the evaluation of the Irish Rules, potato late blight risk model used in Ireland, can be found** [here](https://www.mdpi.com/2073-4395/9/9/515).  

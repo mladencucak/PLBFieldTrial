@@ -87,10 +87,110 @@ rm(list.of.packages, new.packages, packages_load)
 #install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/"))
 ```
   
+  Only some parts of the script are reproducible. 
+  
+  The implementation is consisted of the main script which is calling other scripts for: 
+1. Pooling the data from ftp  
+2. Merging observed and interpolated forecasted values
+3. Run models
+5. Make graphs
+6. Send graphs via email
+  
+## Main script
+
+```{r main_scrpt,eval=FALSE}
+Sys.time()
+
+source("./scripts/lib/Packages.R")
+
+#sync data
+source("./scripts/ftp.R")
+
+#Get stations and date
+stations <- c(#"Dunsany", 
+              "Gurteen", "Oakpark", "Johnstown" , "Moorepark")
+
+time<-  as.Date(Sys.time(), "%Y%B%d", tz="GMT")
+
+# merge obs and forecast for single location  
+# infil missing data, and values (see more inside the script)
+source("./scripts/Station df.R")
+df_list <- lapply(stations, function(x) StationDF(time, x, 
+                                                  days_before = 14 #define how many days before we would  like to have on the graph
+                                                  ))  #Merge files
+names(df_list) <- stations
+
+# Check for missing values and send an email if something is wrong  
+source("./scripts/lib/errors/check_missing_values.R")
+
+
+#run Irish rules model and attach it to each df
+source("./scripts/lib/IrishRules.R")
+df_list <-lapply(df_list, function(x) mutate(x,irish_rules= IrishRulesModel(x)))
+
+#Run Danish model 
+source('./scripts/lib/Danish_Model/Model_BlightManagement.R')
+df_list <-lapply(df_list, function(x) mutate(x,dk_daily_spor= Model_BlightManagement(x)[[1]]))
+df_list <-lapply(df_list, function(x) mutate(x,dk_infpressure= Model_BlightManagement(x)[[2]]))
+
+#Irish model modified
+source("./scripts/lib/IrishRulesModelSensitive.R")
+df_list <-lapply(df_list, function(x) mutate(x,irish_rules_sensitive= IrishRulesModelSensitive(x)))
+
+
+#save outputs every day for analysis 
+filenames<-paste0("./data/daily outputs/",as.character(time),"_",names(df_list),".csv")
+Map(write.csv,df_list,filenames)
+
+
+# Create dir for each day
+dir.create(paste0("./graphs/daily graphs/",as.character(time)))
+
+# Create and save plots for all stations
+source("./scripts/Plot outputs.R")
+plot_list <- lapply(df_list, function(x) PlotRisk (x, time))
+
+
+# Create and save plots for all stations
+source("./scripts/Treatment.R")
+
+
+
+
+#Risk status email
+source("./scripts/lib/Mailing list.R")
+send.mail(
+  from = "<cropriskstatus@gmail.com>",
+  # to = "<mladencucak@gmail.com>",              #c("<mladencucak@gmail.com>", "recipient2@gmail.com"),
+  to = mailing_list,
+  subject = paste("Potato late blight risk status for", as.Date(Sys.Date())),
+  body = html_body,
+  html = TRUE,
+  smtp = list(
+    host.name = "smtp.gmail.com",
+    port = 465,
+    user.name = "cropriskstatus",
+    passwd = "lateblight",
+    ssl = TRUE
+  ),
+  
+  attach.files = list.files(
+    paste0("./graphs/daily graphs/", as.character(time)),
+    full.names = TRUE,
+    pattern = ".png"
+  ),
+  authenticate = TRUE,
+  send = TRUE,
+  debug = TRUE
+)
+Sys.time()
+```
+
+
   The weather data is provided on an FTP server. 
   
 ```{r get_data, eval= FALSE}
-
+#Define download function
 downloadCSV <- function(filename, folder, baseurl) {
   fileurl <- paste0(baseurl, filename)
   if (!file.exists(str_c(folder, "/", filename))) {
@@ -101,23 +201,26 @@ downloadCSV <- function(filename, folder, baseurl) {
   }
 }
 
+
 userpwd <- "Pass_phrase"
 
-url_fore<- "ftp://Pass_phrase@aimsir.ftp.mu.ie/MET/FORECAST/"
+#download files 
+url_fore<- paste0("ftp://", userpwd, "@aimsir.ftp.mu.ie/MET/FORECAST/")
 local_fore <- "./data/ECMWF"
 file_fore <- try(getURL(url_fore, userpwd = userpwd,dirlistonly = TRUE, crlf=TRUE ))
 file_fore <- unlist(str_extract_all(file_fore, ".+(.csv)"))
 
-url_obs<- "ftp://Pass_phrase@aimsir.ftp.mu.ie/MET/OBS/"
+url_obs<- paste0("ftp://", userpwd, "@aimsir.ftp.mu.ie/MET/OBS/")
 file_obs <- try(getURL(url_obs, userpwd = userpwd,dirlistonly = TRUE, crlf=TRUE ))
 file_obs <- unlist(str_extract_all(file_obs, ".+(.csv)"))
 local_obs <- "./data/historical"
 
 
-source("scripts/lib/Download csv.R")   #fun download missing locally
 lapply(file_fore, function (x) downloadCSV(x, local_fore,url_fore))
 lapply(file_obs, function (x) downloadCSV(x, local_obs,url_obs))
 
+
+#Check if everything is all right
 if(length(file_fore)==length(dir(local_fore))){
   message("All forecast files are downloaded!")
 } else {
@@ -135,13 +238,9 @@ rm(file_fore, file_obs, local_fore, local_obs, url_fore, url_obs, userpwd, downl
 ```
   
   
-  
-```{r set_time}
-# time<-as.Date(Sys.time(), "%Y%B%d", tz="GMT")
-time <-  "2019-08-10"
-```
-  
-  
+
+
+
   
 ```{r}
   time <- t

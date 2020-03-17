@@ -40,10 +40,10 @@ navbar:
   - text: Pop DAPC
     icon: fa fa-code-fork
     href: pop3.html
-  - text: Pub Figures
+  - text: Pub Fig
     icon: fa fa-code
     href: pub_plots.html
   right:
-  - text: source
+  - text: code
     icon: fa-github-square
     href: https://github.com/mladencucak/PLBFieldTrial

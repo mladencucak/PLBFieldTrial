@@ -100,7 +100,7 @@ tableHTML::tableHTML(
   tab,
   rownames = FALSE,
   row_groups = list(c(years$counts), c(year_names)),
-  widths = c(50, 60, 70, rep(40, 6))
+  widths = c(50, 60, 70, rep(50, 6))
 ) %>%
   # add_css_header(css = list('background-color', 'lightgray'), headers = c(1:ncol(tab)+1)) %>%
   add_css_row(css = list('background-color', 'lightgray'),

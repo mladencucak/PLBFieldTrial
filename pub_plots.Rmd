@@ -207,12 +207,12 @@ dd %>%
        x = "Variety",
        y = "rAUDPC") 
 
-pdfin+
-  ggsave(
+
+  ggsave(plot = pdfin,
     filename = here::here("results", "dis", "Effects final ver.png"),
     width = 4,
     height = 7,
-    dpi = 820
+    dpi = 620
   )
 
 
@@ -273,7 +273,7 @@ ggsave(
   filename = here::here("results", "yield", "Effects final ver.png"),
   width = 3.5,
   height = 7,
-  dpi = 820
+  dpi = 620
 )
 
 

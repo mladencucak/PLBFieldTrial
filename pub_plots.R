@@ -260,8 +260,9 @@ yd <-
 yld <- 
   readRDS( file = here::here("results", "yield",  "yld_dat_fin.RDS"))
 audpc_data <- 
-  readRDS( file = here::here("results", "yield",  "dis_audpc_fin.RDS"))
+  readRDS( file = here::here("results", "dis",  "dis_audpc_fin.RDS"))
 
+dodging <-  .8
 
 pdfin <- 
 dd %>% 
@@ -410,8 +411,10 @@ ggpubr::ggarrange(plotlist = plotls,
                   common.legend = TRUE,
                   legend = "bottom")+
   ggsave(filename= here::here("results", "dis", "dis_yld.png"),
-         width = 7.5, height =10, dpi = 820)
+         width = 7.5, height =10, dpi = 620)
+
 shell.exec(here::here("results", "dis", "dis_yld.png"))
+shell.exec(here::here("results", "dis"))
 
 
 

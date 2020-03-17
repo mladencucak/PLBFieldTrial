@@ -93,8 +93,6 @@ df<- add_column(df, short_date = as.Date(df$date), .after=1)
 df<- add_column(df, year = year(df$date), .after=2)
 df<- add_column(df, month = month(df$date), .after=3)
 df<- add_column(df, day = day(df$date), .after=4)
-df<- add_column(df, doy = yday(df$date), .after=4)
-df<- add_column(df, hour = hour(df$date), .after="day")
 
 
 infil_gap <- 8 #Maximum length of the infill gap
@@ -104,9 +102,14 @@ df$rhum <-
   round(na.spline(df$rhum, na.rm = FALSE, maxgap = infil_gap), 0)
 df$rhum  <- sapply(df$rhum, function(x)
   ifelse(x > 100, x <- 100, x))
+
+df <- 
+df %>% 
+  filter(year %in% 2016:2019)%>%
+  filter(month %in% c(4:9)) 
+
 #Check if the imputation worked
-df %>% group_by(year)  %>%
-  filter(month %in% c(4:9)) %>%
+df %>%
   summarize(
     NA_rain = sum(is.na(rain)),
     NA_temp = sum(is.na(temp)),
@@ -116,63 +119,15 @@ df %>% group_by(year)  %>%
   kableExtra::kable_styling(latex_options = "striped",full_width = FALSE)
 
 
-#Remove the years before 2007
-df <-  filter(df, year >2006)
-
 #Only two missing values for rain should not be a problem, so we will just do a linear interpolation
 df$rain <- 
-    round(na.approx(df$temp, na.rm = FALSE, maxgap = infil_gap), 1)
-
-
-df_rain <- 
-  df %>%
-  filter(month %in% c(4:10)) %>%
-  group_by(year) %>%
-  summarize(rain = sum(rain)) %>% 
-  ungroup() %>% 
-  summarize(rain = mean(rain)) 
-df %>%
-  filter(month %in% c(4:10)) %>%
-  summarize(temp = round(mean(temp),1),
-            rhum = round(mean(rhum),1)
-  ) %>% 
-  bind_cols(., df_rain) %>% 
-  kable(caption = "10 Year Averages Weather at Oak Park",format = "html") %>% 
-  kableExtra::kable_styling(latex_options = "striped",full_width = FALSE)
-
+  round(na.approx(df$rain, na.rm = FALSE, maxgap = infil_gap), 1)
 
 
 df %>%
-  filter(month %in% c(4:9)) %>%
-  filter(year %in% c(2016:2019)) %>%
-  group_by(year, month) %>% 
-  summarize(temp = round(mean(temp),1),
-            rain = sum(rain, na.rm = TRUE),
-            wdsp = mean(wdsp, na.rm = TRUE),
-            rhum = round(mean(rhum, na.rm = TRUE),1)
-            
-  ) 
-
-
-df %>%
-  filter(month %in% c(4:9)) %>%
-  group_by( month) %>% 
-  summarize(temp = round(mean(temp, na.rm =TRUE ),1),
-            rain = sum(rain, na.rm = TRUE),
-            wdsp = mean(wdsp, na.rm = TRUE),
-            rhum = round(mean(rhum, na.rm = TRUE),1)
-            
-  ) 
-
-
-
-df %>%
-  filter(month %in% c(4:9)) %>%
-  filter(year %in% c(2016:2019)) %>%
   group_by(year, month, short_date) %>% 
   summarize(temp = round(mean(temp),1),
             rain = sum(rain),
-            wdsp = mean(wdsp),
             rhum = round(mean(rhum),1)
             
   ) %>%
@@ -183,69 +138,61 @@ df %>%
     aes(
       x = date,
       y = rhum,
-      color = "Relative humidity (%)",
-      fill = "Relative humidity (%)"
+      color = "Average relative humidity (%)",
+      fill = "Average relative humidity (%)"
     ),
-    size = 0.1
+    size = 0.25
   ) +
   geom_line(aes(
     x = date,
     y = temp,
-    colour = "Temperature (˚C)",
-    fill = "Temperature (˚C)",
+    colour = "Average temperature (˚C)",
+    fill = "Average temperature (˚C)",
   ),
-  size = 0.15) +
+  size = 0.25) +
   geom_col(
     aes(date,
         rain,
-        colour = "Precipitation (mm/day)",
-        fill = "Precipitation (mm/day)"),
-    size = 1 ,
+        colour = "Total precipitation (mm/day)",
+        fill = "Total precipitation (mm/day)"),
+    size = .8 ,
     inherit.aes = TRUE,
     width = 0.03
   ) +
-  geom_hline(aes(yintercept = 88,
-                 linetype = "88 % RH"),
-             colour = "#ff7f00",
-             size = 0.3) +
-  geom_hline(aes(yintercept = 10,
-                 linetype = "10 ˚C"),
-             colour = "#fb9a99",
-             size = 0.3) +
-  labs(x = "", y = "T (˚C), PR (mm), RH (%) and Wind (m/s)") +
   scale_colour_manual(
-    "Weather",
+    "Daily weather:",
     values = c(
-      "Relative humidity (%)" = "lightblue",
-      "Temperature (˚C)" = "#e31a1c",
-      "Precipitation (mm/day)" = "blue"
+      "Average relative humidity (%)" = "#0EBFE9",
+      "Average temperature (˚C)" = "#ED2939",
+      "Total precipitation (mm/day)" = "blue"
     )
   ) +
   scale_fill_manual(
-    "Weather",
+    "Daily weather:",
     values = c(
-      "Relative humidity (%)" =  "lightblue",
-      "Temperature (˚C)" = "#e31a1c",
-      "Precipitation (mm/day)" = "blue"
+      "Average relative humidity (%)" =  "#0EBFE9",
+      "Average temperature (˚C)" = "#ED2939",
+      "Total precipitation (mm/day)" = "blue"
     )
   ) +
   scale_linetype_manual(name = "Risk Limits",
                         values = c(1, 2, 3)) +
   theme_article() +
   theme(
-    plot.title = element_text(size = 22),
-    # axis.title.x = element_blank(),
+    text = element_text(size=13),
     # axis.text.x = element_blank(),
     # axis.ticks.x = element_blank(),
-    # axis.title.y = element_blank(),
+     axis.title.y = element_blank(),
+     axis.title.x = element_blank(),
     # axis.text.y = element_blank(),
     # axis.ticks.y = element_blank(),
-    legend.position = "right"
+    legend.position = "top"
   ) +
   scale_x_date(date_labels = "%b", date_breaks = "1 month")+
-  facet_wrap(. ~ year, scales = "free_x", ncol = 1,strip.position="right") +
-  guides(fill=guide_legend(nrow=3,byrow=TRUE))
-  ggsave(filename= here::here("results", "wth", "all_wth.png"), 
-         width = 8, height =7, dpi = 620)
+  facet_wrap( ~ year, scales = "free_x", ncol = 1,strip.position="right") +
+  guides(fill=guide_legend(nrow=1,byrow=TRUE,title.position = "top"),
+         color=guide_legend(nrow=1,byrow=TRUE,title.position = "top"))+
+ggsave(filename= here::here("results", "wth", "all_wth.png"), 
+       width = 7, height =6.5, dpi = 620)
 
 ```
