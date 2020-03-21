@@ -122,18 +122,6 @@ tableHTML_to_image(
 <!-- ![Table2]("results/treat/Programme theme.png") -->
 ```{r import_data}
 dosedf  <- readRDS(file = here::here("data", "treat", "full_trt.rds") )
-dosedf <- rename(dosedf, dose = Dose)
-
-dosedf <- 
-  dosedf %>% 
-  ungroup() %>% 
-  mutate(treatment = ifelse(treatment == "Control", "Untreated Control",
-                            ifelse(treatment == "Full Dose" , "Full dose (100)",
-                                   ifelse(treatment == "Half Dose", "Half dose (50)",
-                                          ifelse(treatment == "Irish R.", "Irish Rules (IRp)",
-                                                 ifelse(treatment == "Blight Man. (DK)", "Blight Man. (BMp)",
-                                                        ifelse(treatment == "Mod. I. Rules", "Modified I. R. (MIRp)", ""))))))) 
-
 
 
   dosedf$treatment <- 
