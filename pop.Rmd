@@ -635,7 +635,7 @@ ggplot() +
     linetype = "solid"
   ) +
   facet_grid( year~ set  ) +
-  xlab("Date")+
+  xlab("Day of year")+
   ylab("Proportion of foliar disease and MLGs")+
   scale_y_continuous(limits = c(-0.132, 1),
                      breaks = seq(0, 1, 0.2)) +

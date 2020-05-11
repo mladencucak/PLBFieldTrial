@@ -124,9 +124,37 @@ tableHTML_to_image(
 dosedf  <- readRDS(file = here::here("data", "treat", "full_trt.rds") )
 
 
-  dosedf$treatment <- 
+dosedf$treatment <-
+  ifelse(
+    dosedf$treatment == "Untreated Control",
+    "1.Untreated Control",
+    ifelse(
+      dosedf$treatment == "Full dose (100)",
+      "2.Full dose (100)",
+      ifelse(
+        dosedf$treatment == "Half dose (50)",
+        "3.Half dose (50)",
+        ifelse(
+          dosedf$treatment == "Irish Rules (IRp)",
+          "4.Irish Rules (IRp)",
+          ifelse(
+            dosedf$treatment == "Blight Man. (BMp)",
+            "5.Blight Man. (BMp)",
+            ifelse(
+              dosedf$treatment == "Modified I. R. (MIRp)",
+              "6.Modified I. R. (MIRp)",
+              NA
+            )
+          )
+        )
+      )
+    )
+  )
+
+
+dosedf$treatment <-
   factor(dosedf$treatment, 
-         levels = c("Untreated Control", "Full dose (100)","Half dose (50)","Irish Rules (IRp)","Blight Man. (BMp)" ,"Modified I. R. (MIRp)"))
+         levels = c("1.Untreated Control", "2.Full dose (100)","3.Half dose (50)","4.Irish Rules (IRp)","5.Blight Man. (BMp)" ,"6.Modified I. R. (MIRp)"))
 
 ```
 ## The charts
@@ -162,9 +190,8 @@ group_by(year, treatment) %>%
     size = 0.5
   ) +
   geom_text(
-    aes(label = treatments),
+    aes(label = treatments, color = treatment),
     vjust = -0.3,
-    color = "black",
     position = position_dodge(0.9),
     size = 2.9
   ) +  
@@ -176,6 +203,7 @@ group_by(year, treatment) %>%
     size = 2.4
   ) +
   scale_fill_brewer("Programme:", palette = "Dark2") +
+  scale_color_brewer("Programme:", palette = "Dark2") +
   scale_y_continuous(limits = c(0, 110), breaks = seq(0, 100, 10)) +
   theme_article() +
   facet_grid(~ year, scales = "free") +
@@ -190,7 +218,7 @@ group_by(year, treatment) %>%
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank()
   )+
-  theme(text = element_text(size=14))
+  theme(text = element_text(size=12))
  p1
 
 ```
@@ -233,6 +261,7 @@ dosedf %>%
                 width = 0.2,
                 color = "gray") +
   scale_fill_brewer("Programme:", palette = "Dark2") +
+  scale_color_brewer("Programme:", palette = "Dark2") +
   theme_article() +
   scale_y_continuous(limits = c(0, 110), breaks = seq(0, 100, 20)) +
   theme(
@@ -255,10 +284,9 @@ theme(axis.text = element_blank(),
     
  theme(legend.position = "none")+
   geom_text(
-      aes(label = mean_trt),
+      aes(label = mean_trt, color = treatment),
       vjust = -0.3,
       hjust =  0.4,
-      color = "black",
       position = position_dodge(0.9),
       size = 3
     ) +
@@ -271,7 +299,7 @@ theme(axis.text = element_blank(),
       size = 2.5
     ) +
     # coord_equal(2 / 1)+
-theme(text = element_text(size=14))
+theme(text = element_text(size=12))
 
 
 
@@ -285,94 +313,6 @@ ggsave( here::here("results", "treat", "Treatments.png"),
 
 ```
   
-
-
-```{r}
-
-```
-  
-
-
-```{r}
-
-```
-  
-
-
-```{r}
-
-```
-  
-
-
-```{r}
-
-```
-  
-
-
-```{r}
-
-```
-  
-
-
-```{r}
-
-```
-  
-
-
-```{r}
-
-```
-  
-
-
-```{r}
-
-```
-  
-
-
-```{r}
-
-```
-  
-
-
-```{r}
-
-```
-  
-
-
-```{r}
-
-```
-  
-
-
-```{r}
-
-```
-  
-
-
-```{r}
-
-```
-  
-
-
-```{r}
-
-```
-  
-
-```{r}
-session_info()
-```
 
 
 
