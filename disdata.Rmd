@@ -57,6 +57,7 @@ if(c("stats", "dplyr")%in% installed.packages()){
   conflict_prefer("lag", "dplyr")
   conflict_prefer("filter", "dplyr")
   conflict_prefer("select", "dplyr")
+  conflict_prefer("yday", "lubridate")
 }
 
 #if instal is not working try 
@@ -102,9 +103,8 @@ dis_obs %>%
   rename(Year = year) %>% 
   group_by(Year) %>% 
   summarise(`Initial Disease Outbreak` = min(date),
-            `Final disease assesment` = max(date))
-  
-
+            `Final disease assesment` = max(date)) %>% 
+  write_rds(., path = here::here("results", "dis", "Duration of the epidemics in years.Rdata"))
 
  p1 <-  
   dis_obs %>% 
@@ -311,7 +311,7 @@ dis_obs %>%
 hist(audpc_data$rAUDPC)
 ```
   
-  The response (rAUDPC) is a proportion and we have a random component so we will analyse this data with beta general mixed effects models (GLMM). Adding small numeric constant to the 0 values. Anova tables are calculated using Wald chi-square statistics for comparisons. 
+  The response (rAUDPC) is a proportion and we have a random component so we will analyse this data with beta generalised mixed effects models (GLMM). Adding small numeric constant to the 0 values. Anova tables are calculated using Wald chi-square statistics for comparisons. 
   
 ```{r prep_data}
 audpc_data$block<-factor(audpc_data$bloc)
@@ -356,6 +356,7 @@ Second model is fitted to the rest of the data.
 fit_rest <- glmmTMB(rAUDPC_adj ~  block:year + year * treatment * variety + (1 | block:treatment:year),
                     family = beta_family,
                     data = subset(audpc_data, year != "2016"))
+
 car::Anova(fit_rest)
 ```
   

@@ -68,7 +68,7 @@ Met Eirean:
 <!-- Please cite this research compendium as: -->
 
 
-<!-- > Cucak, M., Sparks, A., Fealy, R., Lambkin, K., and Kildea, S. 2019. Evaluation of the Irish Rules, a potato late blight forecasting used in Ireland.  -->
+<!-- > Cucak, M., Fealy, R., Lambkin, K., and Kildea, S. 2019. Evaluation of the Irish Rules, a potato late blight forecasting used in Ireland.  -->
 
 ## Licences
 
