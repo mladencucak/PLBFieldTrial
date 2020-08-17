@@ -71,20 +71,18 @@ conflict_prefer("filter", "dplyr")
 ```
 ```{r}
 ## Load the data
- 
-
-df <- 
-read_csv(
-  here::here("data", "weather" , "hly375.csv"),
-  col_types = cols(
-    clamt = col_skip(),
-    clht = col_skip(),
-    vis = col_skip(),
-    w = col_skip(),
-    ww = col_skip()
-  ),
-  skip = 17
-)
+ df <- 
+  read_csv(
+    here::here("data", "weather" , "hly375.csv"),
+    col_types = cols(
+      clamt = col_skip(),
+      clht = col_skip(),
+      vis = col_skip(),
+      w = col_skip(),
+      ww = col_skip()
+    ),
+    skip = 17
+  )
 
 df$date <-
   lubridate::dmy_hm(df$date)
@@ -103,7 +101,7 @@ df$rhum  <- sapply(df$rhum, function(x)
   ifelse(x > 100, x <- 100, x))
 
 df <- 
-df %>% 
+  df %>% 
   filter(year %in% 2016:2019)%>%
   filter(month %in% c(4:9)) 
 
@@ -123,6 +121,56 @@ df$rain <-
   round(na.approx(df$rain, na.rm = FALSE, maxgap = infil_gap), 1)
 
 
+
+
+
+dfday <-
+  df %>%
+  group_by(year, month, short_date) %>%
+  summarize(
+    mintemp = round(min(temp), 1),
+    minrhum = round(min(rhum), 1),
+    temp = round(mean(temp), 1),
+    rain = sum(rain),
+    rhum = round(mean(rhum), 1),
+    meantemp = round(mean(temp), 1),
+    meanrhum = round(mean(rhum), 1)
+  )
+
+#REad disease data
+disdata <- 
+read_rds( path = here::here("results", "dis", "Duration of the epidemics in years.Rdata")) 
+colnames(disdata) <- 
+  c("year", "disout", "disend")
+dfday <-
+  left_join(dfday, disdata, by = "year")
+
+# rolling mean
+rlmean <- 10
+dfday$wrhum <- zoo::rollmean(dfday$meanrhum, rlmean, mean, align = 'center', fill = NA)
+dfday$wtemp <- zoo::rollmean(dfday$mintemp, rlmean, mean, align = 'center', fill = NA)
+
+#conducive days
+templine <- 10
+dfday <- 
+  dfday %>% 
+  mutate(condday = ifelse( wtemp>=templine&rain>=.2&rhum>=80& short_date<disout, 50,NA))
+
+#sum of conditions prior to outbreak
+dfday <- 
+dfday %>% 
+  group_by(year) %>% 
+  summarise(consum= sum(condday/50, na.rm = TRUE )) %>%
+  left_join(dfday,., by = "year")
+
+#LAbels for cumulative sum of critical days
+dfday <- 
+dfday %>% 
+  mutate(symptoms = paste0("Symptoms (", consum, " cond. days)"))
+
+
+linesize <- .35 #size of the line for variables
+
 dfday %>% 
   mutate(rain = ifelse(rain == 0, NA, rain)) %>% 
   rename(date = short_date) %>% 
@@ -134,57 +182,47 @@ dfday %>%
     aes(
       x = date,
       y = rhum,
-      colour = "Average relative humidity (%)"
+      colour = "Relative humidity (%)"
     ),
-    size = 0.25
-  ) +
-  geom_line(
-    aes(
-      x = date,
-      y = wrhum,
-      colour= "Rolling mean RH (%)" 
-    ),
-    size = 0.25,
-    linetype = "dashed"
+    size = linesize
   ) +
   geom_line(aes(
     x = date,
     y = temp,
-    colour = "Average temperature (˚C)",
+    colour = "Temperature (˚C)",
   ),
-  size = 0.25) +
+  size = linesize) +
   geom_line(aes(
     x = date,
     y = wtemp,
     colour = "Rolling mean temp. (˚C)"
   ),
   linetype = "dashed",
-  size = 0.25) +
+  size = linesize) +
   geom_col(
     aes(date,
         rain,
         fill = "Total precipitation (mm/day)"),
     size = 1.2 ,
     inherit.aes = TRUE,
-    width = 0.6
+    width = 0.8
   ) +
   scale_colour_manual(
     "Daily weather:",
     values = c(
-      "Average relative humidity (%)" = "#0EBFE9",
-      "Rolling mean RH (%)" = "blue",
-      "Average temperature (˚C)" = "#ED2939",
-       "Rolling mean temp. (˚C)"= "darkred"
+      "Relative humidity (%)" = "#0EBFE9",
+      "Temperature (˚C)" = "#ED2939",
+      "Rolling mean temp. (˚C)"= "darkred"
     )
   ) +
   scale_fill_manual(name= NA, values = c("Total precipitation (mm/day)" = "blue")
   ) +
-  scale_y_continuous( breaks = seq(0,100,10), limits = c(0,100),expand = c(0, 0))+
-  scale_x_date(date_labels = "%b", date_breaks = "1 month",expand = c(.03, .03))+
+  scale_y_continuous( breaks = seq(0,100,10), limits = c(-1,100),expand = c(0, 0))+
+  scale_x_date(date_labels = "%b", date_breaks = "1 month",expand = c(.03, .04))+
   facet_wrap( ~ year, scales = "free", ncol = 1,strip.position="right") +
-  guides(fill=guide_legend(nrow=2,byrow=TRUE,title.position = "top"),
-         color=guide_legend(nrow=2,byrow=TRUE,title.position = "top"),
-         linetype=guide_legend(nrow=2,byrow=TRUE,title.position = "top"))+
+  guides(fill=guide_legend(nrow=1,byrow=TRUE,title.position = "top"),
+         color=guide_legend(nrow=1,byrow=TRUE,title.position = "top"),
+         linetype=guide_legend(nrow=1,byrow=TRUE,title.position = "top"))+
   theme_bw()+
   theme(
     text = element_text(size=10.8),
@@ -199,17 +237,16 @@ dfday %>%
     strip.placement = "outside",
     legend.title = element_blank(),
     panel.grid.minor =   element_blank(),
-    panel.grid.major =   element_line(colour = "lightgray",size=0.25),
+    panel.grid.major =   element_line(colour = "lightgray",size=linesize),
     plot.margin = margin(0, 0, 0, 0, "cm"),
     panel.spacing.y=unit(0, "lines"),
     legend.box.spacing = unit(0.1, 'cm'),
     legend.margin = margin(0, 0, 0, 0, "cm"),
   )+
-  # annotate(geom = "text",  y = 55, x = dfday$disout,size = 8, colour = "red")
   geom_text(aes(label= symptoms, y = 39, x = disout),size = 2.5)+
-  geom_text(aes(label= "Last assesment", y = 39, x = disend),size = 2.5)+
+  geom_text(aes(label= "Last assesment", y = 39, x = disend-1.5),size = 2.5)+
   ggsave(filename= here::here("results", "wth", "all_wth_dis.png"),
-       width = 6.5, height =8, dpi = 720)
+         width = 6.5, height =8, dpi = 720)
 
 # shell.exec( here::here("results", "wth", "all_wth_dis.png"))
 

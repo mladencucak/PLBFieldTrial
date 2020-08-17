@@ -172,7 +172,7 @@ samples$plotID <- 1
 line_size <- 0.13
 
 
-cbbPalette <- c ("#3399ff", "#ff33cc","#ffff33")
+cbbPalette <-  c ("#ffff33", "#3399ff","#ff33cc")
 
 dis_obs <- readRDS(file = here::here("data", "disease", "dis_obs.rds") )
 
@@ -467,25 +467,90 @@ ggpubr::ggarrange(plotlist = plotls,
  
 ## Frequency tables 
 
-```{r}
+```{r , warning=FALSE}
 gen_prop %>% 
   dplyr::select(c(variety, Genotype, perc)) %>% 
   spread(variety, perc) %>% 
-  lapply(., replace_na, 0) %>% tbl_df()
+  lapply(., replace_na, 0) %>% tbl_df()%>% 
+  kableExtra::kable()
 
 gen_prop_trt %>% 
   dplyr::select(c(treatment, Genotype, perc)) %>% 
-  spread(treatment, perc) 
+  spread(treatment, perc) %>% 
+  kableExtra::kable()
 
 gen_prop_year %>% 
   dplyr::select(c(year, Genotype, perc)) %>% 
-  spread(year, perc)  
+  spread(year, perc)  %>% 
+  kableExtra::kable(align = "c")
+```
+
+```{r , foldcode=TRUE}
+
+var_gen <- 
+samples %>%
+  filter(year>2016) %>% 
+  group_by(date) %>% 
+  count(variety) %>%
+  rename(counts = n) %>%
+  mutate(prop = prop.table(counts)) %>% 
+  mutate(perc = round(prop * 100,1)) %>% 
+  arrange(desc(variety)) %>% 
+  ungroup() 
+
+  
+var_count <- 
+  var_gen %>% 
+  dplyr::select(c(date, variety, counts)) %>% 
+  spread(variety, counts)
+
+var_count[ ,-1] <- 
+var_count[ ,-1] %>% 
+  lapply(., replace_na, 0) %>% tbl_df()
+
+var_count <- 
+var_count%>% 
+  mutate(Sus = KE + BQ+ RO,
+         Med = SE,
+         Res = CL + SM)
+
+var_prop <-
+  var_gen %>%
+  dplyr::select(c(date, variety, perc)) %>%
+  spread(variety, perc)
+
+var_prop[, -1] <-
+  var_prop[, -1] %>%
+  lapply(., replace_na, 0) %>% tbl_df()
+
+var_prop <- 
+  var_prop%>% 
+  mutate(Sus = KE + BQ+ RO,
+         Med = SE,
+         Res = CL + SM)
+
+for (i in seq(colnames(var_prop[,-1]))) {
+  vec <- var_count[, i + 1] %>% pull %>% as.character() %>% as.list()
+  vec_prop <-
+    var_prop[, i + 1] %>% pull %>% as.character() %>% as.list()
+  
+  newvec <- vector()
+  for (y in seq(vec)) {
+    newvec[y] <- paste0(vec[y], " (", vec_prop[y], ")")
+  }
+  
+  var_count[, i + 1] <- newvec
+}
+
+write.csv(var_count, file = here::here("results", "gen", "Samples per variety par sampling date.csv"))
+var_count%>% 
+  kableExtra::kable(align = "c")
 ```
 
 ## Temporal structure
 Proportion og MLG per sampling date. 
 
-```{r temp_fig, fig.width= 9.5, fig.height=6.4 }
+```{r temp_fig, fig.width= 9.5, fig.height=6.4, foldcode=TRUE }
 
 dis_obs <- 
   filter(dis_obs, year != 2016)

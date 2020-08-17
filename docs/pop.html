@@ -743,7 +743,7 @@ samples$plotID &lt;- 1
 line_size &lt;- 0.13
 
 
-cbbPalette &lt;- c (&quot;#3399ff&quot;, &quot;#ff33cc&quot;,&quot;#ffff33&quot;)
+cbbPalette &lt;-  c (&quot;#ffff33&quot;, &quot;#3399ff&quot;,&quot;#ff33cc&quot;)
 
 dis_obs &lt;- readRDS(file = here::here(&quot;data&quot;, &quot;disease&quot;, &quot;dis_obs.rds&quot;) )
 
@@ -1038,34 +1038,807 @@ ggpubr::ggarrange(plotlist = plotls,
 <pre class="r"><code>gen_prop %&gt;% 
   dplyr::select(c(variety, Genotype, perc)) %&gt;% 
   spread(variety, perc) %&gt;% 
-  lapply(., replace_na, 0) %&gt;% tbl_df()</code></pre>
-<pre><code>## Warning in `[&lt;-.factor`(`*tmp*`, !is_complete(data), value = 0): invalid
-## factor level, NA generated</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["KE"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["BQ"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["RO"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["SE"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["CL"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["SM"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"67.4","3":"64.9","4":"66.2","5":"19.0","6":"17.1","7":"0"},{"1":"13A2","2":"7.2","3":"8.8","4":"8.4","5":"35.1","6":"71.4","7":"88"},{"1":"6A1","2":"25.4","3":"26.3","4":"25.3","5":"46.0","6":"11.4","7":"12"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
+  lapply(., replace_na, 0) %&gt;% tbl_df()%&gt;% 
+  kableExtra::kable()</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Genotype
+</th>
+<th style="text-align:right;">
+KE
+</th>
+<th style="text-align:right;">
+BQ
+</th>
+<th style="text-align:right;">
+RO
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+CL
+</th>
+<th style="text-align:right;">
+SM
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+8A1
+</td>
+<td style="text-align:right;">
+67.4
+</td>
+<td style="text-align:right;">
+64.9
+</td>
+<td style="text-align:right;">
+66.2
+</td>
+<td style="text-align:right;">
+19.0
+</td>
+<td style="text-align:right;">
+17.1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13A2
+</td>
+<td style="text-align:right;">
+7.2
+</td>
+<td style="text-align:right;">
+8.8
+</td>
+<td style="text-align:right;">
+8.4
+</td>
+<td style="text-align:right;">
+35.1
+</td>
+<td style="text-align:right;">
+71.4
+</td>
+<td style="text-align:right;">
+88
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6A1
+</td>
+<td style="text-align:right;">
+25.4
+</td>
+<td style="text-align:right;">
+26.3
+</td>
+<td style="text-align:right;">
+25.3
+</td>
+<td style="text-align:right;">
+46.0
+</td>
+<td style="text-align:right;">
+11.4
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>gen_prop_trt %&gt;% 
   dplyr::select(c(treatment, Genotype, perc)) %&gt;% 
-  spread(treatment, perc) </code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["0"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["100"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["50"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["IR"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BM"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MIR"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"57.2","3":"45.1","4":"48.5","5":"60.8","6":"55.3","7":"65.8"},{"1":"13A2","2":"16.0","3":"24.8","4":"23.9","5":"15.6","6":"8.8","7":"10.7"},{"1":"6A1","2":"26.8","3":"30.1","4":"27.6","5":"23.6","6":"35.8","7":"23.5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
+  spread(treatment, perc) %&gt;% 
+  kableExtra::kable()</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Genotype
+</th>
+<th style="text-align:right;">
+0
+</th>
+<th style="text-align:right;">
+100
+</th>
+<th style="text-align:right;">
+50
+</th>
+<th style="text-align:right;">
+IR
+</th>
+<th style="text-align:right;">
+BM
+</th>
+<th style="text-align:right;">
+MIR
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+8A1
+</td>
+<td style="text-align:right;">
+57.2
+</td>
+<td style="text-align:right;">
+45.1
+</td>
+<td style="text-align:right;">
+48.5
+</td>
+<td style="text-align:right;">
+60.8
+</td>
+<td style="text-align:right;">
+55.3
+</td>
+<td style="text-align:right;">
+65.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13A2
+</td>
+<td style="text-align:right;">
+16.0
+</td>
+<td style="text-align:right;">
+24.8
+</td>
+<td style="text-align:right;">
+23.9
+</td>
+<td style="text-align:right;">
+15.6
+</td>
+<td style="text-align:right;">
+8.8
+</td>
+<td style="text-align:right;">
+10.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6A1
+</td>
+<td style="text-align:right;">
+26.8
+</td>
+<td style="text-align:right;">
+30.1
+</td>
+<td style="text-align:right;">
+27.6
+</td>
+<td style="text-align:right;">
+23.6
+</td>
+<td style="text-align:right;">
+35.8
+</td>
+<td style="text-align:right;">
+23.5
+</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>gen_prop_year %&gt;% 
   dplyr::select(c(year, Genotype, perc)) %&gt;% 
-  spread(year, perc)  </code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Genotype"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["2016"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["2017"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["2018"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["2019"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"8A1","2":"34.2","3":"51.8","4":"90.3","5":"53.7"},{"1":"13A2","2":"46.8","3":"4.2","4":"1.0","5":"25.5"},{"1":"6A1","2":"19.0","3":"44.0","4":"8.7","5":"20.8"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
+  spread(year, perc)  %&gt;% 
+  kableExtra::kable(align = &quot;c&quot;)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:center;">
+Genotype
+</th>
+<th style="text-align:center;">
+2016
+</th>
+<th style="text-align:center;">
+2017
+</th>
+<th style="text-align:center;">
+2018
+</th>
+<th style="text-align:center;">
+2019
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+8A1
+</td>
+<td style="text-align:center;">
+34.2
+</td>
+<td style="text-align:center;">
+51.8
+</td>
+<td style="text-align:center;">
+90.3
+</td>
+<td style="text-align:center;">
+53.7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+13A2
+</td>
+<td style="text-align:center;">
+46.8
+</td>
+<td style="text-align:center;">
+4.2
+</td>
+<td style="text-align:center;">
+1.0
+</td>
+<td style="text-align:center;">
+25.5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+6A1
+</td>
+<td style="text-align:center;">
+19.0
+</td>
+<td style="text-align:center;">
+44.0
+</td>
+<td style="text-align:center;">
+8.7
+</td>
+<td style="text-align:center;">
+20.8
+</td>
+</tr>
+</tbody>
+</table>
+<details>
+<p><summary>The code</summary></p>
+<pre class="r"><code>var_gen &lt;- 
+samples %&gt;%
+  filter(year&gt;2016) %&gt;% 
+  group_by(date) %&gt;% 
+  count(variety) %&gt;%
+  rename(counts = n) %&gt;%
+  mutate(prop = prop.table(counts)) %&gt;% 
+  mutate(perc = round(prop * 100,1)) %&gt;% 
+  arrange(desc(variety)) %&gt;% 
+  ungroup() 
+
+  
+var_count &lt;- 
+  var_gen %&gt;% 
+  dplyr::select(c(date, variety, counts)) %&gt;% 
+  spread(variety, counts)
+
+var_count[ ,-1] &lt;- 
+var_count[ ,-1] %&gt;% 
+  lapply(., replace_na, 0) %&gt;% tbl_df()
+
+var_count &lt;- 
+var_count%&gt;% 
+  mutate(Sus = KE + BQ+ RO,
+         Med = SE,
+         Res = CL + SM)
+
+var_prop &lt;-
+  var_gen %&gt;%
+  dplyr::select(c(date, variety, perc)) %&gt;%
+  spread(variety, perc)
+
+var_prop[, -1] &lt;-
+  var_prop[, -1] %&gt;%
+  lapply(., replace_na, 0) %&gt;% tbl_df()
+
+var_prop &lt;- 
+  var_prop%&gt;% 
+  mutate(Sus = KE + BQ+ RO,
+         Med = SE,
+         Res = CL + SM)
+
+for (i in seq(colnames(var_prop[,-1]))) {
+  vec &lt;- var_count[, i + 1] %&gt;% pull %&gt;% as.character() %&gt;% as.list()
+  vec_prop &lt;-
+    var_prop[, i + 1] %&gt;% pull %&gt;% as.character() %&gt;% as.list()
+  
+  newvec &lt;- vector()
+  for (y in seq(vec)) {
+    newvec[y] &lt;- paste0(vec[y], &quot; (&quot;, vec_prop[y], &quot;)&quot;)
+  }
+  
+  var_count[, i + 1] &lt;- newvec
+}
+
+write.csv(var_count, file = here::here(&quot;results&quot;, &quot;gen&quot;, &quot;Samples per variety par sampling date.csv&quot;))
+var_count%&gt;% 
+  kableExtra::kable(align = &quot;c&quot;)</code></pre>
+</details>
+<table>
+<thead>
+<tr>
+<th style="text-align:center;">
+date
+</th>
+<th style="text-align:center;">
+KE
+</th>
+<th style="text-align:center;">
+BQ
+</th>
+<th style="text-align:center;">
+RO
+</th>
+<th style="text-align:center;">
+SE
+</th>
+<th style="text-align:center;">
+CL
+</th>
+<th style="text-align:center;">
+SM
+</th>
+<th style="text-align:center;">
+Sus
+</th>
+<th style="text-align:center;">
+Med
+</th>
+<th style="text-align:center;">
+Res
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+2017-07-03
+</td>
+<td style="text-align:center;">
+12 (100)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+12 (100)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2017-07-14
+</td>
+<td style="text-align:center;">
+3 (60)
+</td>
+<td style="text-align:center;">
+1 (20)
+</td>
+<td style="text-align:center;">
+1 (20)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+5 (100)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2017-07-20
+</td>
+<td style="text-align:center;">
+1 (33.3)
+</td>
+<td style="text-align:center;">
+1 (33.3)
+</td>
+<td style="text-align:center;">
+1 (33.3)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+3 (99.9)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2017-07-31
+</td>
+<td style="text-align:center;">
+30 (78.9)
+</td>
+<td style="text-align:center;">
+4 (10.5)
+</td>
+<td style="text-align:center;">
+3 (7.9)
+</td>
+<td style="text-align:center;">
+1 (2.6)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+37 (97.3)
+</td>
+<td style="text-align:center;">
+1 (2.6)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2017-08-10
+</td>
+<td style="text-align:center;">
+105 (68.2)
+</td>
+<td style="text-align:center;">
+20 (13)
+</td>
+<td style="text-align:center;">
+23 (14.9)
+</td>
+<td style="text-align:center;">
+6 (3.9)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+148 (96.1)
+</td>
+<td style="text-align:center;">
+6 (3.9)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2017-08-23
+</td>
+<td style="text-align:center;">
+104 (75.4)
+</td>
+<td style="text-align:center;">
+5 (3.6)
+</td>
+<td style="text-align:center;">
+15 (10.9)
+</td>
+<td style="text-align:center;">
+13 (9.4)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+1 (0.7)
+</td>
+<td style="text-align:center;">
+124 (89.9)
+</td>
+<td style="text-align:center;">
+13 (9.4)
+</td>
+<td style="text-align:center;">
+1 (0.7)
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2017-09-13
+</td>
+<td style="text-align:center;">
+60 (48)
+</td>
+<td style="text-align:center;">
+1 (0.8)
+</td>
+<td style="text-align:center;">
+11 (8.8)
+</td>
+<td style="text-align:center;">
+34 (27.2)
+</td>
+<td style="text-align:center;">
+18 (14.4)
+</td>
+<td style="text-align:center;">
+1 (0.8)
+</td>
+<td style="text-align:center;">
+72 (57.6)
+</td>
+<td style="text-align:center;">
+34 (27.2)
+</td>
+<td style="text-align:center;">
+19 (15.2)
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2018-08-20
+</td>
+<td style="text-align:center;">
+3 (100)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+3 (100)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2018-08-28
+</td>
+<td style="text-align:center;">
+4 (57.1)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+3 (42.9)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+7 (100)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2018-09-05
+</td>
+<td style="text-align:center;">
+19 (61.3)
+</td>
+<td style="text-align:center;">
+4 (12.9)
+</td>
+<td style="text-align:center;">
+8 (25.8)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+31 (100)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2018-09-24
+</td>
+<td style="text-align:center;">
+97 (58.8)
+</td>
+<td style="text-align:center;">
+18 (10.9)
+</td>
+<td style="text-align:center;">
+26 (15.8)
+</td>
+<td style="text-align:center;">
+19 (11.5)
+</td>
+<td style="text-align:center;">
+5 (3)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+141 (85.5)
+</td>
+<td style="text-align:center;">
+19 (11.5)
+</td>
+<td style="text-align:center;">
+5 (3)
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2019-08-14
+</td>
+<td style="text-align:center;">
+167 (66.8)
+</td>
+<td style="text-align:center;">
+36 (14.4)
+</td>
+<td style="text-align:center;">
+34 (13.6)
+</td>
+<td style="text-align:center;">
+11 (4.4)
+</td>
+<td style="text-align:center;">
+2 (0.8)
+</td>
+<td style="text-align:center;">
+0 (0)
+</td>
+<td style="text-align:center;">
+237 (94.8)
+</td>
+<td style="text-align:center;">
+11 (4.4)
+</td>
+<td style="text-align:center;">
+2 (0.8)
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2019-08-27
+</td>
+<td style="text-align:center;">
+87 (44.2)
+</td>
+<td style="text-align:center;">
+24 (12.2)
+</td>
+<td style="text-align:center;">
+29 (14.7)
+</td>
+<td style="text-align:center;">
+40 (20.3)
+</td>
+<td style="text-align:center;">
+15 (7.6)
+</td>
+<td style="text-align:center;">
+2 (1)
+</td>
+<td style="text-align:center;">
+140 (71.1)
+</td>
+<td style="text-align:center;">
+40 (20.3)
+</td>
+<td style="text-align:center;">
+17 (8.6)
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="temporal-structure" class="section level2">
 <h2>Temporal structure</h2>
 <p>Proportion og MLG per sampling date.</p>
+<details>
+<p><summary>The code</summary></p>
 <pre class="r"><code>dis_obs &lt;- 
   filter(dis_obs, year != 2016)
 
@@ -1248,10 +2021,14 @@ ggplot() +
         legend.position = &quot;bottom&quot;)
 
 ptemp</code></pre>
+</details>
 <p><img src="pop_files/figure-html/temp_fig-1.png" width="912" /></p>
+<details>
+<p><summary>The code</summary></p>
 <pre class="r"><code>  ggsave(plot = ptemp, 
          filename= here::here(&quot;results&quot;, &quot;gen&quot;, &quot;freq&quot;, &quot;Genotype and DPC per sampling horisontal.png&quot;),
          width = 10, height =6.5, dpi = 620)</code></pre>
+</details>
 <pre class="r"><code>session_info()</code></pre>
 <pre><code>## - Session info ----------------------------------------------------------
 ##  setting  value                       
@@ -1263,7 +2040,7 @@ ptemp</code></pre>
 ##  collate  English_United States.1252  
 ##  ctype    English_United States.1252  
 ##  tz       Europe/London               
-##  date     2020-05-11                  
+##  date     2020-08-17                  
 ## 
 ## - Packages --------------------------------------------------------------
 ##  package      * version date       lib source        
@@ -1277,6 +2054,8 @@ ptemp</code></pre>
 ##  conflicted   * 1.0.4   2019-06-21 [1] CRAN (R 3.6.1)
 ##  cowplot        1.0.0   2019-07-11 [1] CRAN (R 3.6.1)
 ##  crayon         1.3.4   2017-09-16 [1] CRAN (R 3.6.1)
+##  DBI            1.1.0   2019-12-15 [1] CRAN (R 3.6.3)
+##  dbplyr         1.4.2   2019-06-17 [1] CRAN (R 3.6.1)
 ##  desc           1.2.0   2018-05-01 [1] CRAN (R 3.6.1)
 ##  devtools     * 2.2.2   2020-02-17 [1] CRAN (R 3.6.3)
 ##  digest         0.6.25  2020-02-23 [1] CRAN (R 3.6.3)
@@ -1289,13 +2068,13 @@ ptemp</code></pre>
 ##  forcats      * 0.4.0   2019-02-17 [1] CRAN (R 3.6.1)
 ##  fs             1.3.1   2019-05-06 [1] CRAN (R 3.6.1)
 ##  generics       0.0.2   2018-11-29 [1] CRAN (R 3.6.1)
-##  ggplot2      * 3.2.1   2019-08-10 [1] CRAN (R 3.6.1)
+##  ggplot2      * 3.3.1   2020-05-28 [1] CRAN (R 3.6.3)
 ##  ggpubr         0.2.4   2019-11-14 [1] CRAN (R 3.6.2)
 ##  ggsignif       0.6.0   2019-08-08 [1] CRAN (R 3.6.1)
 ##  glue           1.4.0   2020-04-03 [1] CRAN (R 3.6.3)
 ##  gridExtra    * 2.3     2017-09-09 [1] CRAN (R 3.6.1)
 ##  gtable         0.3.0   2019-03-25 [1] CRAN (R 3.6.1)
-##  haven          2.1.1   2019-07-04 [1] CRAN (R 3.6.1)
+##  haven          2.3.0   2020-05-24 [1] CRAN (R 3.6.3)
 ##  here           0.1     2017-05-28 [1] CRAN (R 3.6.1)
 ##  highr          0.8     2019-03-20 [1] CRAN (R 3.6.1)
 ##  hms            0.5.2   2019-10-30 [1] CRAN (R 3.6.1)
@@ -1306,7 +2085,6 @@ ptemp</code></pre>
 ##  knitr          1.25    2019-09-18 [1] CRAN (R 3.6.1)
 ##  labeling       0.3     2014-08-23 [1] CRAN (R 3.6.0)
 ##  lattice        0.20-38 2018-11-04 [2] CRAN (R 3.6.3)
-##  lazyeval       0.2.2   2019-03-15 [1] CRAN (R 3.6.1)
 ##  lifecycle      0.2.0   2020-03-06 [1] CRAN (R 3.6.3)
 ##  lubridate      1.7.4   2018-04-11 [1] CRAN (R 3.6.1)
 ##  magrittr       1.5     2014-11-22 [1] CRAN (R 3.6.1)
@@ -1318,7 +2096,6 @@ ptemp</code></pre>
 ##  pkgbuild       1.0.6   2019-10-09 [1] CRAN (R 3.6.1)
 ##  pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 3.6.1)
 ##  pkgload        1.0.2   2018-10-29 [1] CRAN (R 3.6.1)
-##  plyr           1.8.4   2016-06-08 [1] CRAN (R 3.6.1)
 ##  prettyunits    1.0.2   2015-07-13 [1] CRAN (R 3.6.1)
 ##  processx       3.4.1   2019-07-18 [1] CRAN (R 3.6.1)
 ##  ps             1.3.0   2018-12-21 [1] CRAN (R 3.6.1)
@@ -1329,7 +2106,7 @@ ptemp</code></pre>
 ##  readr        * 1.3.1   2018-12-21 [1] CRAN (R 3.6.1)
 ##  readxl         1.3.1   2019-03-13 [1] CRAN (R 3.6.1)
 ##  remotes        2.1.1   2020-02-15 [1] CRAN (R 3.6.3)
-##  reshape2       1.4.3   2017-12-11 [1] CRAN (R 3.6.1)
+##  reprex         0.3.0   2019-05-16 [1] CRAN (R 3.6.1)
 ##  rlang          0.4.5   2020-03-01 [1] CRAN (R 3.6.3)
 ##  rmarkdown      2.1     2020-01-20 [1] CRAN (R 3.6.3)
 ##  rprojroot      1.3-2   2018-01-03 [1] CRAN (R 3.6.1)
@@ -1344,14 +2121,14 @@ ptemp</code></pre>
 ##  tibble       * 3.0.0   2020-03-30 [1] CRAN (R 3.6.3)
 ##  tidyr        * 1.0.0   2019-09-11 [1] CRAN (R 3.6.1)
 ##  tidyselect     1.0.0   2020-01-27 [1] CRAN (R 3.6.3)
-##  tidyverse    * 1.2.1   2017-11-14 [1] CRAN (R 3.6.1)
+##  tidyverse    * 1.3.0   2019-11-21 [1] CRAN (R 3.6.3)
 ##  usethis      * 1.5.1   2019-07-04 [1] CRAN (R 3.6.1)
-##  vctrs          0.2.4   2020-03-10 [1] CRAN (R 3.6.3)
+##  vctrs          0.3.0   2020-05-11 [1] CRAN (R 3.6.3)
 ##  viridisLite    0.3.0   2018-02-01 [1] CRAN (R 3.6.1)
 ##  webshot        0.5.1   2018-09-28 [1] CRAN (R 3.6.1)
 ##  withr          2.1.2   2018-03-15 [1] CRAN (R 3.6.1)
 ##  xfun           0.10    2019-10-01 [1] CRAN (R 3.6.1)
-##  xml2           1.2.2   2019-08-09 [1] CRAN (R 3.6.1)
+##  xml2           1.3.2   2020-04-23 [1] CRAN (R 3.6.3)
 ##  yaml           2.2.0   2018-07-25 [1] CRAN (R 3.6.0)
 ## 
 ## [1] C:/Users/mlade/Documents/R/win-library/3.6
