@@ -190,10 +190,10 @@ group_by(year, treatment) %>%
     size = 0.5
   ) +
   geom_text(
-    aes(label = treatments, color = treatment),
+    aes(y = 100,label = treatments, color = treatment),
     vjust = -0.3,
     position = position_dodge(0.9),
-    size = 2.9
+    size = 3.1
   ) +  
   geom_text(
     aes(label = dose),
@@ -284,11 +284,11 @@ theme(axis.text = element_blank(),
     
  theme(legend.position = "none")+
   geom_text(
-      aes(label = mean_trt, color = treatment),
+      aes(y = 100,label = mean_trt, color = treatment),
       vjust = -0.3,
       hjust =  0.4,
       position = position_dodge(0.9),
-      size = 3
+      size = 3.1
     ) +
   geom_text(
       aes(label = mean),
@@ -311,6 +311,10 @@ ggsave( here::here("results", "treat", "Treatments.png"),
         width = 7.5,
         height = 4)
 
+ggsave( here::here("results", "treat", "Treatments.jpg"),
+        plot = p,
+        width = 7.5,
+        height = 4)
 ```
   
 
