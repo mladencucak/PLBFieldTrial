@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
 
-<title>yield.utf8.md</title>
+<title>Yield analysis</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -30,6 +30,15 @@
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -75,6 +84,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
@@ -240,6 +250,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -268,6 +279,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -384,7 +401,7 @@ div.tocify {
   <a href="pop.html">
     <span class="fa fa fa fa-code-fork"></span>
      
-    Population Data
+    Population
   </a>
 </li>
 <li>
@@ -405,16 +422,16 @@ div.tocify {
   <a href="pub_plots.html">
     <span class="fa fa fa fa-code"></span>
      
-    Pub Figures
+    Pub Fig
   </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mladencucak/PLBFieldTrial">
-    <span class="fa fa-github-square"></span>
+    <span class="fas fa-github-square"></span>
      
-    source
+    code
   </a>
 </li>
       </ul>
@@ -468,9 +485,8 @@ if (any(as.numeric(packages_load) == 0)) {
   warning(paste(&quot;Package/s: &quot;, paste(list.of.packages[packages_load != TRUE], sep = &quot;, &quot;), &quot;not loaded!&quot;))
 } else {
   print(&quot;All packages were successfully loaded.&quot;)
-}</code></pre>
-<pre><code>## [1] &quot;All packages were successfully loaded.&quot;</code></pre>
-<pre class="r"><code>rm(list.of.packages, new.packages, packages_load)
+}
+rm(list.of.packages, new.packages, packages_load)
 
 #if instal is not working try 
 #install.packages(&quot;ROCR&quot;, repos = c(CRAN=&quot;https://cran.r-project.org/&quot;))</code></pre>
@@ -515,8 +531,8 @@ left_join(yldmean, yldsd, by = colnames(yldmean)[1:4])  %&gt;%
   ggplot(., aes(
     x = variety,
     y = mean,
-    fill = variety,
-    group = variety
+    fill = treatment,
+    group = treatment
   )) +
   geom_bar(
     color = &quot;black&quot;,
@@ -564,7 +580,7 @@ hnp::hnp(fit2016)</code></pre>
 <pre class="r"><code>car::Anova(fit2016)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Chisq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Pr(>Chisq)"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"5.582908","2":"1","3":"1.813659e-02","_rn_":"block"},{"1":"32.436655","2":"3","3":"4.233958e-07","_rn_":"treatment"},{"1":"8.041404","2":"3","3":"4.516372e-02","_rn_":"variety"},{"1":"23.833212","2":"9","3":"4.572935e-03","_rn_":"treatment:variety"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Chisq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Pr(>Chisq)"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"5.582905","2":"1","3":"1.813662e-02","_rn_":"block"},{"1":"32.436637","2":"3","3":"4.233994e-07","_rn_":"treatment"},{"1":"8.041405","2":"3","3":"4.516369e-02","_rn_":"variety"},{"1":"23.833216","2":"9","3":"4.572928e-03","_rn_":"treatment:variety"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <pre class="r"><code>fit &lt;- lme4::lmer(marketable ~ 
@@ -758,162 +774,163 @@ p_fin</code></pre>
 
 rm(p_fin)</code></pre>
 <pre class="r"><code>session_info()</code></pre>
-<pre><code>## - Session info ----------------------------------------------------------
+<pre><code>## - Session info ---------------------------------------------------------------
 ##  setting  value                       
-##  version  R version 3.6.1 (2019-07-05)
+##  version  R version 4.0.3 (2020-10-10)
 ##  os       Windows 10 x64              
 ##  system   x86_64, mingw32             
 ##  ui       RTerm                       
 ##  language (EN)                        
 ##  collate  English_United States.1252  
 ##  ctype    English_United States.1252  
-##  tz       Europe/London               
-##  date     2019-12-19                  
+##  tz       Europe/Warsaw               
+##  date     2021-02-01                  
 ## 
-## - Packages --------------------------------------------------------------
+## - Packages -------------------------------------------------------------------
 ##  package      * version    date       lib source        
-##  abind          1.4-5      2016-07-21 [1] CRAN (R 3.6.0)
-##  assertthat     0.2.1      2019-03-21 [1] CRAN (R 3.6.1)
-##  backports      1.1.5      2019-10-02 [1] CRAN (R 3.6.1)
-##  bayestestR     0.4.0      2019-10-20 [1] CRAN (R 3.6.1)
-##  boot           1.3-22     2019-04-02 [2] CRAN (R 3.6.1)
-##  broom          0.5.2      2019-04-07 [1] CRAN (R 3.6.1)
-##  callr          3.3.2      2019-09-22 [1] CRAN (R 3.6.1)
-##  car            3.0-4      2019-10-27 [1] CRAN (R 3.6.1)
-##  carData      * 3.0-2      2018-09-30 [1] CRAN (R 3.6.0)
-##  cellranger     1.1.0      2016-07-27 [1] CRAN (R 3.6.1)
-##  cli            1.1.0      2019-03-19 [1] CRAN (R 3.6.1)
-##  coda           0.19-3     2019-07-05 [1] CRAN (R 3.6.1)
-##  codetools      0.2-16     2018-12-24 [2] CRAN (R 3.6.1)
-##  colorspace     1.4-1      2019-03-18 [1] CRAN (R 3.6.1)
-##  conflicted   * 1.0.4      2019-06-21 [1] CRAN (R 3.6.1)
-##  crayon         1.3.4      2017-09-16 [1] CRAN (R 3.6.1)
-##  curl           4.2        2019-09-24 [1] CRAN (R 3.6.1)
-##  data.table     1.12.6     2019-10-18 [1] CRAN (R 3.6.1)
-##  DBI            1.0.0      2018-05-02 [1] CRAN (R 3.6.1)
-##  desc           1.2.0      2018-05-01 [1] CRAN (R 3.6.1)
-##  devtools     * 2.2.1      2019-09-24 [1] CRAN (R 3.6.1)
-##  digest         0.6.22     2019-10-21 [1] CRAN (R 3.6.1)
-##  dplyr        * 0.8.3      2019-07-04 [1] CRAN (R 3.6.1)
-##  effects      * 4.1-3      2019-10-27 [1] CRAN (R 3.6.1)
-##  egg          * 0.4.5      2019-07-13 [1] CRAN (R 3.6.1)
-##  ellipsis       0.3.0      2019-09-20 [1] CRAN (R 3.6.1)
-##  emmeans      * 1.4.2      2019-10-24 [1] CRAN (R 3.6.1)
-##  estimability   1.3        2018-02-11 [1] CRAN (R 3.6.0)
-##  evaluate       0.14       2019-05-28 [1] CRAN (R 3.6.1)
-##  extrafont      0.17       2014-12-08 [1] CRAN (R 3.6.0)
-##  extrafontdb    1.0        2012-06-11 [1] CRAN (R 3.6.0)
-##  forcats      * 0.4.0      2019-02-17 [1] CRAN (R 3.6.1)
-##  foreign        0.8-71     2018-07-20 [2] CRAN (R 3.6.1)
-##  fs             1.3.1      2019-05-06 [1] CRAN (R 3.6.1)
-##  gdtools        0.2.1      2019-10-14 [1] CRAN (R 3.6.1)
-##  generics       0.0.2      2018-11-29 [1] CRAN (R 3.6.1)
-##  ggeffects      0.12.0     2019-09-03 [1] CRAN (R 3.6.1)
-##  ggplot2      * 3.2.1      2019-08-10 [1] CRAN (R 3.6.1)
-##  ggpubr       * 0.2.3      2019-09-03 [1] CRAN (R 3.6.1)
-##  ggrepel        0.8.1      2019-05-07 [1] CRAN (R 3.6.1)
-##  ggsignif       0.6.0      2019-08-08 [1] CRAN (R 3.6.1)
-##  glue           1.3.1      2019-03-12 [1] CRAN (R 3.6.1)
-##  gridExtra    * 2.3        2017-09-09 [1] CRAN (R 3.6.1)
-##  gtable         0.3.0      2019-03-25 [1] CRAN (R 3.6.1)
-##  haven          2.1.1      2019-07-04 [1] CRAN (R 3.6.1)
-##  here           0.1        2017-05-28 [1] CRAN (R 3.6.1)
-##  hms            0.5.2      2019-10-30 [1] CRAN (R 3.6.1)
-##  hnp          * 1.2-6      2018-05-21 [1] CRAN (R 3.6.1)
-##  hrbrthemes   * 0.6.0      2019-01-21 [1] CRAN (R 3.6.1)
-##  htmltools      0.4.0      2019-10-04 [1] CRAN (R 3.6.1)
-##  httr           1.4.1      2019-08-05 [1] CRAN (R 3.6.1)
-##  insight        0.6.0      2019-10-17 [1] CRAN (R 3.6.1)
-##  jsonlite       1.6        2018-12-07 [1] CRAN (R 3.6.1)
-##  knitr          1.25       2019-09-18 [1] CRAN (R 3.6.1)
-##  labeling       0.3        2014-08-23 [1] CRAN (R 3.6.0)
-##  lattice        0.20-38    2018-11-04 [2] CRAN (R 3.6.1)
-##  lazyeval       0.2.2      2019-03-15 [1] CRAN (R 3.6.1)
-##  lifecycle      0.1.0      2019-08-01 [1] CRAN (R 3.6.1)
-##  lme4         * 1.1-21     2019-03-05 [1] CRAN (R 3.6.1)
-##  lmerTest     * 3.1-0      2019-02-11 [1] CRAN (R 3.6.1)
-##  lsmeans      * 2.30-0     2018-11-02 [1] CRAN (R 3.6.1)
-##  lubridate      1.7.4      2018-04-11 [1] CRAN (R 3.6.1)
-##  magrittr     * 1.5        2014-11-22 [1] CRAN (R 3.6.1)
-##  MASS         * 7.3-51.4   2019-03-31 [2] CRAN (R 3.6.1)
-##  Matrix       * 1.2-17     2019-03-22 [2] CRAN (R 3.6.1)
-##  memoise        1.1.0      2017-04-21 [1] CRAN (R 3.6.1)
-##  minqa          1.2.4      2014-10-09 [1] CRAN (R 3.6.1)
-##  mitools        2.4        2019-04-26 [1] CRAN (R 3.6.1)
-##  mnormt         1.5-5      2016-10-15 [1] CRAN (R 3.6.0)
-##  modelr         0.1.5      2019-08-08 [1] CRAN (R 3.6.1)
-##  multcomp     * 1.4-10     2019-03-05 [1] CRAN (R 3.6.1)
-##  multcompView * 0.1-7      2015-07-31 [1] CRAN (R 3.6.1)
-##  munsell        0.5.0      2018-06-12 [1] CRAN (R 3.6.1)
-##  mvtnorm      * 1.0-11     2019-06-19 [1] CRAN (R 3.6.0)
-##  nlme           3.1-140    2019-05-12 [2] CRAN (R 3.6.1)
-##  nloptr         1.2.1      2018-10-03 [1] CRAN (R 3.6.1)
-##  nnet           7.3-12     2016-02-02 [2] CRAN (R 3.6.1)
-##  numDeriv       2016.8-1.1 2019-06-06 [1] CRAN (R 3.6.0)
-##  openxlsx       4.1.2      2019-10-29 [1] CRAN (R 3.6.1)
-##  parameters     0.2.0      2019-09-26 [1] CRAN (R 3.6.1)
-##  pbkrtest       0.4-7      2017-03-15 [1] CRAN (R 3.6.1)
-##  performance    0.4.0      2019-10-21 [1] CRAN (R 3.6.1)
-##  pillar         1.4.2      2019-06-29 [1] CRAN (R 3.6.1)
-##  pkgbuild       1.0.6      2019-10-09 [1] CRAN (R 3.6.1)
-##  pkgconfig      2.0.3      2019-09-22 [1] CRAN (R 3.6.1)
-##  pkgload        1.0.2      2018-10-29 [1] CRAN (R 3.6.1)
-##  plyr           1.8.4      2016-06-08 [1] CRAN (R 3.6.1)
-##  prettyunits    1.0.2      2015-07-13 [1] CRAN (R 3.6.1)
-##  processx       3.4.1      2019-07-18 [1] CRAN (R 3.6.1)
-##  ps             1.3.0      2018-12-21 [1] CRAN (R 3.6.1)
-##  psych          1.8.12     2019-01-12 [1] CRAN (R 3.6.1)
-##  purrr        * 0.3.3      2019-10-18 [1] CRAN (R 3.6.1)
-##  R6             2.4.0      2019-02-14 [1] CRAN (R 3.6.1)
-##  RColorBrewer   1.1-2      2014-12-07 [1] CRAN (R 3.6.0)
-##  Rcpp           1.0.2      2019-07-25 [1] CRAN (R 3.6.1)
-##  readr        * 1.3.1      2018-12-21 [1] CRAN (R 3.6.1)
-##  readxl         1.3.1      2019-03-13 [1] CRAN (R 3.6.1)
-##  remotes        2.1.0      2019-06-24 [1] CRAN (R 3.6.1)
-##  reshape2       1.4.3      2017-12-11 [1] CRAN (R 3.6.1)
-##  rio            0.5.16     2018-11-26 [1] CRAN (R 3.6.1)
-##  rlang          0.4.1      2019-10-24 [1] CRAN (R 3.6.1)
-##  rmarkdown      1.16       2019-10-01 [1] CRAN (R 3.6.1)
-##  rprojroot      1.3-2      2018-01-03 [1] CRAN (R 3.6.1)
-##  rstudioapi     0.10       2019-03-19 [1] CRAN (R 3.6.1)
-##  Rttf2pt1       1.3.7      2018-06-29 [1] CRAN (R 3.6.0)
-##  rvest          0.3.4      2019-05-15 [1] CRAN (R 3.6.1)
-##  sandwich       2.5-1      2019-04-06 [1] CRAN (R 3.6.1)
-##  scales         1.0.0      2018-08-09 [1] CRAN (R 3.6.1)
-##  sessioninfo    1.1.1      2018-11-05 [1] CRAN (R 3.6.1)
-##  sjlabelled     1.1.1      2019-09-13 [1] CRAN (R 3.6.1)
-##  sjmisc         2.8.2      2019-09-24 [1] CRAN (R 3.6.1)
-##  sjPlot       * 2.7.2      2019-09-29 [1] CRAN (R 3.6.1)
-##  sjstats        0.17.6     2019-09-08 [1] CRAN (R 3.6.1)
-##  stringi        1.4.3      2019-03-12 [1] CRAN (R 3.6.0)
-##  stringr      * 1.4.0      2019-02-10 [1] CRAN (R 3.6.1)
-##  survey         3.36       2019-04-27 [1] CRAN (R 3.6.1)
-##  survival     * 2.44-1.1   2019-04-01 [2] CRAN (R 3.6.1)
-##  systemfonts    0.1.1      2019-07-01 [1] CRAN (R 3.6.1)
-##  testthat       2.2.1      2019-07-25 [1] CRAN (R 3.6.1)
-##  TH.data      * 1.0-10     2019-01-21 [1] CRAN (R 3.6.1)
-##  tibble       * 2.1.3      2019-06-06 [1] CRAN (R 3.6.1)
-##  tidyr        * 1.0.0      2019-09-11 [1] CRAN (R 3.6.1)
-##  tidyselect     0.2.5      2018-10-11 [1] CRAN (R 3.6.1)
-##  tidyverse    * 1.2.1      2017-11-14 [1] CRAN (R 3.6.1)
-##  usethis      * 1.5.1      2019-07-04 [1] CRAN (R 3.6.1)
-##  vctrs          0.2.0      2019-07-05 [1] CRAN (R 3.6.1)
-##  withr          2.1.2      2018-03-15 [1] CRAN (R 3.6.1)
-##  xfun           0.10       2019-10-01 [1] CRAN (R 3.6.1)
-##  xml2           1.2.2      2019-08-09 [1] CRAN (R 3.6.1)
-##  xtable         1.8-4      2019-04-21 [1] CRAN (R 3.6.1)
-##  yaml           2.2.0      2018-07-25 [1] CRAN (R 3.6.0)
-##  zeallot        0.1.0      2018-01-28 [1] CRAN (R 3.6.1)
-##  zip            2.0.4      2019-09-01 [1] CRAN (R 3.6.1)
-##  zoo            1.8-6      2019-05-28 [1] CRAN (R 3.6.1)
+##  abind          1.4-5      2016-07-21 [1] CRAN (R 4.0.3)
+##  assertthat     0.2.1      2019-03-21 [2] CRAN (R 4.0.3)
+##  backports      1.2.1      2020-12-09 [2] CRAN (R 4.0.3)
+##  bayestestR     0.8.2      2021-01-26 [1] CRAN (R 4.0.3)
+##  boot           1.3-25     2020-04-26 [2] CRAN (R 4.0.3)
+##  broom          0.7.3      2020-12-16 [2] CRAN (R 4.0.3)
+##  cachem         1.0.1      2021-01-21 [1] CRAN (R 4.0.3)
+##  callr          3.5.1      2020-10-13 [2] CRAN (R 4.0.3)
+##  car            3.0-10     2020-09-29 [1] CRAN (R 4.0.3)
+##  carData      * 3.0-4      2020-05-22 [1] CRAN (R 4.0.3)
+##  cellranger     1.1.0      2016-07-27 [2] CRAN (R 4.0.3)
+##  cli            2.2.0      2020-11-20 [2] CRAN (R 4.0.3)
+##  coda           0.19-4     2020-09-30 [1] CRAN (R 4.0.3)
+##  codetools      0.2-18     2020-11-04 [2] CRAN (R 4.0.3)
+##  colorspace     2.0-0      2020-11-11 [2] CRAN (R 4.0.3)
+##  conflicted   * 1.0.4      2019-06-21 [1] CRAN (R 4.0.3)
+##  crayon         1.3.4      2017-09-16 [2] CRAN (R 4.0.3)
+##  curl           4.3        2019-12-02 [2] CRAN (R 4.0.3)
+##  data.table     1.13.6     2020-12-30 [1] CRAN (R 4.0.3)
+##  DBI            1.1.1      2021-01-15 [2] CRAN (R 4.0.3)
+##  dbplyr         2.0.0      2020-11-03 [2] CRAN (R 4.0.3)
+##  desc           1.2.0      2018-05-01 [2] CRAN (R 4.0.3)
+##  devtools     * 2.3.2      2020-09-18 [1] CRAN (R 4.0.3)
+##  digest         0.6.27     2020-10-24 [2] CRAN (R 4.0.3)
+##  dplyr        * 1.0.3      2021-01-15 [2] CRAN (R 4.0.3)
+##  effects      * 4.2-0      2020-08-11 [1] CRAN (R 4.0.3)
+##  effectsize     0.4.3      2021-01-18 [1] CRAN (R 4.0.3)
+##  egg          * 0.4.5      2019-07-13 [1] CRAN (R 4.0.3)
+##  ellipsis       0.3.1      2020-05-15 [2] CRAN (R 4.0.3)
+##  emmeans      * 1.5.3      2020-12-09 [1] CRAN (R 4.0.3)
+##  estimability   1.3        2018-02-11 [1] CRAN (R 4.0.3)
+##  evaluate       0.14       2019-05-28 [2] CRAN (R 4.0.3)
+##  extrafont      0.17       2014-12-08 [1] CRAN (R 4.0.3)
+##  extrafontdb    1.0        2012-06-11 [1] CRAN (R 4.0.3)
+##  fansi          0.4.2      2021-01-15 [2] CRAN (R 4.0.3)
+##  farver         2.0.3      2020-01-16 [2] CRAN (R 4.0.3)
+##  fastmap        1.1.0      2021-01-25 [1] CRAN (R 4.0.3)
+##  forcats      * 0.5.0      2020-03-01 [2] CRAN (R 4.0.3)
+##  foreign        0.8-81     2020-12-22 [2] CRAN (R 4.0.3)
+##  fs             1.5.0      2020-07-31 [2] CRAN (R 4.0.3)
+##  generics       0.1.0      2020-10-31 [2] CRAN (R 4.0.3)
+##  ggeffects      1.0.1      2020-12-14 [1] CRAN (R 4.0.3)
+##  ggplot2      * 3.3.3      2020-12-30 [2] CRAN (R 4.0.3)
+##  ggpubr       * 0.4.0      2020-06-27 [1] CRAN (R 4.0.3)
+##  ggsignif       0.6.0      2019-08-08 [1] CRAN (R 4.0.3)
+##  glue           1.4.2      2020-08-27 [2] CRAN (R 4.0.3)
+##  gridExtra    * 2.3        2017-09-09 [1] CRAN (R 4.0.3)
+##  gtable         0.3.0      2019-03-25 [2] CRAN (R 4.0.3)
+##  haven          2.3.1      2020-06-01 [2] CRAN (R 4.0.3)
+##  here           1.0.1      2020-12-13 [1] CRAN (R 4.0.3)
+##  hms            1.0.0      2021-01-13 [2] CRAN (R 4.0.3)
+##  hnp          * 1.2-6      2018-05-21 [1] CRAN (R 4.0.3)
+##  htmltools      0.5.1.1    2021-01-22 [2] CRAN (R 4.0.3)
+##  httr           1.4.2      2020-07-20 [2] CRAN (R 4.0.3)
+##  insight        0.12.0     2021-01-14 [1] CRAN (R 4.0.3)
+##  jsonlite       1.7.2      2020-12-09 [2] CRAN (R 4.0.3)
+##  knitr          1.30       2020-09-22 [2] CRAN (R 4.0.3)
+##  labeling       0.4.2      2020-10-20 [2] CRAN (R 4.0.3)
+##  lattice        0.20-41    2020-04-02 [2] CRAN (R 4.0.3)
+##  lifecycle      0.2.0      2020-03-06 [2] CRAN (R 4.0.3)
+##  lme4         * 1.1-26     2020-12-01 [1] CRAN (R 4.0.3)
+##  lmerTest     * 3.1-3      2020-10-23 [1] CRAN (R 4.0.3)
+##  lsmeans      * 2.30-0     2018-11-02 [1] CRAN (R 4.0.3)
+##  lubridate      1.7.9.2    2020-11-13 [2] CRAN (R 4.0.3)
+##  magrittr       2.0.1      2020-11-17 [2] CRAN (R 4.0.3)
+##  MASS         * 7.3-53     2020-09-09 [2] CRAN (R 4.0.3)
+##  Matrix       * 1.2-18     2019-11-27 [2] CRAN (R 4.0.3)
+##  memoise        2.0.0      2021-01-26 [1] CRAN (R 4.0.3)
+##  minqa          1.2.4      2014-10-09 [1] CRAN (R 4.0.3)
+##  mitools        2.4        2019-04-26 [1] CRAN (R 4.0.3)
+##  modelr         0.1.8      2020-05-19 [2] CRAN (R 4.0.3)
+##  multcomp     * 1.4-15     2020-11-14 [1] CRAN (R 4.0.3)
+##  multcompView * 0.1-8      2019-12-19 [1] CRAN (R 4.0.3)
+##  munsell        0.5.0      2018-06-12 [2] CRAN (R 4.0.3)
+##  mvtnorm      * 1.1-1      2020-06-09 [1] CRAN (R 4.0.3)
+##  nlme           3.1-151    2020-12-10 [2] CRAN (R 4.0.3)
+##  nloptr         1.2.2.2    2020-07-02 [1] CRAN (R 4.0.3)
+##  nnet           7.3-14     2020-04-26 [2] CRAN (R 4.0.3)
+##  numDeriv       2016.8-1.1 2019-06-06 [1] CRAN (R 4.0.3)
+##  openxlsx       4.2.3      2020-10-27 [1] CRAN (R 4.0.3)
+##  parameters     0.11.0     2021-01-15 [1] CRAN (R 4.0.3)
+##  pbkrtest       0.5-0.1    2020-12-18 [1] CRAN (R 4.0.3)
+##  performance    0.6.1      2020-12-09 [1] CRAN (R 4.0.3)
+##  pillar         1.4.7      2020-11-20 [2] CRAN (R 4.0.3)
+##  pkgbuild       1.2.0      2020-12-15 [2] CRAN (R 4.0.3)
+##  pkgconfig      2.0.3      2019-09-22 [2] CRAN (R 4.0.3)
+##  pkgload        1.1.0      2020-05-29 [2] CRAN (R 4.0.3)
+##  plyr           1.8.6      2020-03-03 [1] CRAN (R 4.0.3)
+##  prettyunits    1.1.1      2020-01-24 [2] CRAN (R 4.0.3)
+##  processx       3.4.5      2020-11-30 [2] CRAN (R 4.0.3)
+##  ps             1.5.0      2020-12-05 [2] CRAN (R 4.0.3)
+##  purrr        * 0.3.4      2020-04-17 [2] CRAN (R 4.0.3)
+##  R6             2.5.0      2020-10-28 [2] CRAN (R 4.0.3)
+##  RColorBrewer   1.1-2      2014-12-07 [2] CRAN (R 4.0.3)
+##  Rcpp           1.0.6      2021-01-15 [2] CRAN (R 4.0.3)
+##  readr        * 1.4.0      2020-10-05 [2] CRAN (R 4.0.3)
+##  readxl         1.3.1      2019-03-13 [2] CRAN (R 4.0.3)
+##  remotes        2.2.0      2020-07-21 [1] CRAN (R 4.0.3)
+##  reprex         0.3.0      2019-05-16 [2] CRAN (R 4.0.3)
+##  reshape2       1.4.4      2020-04-09 [1] CRAN (R 4.0.3)
+##  rio            0.5.16     2018-11-26 [1] CRAN (R 4.0.3)
+##  rlang          0.4.10     2020-12-30 [2] CRAN (R 4.0.3)
+##  rmarkdown      2.6        2020-12-14 [2] CRAN (R 4.0.3)
+##  rprojroot      2.0.2      2020-11-15 [2] CRAN (R 4.0.3)
+##  rstatix        0.6.0      2020-06-18 [1] CRAN (R 4.0.3)
+##  rstudioapi     0.13       2020-11-12 [2] CRAN (R 4.0.3)
+##  Rttf2pt1       1.3.8      2020-01-10 [1] CRAN (R 4.0.3)
+##  rvest          0.3.6      2020-07-25 [2] CRAN (R 4.0.3)
+##  sandwich       3.0-0      2020-10-02 [1] CRAN (R 4.0.3)
+##  scales         1.1.1      2020-05-11 [2] CRAN (R 4.0.3)
+##  sessioninfo    1.1.1      2018-11-05 [1] CRAN (R 4.0.3)
+##  sjlabelled     1.1.7      2020-09-24 [1] CRAN (R 4.0.3)
+##  sjmisc         2.8.6      2021-01-07 [1] CRAN (R 4.0.3)
+##  sjPlot       * 2.8.7      2021-01-10 [1] CRAN (R 4.0.3)
+##  sjstats        0.18.1     2021-01-09 [1] CRAN (R 4.0.3)
+##  statmod        1.4.35     2020-10-19 [1] CRAN (R 4.0.3)
+##  stringi        1.5.3      2020-09-09 [2] CRAN (R 4.0.3)
+##  stringr      * 1.4.0      2019-02-10 [2] CRAN (R 4.0.3)
+##  survey         4.0        2020-04-03 [1] CRAN (R 4.0.3)
+##  survival     * 3.2-7      2020-09-28 [2] CRAN (R 4.0.3)
+##  testthat       3.0.1      2020-12-17 [2] CRAN (R 4.0.3)
+##  TH.data      * 1.0-10     2019-01-21 [1] CRAN (R 4.0.3)
+##  tibble       * 3.0.5      2021-01-15 [2] CRAN (R 4.0.3)
+##  tidyr        * 1.1.2      2020-08-27 [2] CRAN (R 4.0.3)
+##  tidyselect     1.1.0      2020-05-11 [2] CRAN (R 4.0.3)
+##  tidyverse    * 1.3.0      2019-11-21 [2] CRAN (R 4.0.3)
+##  usethis      * 2.0.0      2020-12-10 [1] CRAN (R 4.0.3)
+##  vctrs          0.3.6      2020-12-17 [2] CRAN (R 4.0.3)
+##  withr          2.4.0      2021-01-16 [2] CRAN (R 4.0.3)
+##  xfun           0.20       2021-01-06 [2] CRAN (R 4.0.3)
+##  xml2           1.3.2      2020-04-23 [2] CRAN (R 4.0.3)
+##  xtable         1.8-4      2019-04-21 [1] CRAN (R 4.0.3)
+##  yaml           2.2.1      2020-02-01 [2] CRAN (R 4.0.3)
+##  zip            2.1.1      2020-08-27 [1] CRAN (R 4.0.3)
+##  zoo            1.8-8      2020-05-02 [1] CRAN (R 4.0.3)
 ## 
-## [1] C:/Users/mlade/Documents/R/win-library/3.6
-## [2] C:/Program Files/R/R-3.6.1/library</code></pre>
+## [1] C:/Users/mlade/Documents/R/win-library/4.0
+## [2] C:/Program Files/R/R-4.0.3/library</code></pre>
 </div>
 
 
 
-Copyright 2018 Mladen Cucak
+Copyright 2018 Mladen Cucak 
 
 
 </div>
@@ -925,7 +942,7 @@ Copyright 2018 Mladen Cucak
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -964,7 +981,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

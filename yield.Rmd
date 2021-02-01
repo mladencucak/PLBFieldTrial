@@ -135,8 +135,8 @@ left_join(yldmean, yldsd, by = colnames(yldmean)[1:4])  %>%
   ggplot(., aes(
     x = variety,
     y = mean,
-    fill = variety,
-    group = variety
+    fill = treatment,
+    group = treatment
   )) +
   geom_bar(
     color = "black",
