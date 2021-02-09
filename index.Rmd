@@ -1,16 +1,18 @@
 % About
 
-This repository is a part of results of my PhD project. I am working on improvement of potato late blight management in Ireland.   
 Here I present the results of the field trial, set up to evaluate the opportunities for the IPM of potato late blight under Irish conditions.  
+[Link to publication](https://apsjournals.apsnet.org/doi/abs/10.1094/PHYTO-01-20-0011-R)  
+
+### Content  
+
 We looked into potential for using the environmental disease risk prediction, varietal resistance and information on the pathogen population for the reduction of the pesticide usage.  
 The presentation is split into following sections:  
-1. DSS: Implementation of the decision support platform implemented for the purpose field evaluation of risk prediction models.  
-2. Disease: The analysis of the foliar disease control.  
-3. Treatment: Number of treatments and proportion of the total dose used in fungicide trials.  
-4. Yield: The effects of the fungicide programme, varietal resistance on marketable yield over the evaluated period.  
-5. Population data: Presentation of the sampling and a descriptive analysis of the samples collected.   
-6. Pop(ulation) Bruvo: Bruvo charts for population data.  
-7. Pop(ulation) DAPC: Discriminant analysis of principal components (DAPC) analysis of the population data.
+- Disease: The analysis of the foliar disease control.  
+- Treatment: Number of treatments and proportion of the total dose used in fungicide trials.  
+- Yield: The effects of the fungicide programme, varietal resistance on marketable yield over the evaluated period.  
+- Population data: Presentation of the sampling and a descriptive analysis of the samples collected.   
+- Pop(ulation) Bruvo: Bruvo charts for population data.  
+- Pop(ulation) DAPC: Discriminant analysis of principal components (DAPC) analysis of the population data.
 
  The funding for this project comes from [DAFM (Department of Agriculture, Food and Marine)](https://www.agriculture.gov.ie).  
    
@@ -20,7 +22,7 @@ The repository is built on the example research compendium provided by Emerson D
 **The open-access publication of the manuscript where we have presented the preceding work on the evaluation of the Irish Rules, potato late blight risk model used in Ireland, can be found** [here](https://www.mdpi.com/2073-4395/9/9/515).  
 The accompanying compendium with open access to the code is [here.](https://mladencucak.github.io/AnalysisPLBIreland/)
 
-## The location
+### The location
 
 ```{r map, echo=FALSE, message=FALSE, warning=FALSE}
 library("leaflet")
@@ -45,14 +47,14 @@ leaflet() %>%
 
 ```
 
-## Notes 
+### Notes 
 
 This project contains a snapshot of packages used in the project. For the full reproducibility just download the whole R project. 
 Some code chunks are folded and they can be accessed by clicking on the arrow (The code).  
 Try not to have other R sessions running because it could produce problems installing libraries.  
 If there are any problems reproducing the analysis, please raise an issue on GitHub.  
 
-## Project team
+### Project team
 
 Maynooth University:
 - [Rowan Fealy](https://www.maynoothuniversity.ie/people/rowan-fealy)
@@ -63,19 +65,19 @@ Teagasc:
 Met Eirean:
 - [Keith Lambkin](https://www.researchgate.net/profile/Keith_Lambkin)
 
-<!-- ## Citation -->
+### Citation
 
-<!-- Please cite this research compendium as: -->
+Please cite this research compendium as:
 
 
-<!-- > Cucak, M., Fealy, R., Lambkin, K., and Kildea, S. 2019. Evaluation of the Irish Rules, a potato late blight forecasting used in Ireland.  -->
+>Cucak, M., Moral, R.D.A., Fealy, R., Lambkin, K. and Kildea, S., Opportunities for an improved potato late blight management in the Republic of Ireland: Field evaluation of the modified Irish Rules crop disease risk prediction model. *Phytopathology*.
 
-## Licences
+### Licences
 
 Data: [CC-0](https://creativecommons.org/publicdomain/zero/1.0/) attribution requested in reuse
 Manuscript: [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/)  
 Code: [MIT](https://opensource.org/licenses/MIT) year: 2019, copyright holder: Mladen Cucak
 
-## Contributions
+### Contributions
 
 We welcome contributions from everyone. Before you get started, please see our [contributor guidelines](CONTRIBUTING.html). Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.html). By participating in this project you agree to abide by its terms.
